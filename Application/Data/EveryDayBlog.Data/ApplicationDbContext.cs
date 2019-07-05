@@ -26,6 +26,16 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<Paragraph> Paragraphs { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Section> Sections { get; set; }
+
+        public DbSet<PageHeader> PagesHeaders { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -96,6 +106,14 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Post>().HasOne(p => p.PageHeader);
+
+            builder.Entity<Post>().HasMany(p => p.Sections);
+
+            builder.Entity<Section>().HasMany(s => s.Paragraphs);
+
+            builder.Entity<Paragraph>().HasOne(p => p.Image);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

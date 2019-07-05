@@ -3,12 +3,14 @@ namespace EveryDayBlog.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using EveryDayBlog.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public class ApplicationUser : IdentityUser, IProfile, IAuditInfo, IDeletableEntity
     {
         public ApplicationUser()
         {
@@ -27,6 +29,22 @@ namespace EveryDayBlog.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; }
+
+        public string Description { get; set; }
+
+        [Required]
+        [ForeignKey("Image")]
+        public int ImageId { get; set; }
+
+        public Image Image { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
