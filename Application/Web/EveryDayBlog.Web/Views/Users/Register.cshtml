@@ -1,0 +1,113 @@
+﻿@{
+    this.ViewData["Title"] = "Register";
+}
+@*<title>Bootstrap Sign in Form with Social Login Buttons</title>*@
+
+    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>Create an Account</h1>
+                        <span class="subheading">Create your account and narrate your story to everyone!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<div class="container">
+
+<div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h2 class="card-title mt-3 text-center">Create Account</h2>
+            <p class="text-center">Get started with your free account</p>
+            <p>
+                <a style="text-decoration:none" href="#" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i><span> Sign in with <b>Facebook</b></span></a>
+                <a style="text-decoration:none" href="#" class="btn btn-info btn-block"><i class="fa fa-twitter"></i><span> Sign in with <b>Twitter</b></span></a>
+                <a style="text-decoration:none"s href="#" class="btn btn-danger btn-block"><i class="fa fa-google"></i><span> Sign in with <b>Google</b></span></a>
+            </p>
+            <p class="divider-text">
+                <div class="or-seperator"><i>or</i></div>
+            </p>
+            <form>
+
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img src="~/img/default-avatar.png" />
+                    </label>
+                    <input id="file-input" type="file" style="position:absolute; top:0; right:0; z-index:2;opacity:1; cursor:pointer;" hidden />
+                </div>
+
+                @*<input type="file" id="wizard-picture">
+        <h6>Choose Picture</h6>*@
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-user-tie"></i> </span>
+                    </div>
+                    <textarea name="Description" class="form-control"  rows="5" placeholder="Let our users know something more about you (optional)"></textarea>
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="FullName" class="form-control" placeholder="Full name" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input name="Email" class="form-control" placeholder="Email address" type="email">
+                </div>
+
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <select class="custom-select" style="max-width: 120px;">
+                        <option selected="">+971</option>
+                        <option value="1">+972</option>
+                        <option value="2">+198</option>
+                        <option value="3">+701</option>
+                    </select>
+                    <input name="PhoneNumber" class="form-control" placeholder="Phone number" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                    </div>
+                    <select class="form-control">
+                        <option selected=""> Select job type</option>
+                        <option>Designer</option>
+                        <option>Manager</option>
+                        <option>Accaunting</option>
+                    </select>
+                </div> <!-- form-group end.// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Create password" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Repeat password" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block login-btn">Register</button>
+                </div>
+                <p class="text-center">Have an account? <a href="">Log In</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+
