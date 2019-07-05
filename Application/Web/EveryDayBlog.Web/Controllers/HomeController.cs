@@ -4,12 +4,20 @@
 
     public class HomeController : BaseController
     {
+        [HttpGet]
         public IActionResult Index()
         {
             return this.View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult About()
+        {
+            return this.View();
+        }
+
+        [HttpGet]
+        public IActionResult Contact()
         {
             return this.View();
         }
