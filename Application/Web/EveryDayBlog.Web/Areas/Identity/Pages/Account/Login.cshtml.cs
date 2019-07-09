@@ -40,10 +40,12 @@
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "email")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "password")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

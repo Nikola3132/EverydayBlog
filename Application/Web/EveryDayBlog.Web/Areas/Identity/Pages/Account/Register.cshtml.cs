@@ -111,27 +111,39 @@
 
         public class InputModel
         {
+            private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {0} symbols";
+            private const string NameErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
+            private const string PasswordErrorMsg = "The {0} must be at least {2} and max {1} characters long.";
+
             [Required]
-            [MaxLength(50)]
+            [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
+            [DataType(DataType.Text)]
+            [Display(Name = "first name")]
             public string FirstName { get; set; }
 
             [Required]
-            [MaxLength(50)]
+            [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
+            [DataType(DataType.Text)]
+            [Display(Name = "last name")]
             public string LastName { get; set; }
 
+            [MinLength(10, ErrorMessage = DescriptionErrorMsg)]
+            [DataType(DataType.MultilineText)]
+            [Display(Name = "description")]
             public string Description { get; set; }
 
+            [DataType(DataType.ImageUrl)]
             public Image Image { get; set; }
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "email")]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = PasswordErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
