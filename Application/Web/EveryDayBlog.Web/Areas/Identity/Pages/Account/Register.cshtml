@@ -1,12 +1,129 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    this.ViewData["Title"] = "Register";
 }
+<header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1>Create an Account</h1>
+                    <span class="subheading">Create your account and narrate your story to everyone!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h2 class="card-title mt-3 text-center">Create Account</h2>
+            <p class="text-center">Get started with your free account</p>
+            <p>
+                <partial name="_ExternalLoginPartial"/>
+            <p class="divider-text">
+                <div class="or-seperator"><i>or</i></div>
+            </p>
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
 
-<div class="row">
+                @*Implement Image*@
+                @*<div class="form-group input-group form-inline">
+            <div class="image-upload" style="margin:15px">
+                <label for="file-input">
+                    <img src="~/img/default-avatar.png" class="rounded-circle" style="width:100px;" />
+                </label>
+                <input id="file-input" type="file" style="position:absolute; top:0; right:0; z-index:2;opacity:1; cursor:pointer;" hidden />
+            </div>
+            <div class="form-group input-group">
+                <textarea name="Description" class="form-control" rows="5" placeholder="Let our users know something more about you (optional)"></textarea>
+            </div>
+        </div>*@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="First name">
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Last name">
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Email address">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+
+                @*Implement enum with phone selectors*@
+                @*<div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <select class="custom-select" style="max-width: 120px;">
+                        <option selected="">+971</option>
+                        <option value="1">+972</option>
+                        <option value="2">+198</option>
+                        <option value="3">+701</option>
+                    </select>
+                    <input name="PhoneNumber" class="form-control" placeholder="Phone number" type="text">
+                </div>*@
+
+
+
+
+                @*<div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                    </div>
+                    <select class="form-control">
+                        <option selected=""> Select job type</option>
+                        <option>Designer</option>
+                        <option>Manager</option>
+                        <option>Accaunting</option>
+                    </select>
+                </div>*@
+
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input asp-for="Input.Password" class="form-control" placeholder="Create password">
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Repeat password">
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block login-btn">Register</button>
+                </div>
+                <p class="text-center">Have an account? <a href="">Log In</a> </p>
+            </form>
+        </article>
+    </div>
+</div>
+
+
+
+
+
+
+
+@*<div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
@@ -30,4 +147,13 @@
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
-</div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
+

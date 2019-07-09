@@ -1,11 +1,14 @@
 ﻿namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
@@ -14,9 +17,7 @@
     using Microsoft.Extensions.Logging;
 
     [AllowAnonymous]
-#pragma warning disable SA1649 // File name should match first type name
     public class RegisterModel : PageModel
-#pragma warning restore SA1649 // File name should match first type name
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
@@ -40,50 +41,88 @@
 
         public string ReturnUrl { get; set; }
 
-        public void OnGet(string returnUrl = null)
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        public async Task OnGet(string returnUrl = null)
         {
+            if (!string.IsNullOrEmpty(this.ErrorMessage))
+            {
+                this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
+            }
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect("/Home/Error");
+            }
+
+            returnUrl = returnUrl ?? this.Url.Content("~/");
+
+            // Clear the existing external cookie to ensure a clean login process
+            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             this.ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
-            if (this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this.userManager.CreateAsync(user, this.Input.Password);
-                if (result.Succeeded)
-                {
-                    this.logger.LogInformation("User created a new account with password.");
-
-                    var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = this.Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: this.Request.Scheme);
-
-                    await this.emailSender.SendEmailAsync(
-                        this.Input.Email,
-                        "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
-                    return this.LocalRedirect(returnUrl);
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, error.Description);
-                }
+                // If we got this far, something failed, redisplay form
+                return this.Page();
             }
 
-            // If we got this far, something failed, redisplay form
+            var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+            var result = await this.userManager.CreateAsync(user, this.Input.Password);
+            if (result.Succeeded)
+            {
+                this.logger.LogInformation("User created a new account with password.");
+
+                //Sending an email
+
+                //var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackUrl = this.Url.Page(
+                //    "/Account/ConfirmEmail",
+                //    pageHandler: null,
+                //    values: new { userId = user.Id, code = code },
+                //    protocol: this.Request.Scheme);
+
+                //await this.emailSender.SendEmailAsync(
+                //    this.Input.Email,
+                //    "Confirm your email",
+                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                await this.signInManager.SignInAsync(user, isPersistent: false);
+                return this.LocalRedirect(returnUrl);
+            }
+
+            foreach (var error in result.Errors)
+            {
+                this.ModelState.AddModelError(string.Empty, error.Description);
+            }
+
             return this.Page();
         }
 
         public class InputModel
         {
+            [Required]
+            [MaxLength(50)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [MaxLength(50)]
+            public string LastName { get; set; }
+
+            public string Description { get; set; }
+
+            public Image Image { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]

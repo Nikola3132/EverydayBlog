@@ -8,7 +8,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Web.ViewModels.Settings;
-
+    using EveryDayBlog.Web.ViewModels.Settings.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController

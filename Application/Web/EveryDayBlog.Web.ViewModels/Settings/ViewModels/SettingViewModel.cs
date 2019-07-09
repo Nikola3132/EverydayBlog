@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Web.ViewModels.Settings
+﻿namespace EveryDayBlog.Web.ViewModels.Settings.ViewModels
 {
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
