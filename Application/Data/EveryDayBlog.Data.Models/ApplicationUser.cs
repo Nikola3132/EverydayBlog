@@ -40,9 +40,8 @@ namespace EveryDayBlog.Data.Models
 
         public string Description { get; set; }
 
-        [Required]
         [ForeignKey("Image")]
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
 
         public Image Image { get; set; }
 
@@ -51,5 +50,7 @@ namespace EveryDayBlog.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        
     }
 }

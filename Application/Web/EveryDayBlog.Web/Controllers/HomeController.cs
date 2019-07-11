@@ -1,9 +1,19 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
+    using EveryDayBlog.Data;
     using Microsoft.AspNetCore.Mvc;
+    using System.IO;
+    using System.Linq;
 
     public class HomeController : BaseController
     {
+        private readonly ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -20,6 +30,15 @@
         public IActionResult Contact()
         {
             return this.View();
+        }
+
+        [HttpGet]
+        public FileStreamResult ImageTest()
+        {
+            var image = db.Images.FirstOrDefault();
+
+            MemoryStream ms = new MemoryStream(image.ImageByte);
+            return new FileStreamResult(ms, image.ContentType);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

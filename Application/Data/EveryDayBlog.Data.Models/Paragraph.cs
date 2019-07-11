@@ -9,9 +9,8 @@
         [Required]
         public string MainText { get; set; }
 
-        [Required]
         [ForeignKey("Image")]
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
 
         public Image Image { get; set; }
     }

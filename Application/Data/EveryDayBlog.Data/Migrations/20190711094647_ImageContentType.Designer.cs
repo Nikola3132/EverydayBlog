@@ -4,14 +4,16 @@ using EveryDayBlog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EveryDayBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190711094647_ImageContentType")]
+    partial class ImageContentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace EveryDayBlog.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("ImageId");
+                    b.Property<int>("ImageId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -169,7 +171,7 @@ namespace EveryDayBlog.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<int?>("ImageId");
+                    b.Property<int>("ImageId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -205,7 +207,7 @@ namespace EveryDayBlog.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<int?>("ImageId");
+                    b.Property<int>("ImageId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -398,7 +400,7 @@ namespace EveryDayBlog.Data.Migrations
             modelBuilder.Entity("EveryDayBlog.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("EveryDayBlog.Data.Models.Image", "Image")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -407,14 +409,16 @@ namespace EveryDayBlog.Data.Migrations
                 {
                     b.HasOne("EveryDayBlog.Data.Models.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("EveryDayBlog.Data.Models.Paragraph", b =>
                 {
                     b.HasOne("EveryDayBlog.Data.Models.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EveryDayBlog.Data.Models.Section")
                         .WithMany("Paragraphs")

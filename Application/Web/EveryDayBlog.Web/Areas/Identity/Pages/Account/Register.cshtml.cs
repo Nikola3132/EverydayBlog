@@ -1,15 +1,18 @@
 ﻿namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
-    using System.Collections;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
     using System.Linq;
-    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-
+    using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Web.CustomAttributes;
+    using EveryDayBlog.Web.ModelBinders;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
@@ -68,8 +71,9 @@
             this.ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(List<IFormFile> files, string returnUrl = null)
         {
+
             returnUrl = returnUrl ?? this.Url.Content("~/");
             if (!this.ModelState.IsValid)
             {
@@ -77,7 +81,23 @@
                 return this.Page();
             }
 
-            var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+            var imgForDb = this.Input.Image;
+
+            var user = new ApplicationUser
+            {
+                UserName = this.Input.Email
+                ,Email = this.Input.Email
+                ,CreatedOn = DateTime.UtcNow
+                ,Description = this.Input.Description
+                ,FirstName = this.Input.FirstName
+                ,LastName = this.Input.LastName
+            };
+
+            if (imgForDb != null)
+            {
+                user.Image = this.Input.Image;
+            }
+
             var result = await this.userManager.CreateAsync(user, this.Input.Password);
             if (result.Succeeded)
             {
@@ -115,6 +135,11 @@
             private const string NameErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
             private const string PasswordErrorMsg = "The {0} must be at least {2} and max {1} characters long.";
 
+            // I cant put the string (jpg,jpeg,png,pdf) in the const dinamically because its const and asp.net core throws FormatException
+            private const string ImgExtsErrorMsg = "Your extension should be one of the following: jpg,jpeg,png,pdf";
+
+
+
             [Required]
             [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
             [DataType(DataType.Text)]
@@ -132,7 +157,9 @@
             [Display(Name = "description")]
             public string Description { get; set; }
 
-            [DataType(DataType.ImageUrl)]
+            [ModelBinder(typeof(FileToImageModelBinder))]
+            [DataType(DataType.Upload)]
+            [ImageExtensions(GlobalConstants.AllowedImageExtensions, ErrorMessage= ImgExtsErrorMsg)]
             public Image Image { get; set; }
 
             [Required]

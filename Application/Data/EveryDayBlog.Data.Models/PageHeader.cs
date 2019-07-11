@@ -21,9 +21,8 @@
         [Required]
         public string PageIndicator { get; set; }
 
-        [Required]
         [ForeignKey("Image")]
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
 
         public Image Image { get; set; }
     }

@@ -15,5 +15,11 @@
         public byte[] ImageByte { get; set; }
 
         public string ImagePath { get; set; }
+
+        [Required]
+        public string ContentType { get; set; }
+
+        public ICollection<ApplicationUser> Users { get; set; }
+        = new HashSet<ApplicationUser>();
     }
 }

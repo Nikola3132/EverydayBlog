@@ -23,25 +23,24 @@
             <h2 class="card-title mt-3 text-center">Create Account</h2>
             <p class="text-center">Get started with your free account</p>
             <p>
-                <partial name="_ExternalLoginPartial"/>
+                <partial name="_ExternalLoginPartial" />
             <p class="divider-text">
                 <div class="or-seperator"><i>or</i></div>
             </p>
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <form asp-route-returnUrl="@Model.ReturnUrl" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
-
-                @*Implement Image*@
                 <div class="form-group input-group form-inline">
-            <div class="image-upload" style="margin:15px">
-                <label for="file-input">
-                    <img src="~/img/default-avatar.png" id="output_image" class="rounded-circle" style="width:100px; height: 100px;" />
-                </label>
-                <input id="file-input" accept="image/*" onchange="preview_image(event)" type="file" hidden />
-            </div>
-            <div class="form-group input-group">
-                <textarea name="Description" class="form-control" rows="5" placeholder="Let our users know something more about you (optional)"></textarea>
-            </div>
-        </div>
+                    <div class="image-upload" style="margin:15px">
+                        <label for="file-input">
+                            <img src="~/img/default-avatar.png" id="output_image" class="rounded-circle" style="width:100px; height: 100px;" />
+                        </label>
+                        <input asp-for="Input.Image" id="file-input" accept="image/*" onchange="preview_image(event)" type="file" hidden />
+                    </div>
+                    <div class="form-group input-group">
+                        <textarea asp-for="Input.Description" class="form-control" rows="5" placeholder="Let our users know something more about you (optional)"></textarea>
+                        <span asp-validation-for="Input.Description" class="text-danger"></span>
+                    </div>
+                </div>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -67,47 +66,47 @@
 
                 @*Implement enum with phone selectors*@
                 @*<div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
-                    </div>
-                    <select class="custom-select" style="max-width: 120px;">
-                        <option selected="">+971</option>
-                        <option value="1">+972</option>
-                        <option value="2">+198</option>
-                        <option value="3">+701</option>
-                    </select>
-                    <input name="PhoneNumber" class="form-control" placeholder="Phone number" type="text">
-                </div>*@
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                        </div>
+                        <select class="custom-select" style="max-width: 120px;">
+                            <option selected="">+971</option>
+                            <option value="1">+972</option>
+                            <option value="2">+198</option>
+                            <option value="3">+701</option>
+                        </select>
+                        <input name="PhoneNumber" class="form-control" placeholder="Phone number" type="text">
+                    </div>*@
 
 
 
 
                 @*<div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
-                    </div>
-                    <select class="form-control">
-                        <option selected=""> Select job type</option>
-                        <option>Designer</option>
-                        <option>Manager</option>
-                        <option>Accaunting</option>
-                    </select>
-                </div>*@
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                        </div>
+                        <select class="form-control">
+                            <option selected=""> Select job type</option>
+                            <option>Designer</option>
+                            <option>Manager</option>
+                            <option>Accaunting</option>
+                        </select>
+                    </div>*@
 
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                </div>
-                <input asp-for="Input.Password" class="form-control" placeholder="Create password">
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div> <!-- form-group// -->
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                </div>
-                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Repeat password">
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input asp-for="Input.Password" class="form-control" placeholder="Create password">
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Repeat password">
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div> <!-- form-group// -->
                 <div class="form-group">
                     <button type="submit" class="btn btn-success btn-block login-btn">Register</button>
                 </div>
@@ -118,41 +117,41 @@
 </div>
 
 @*<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-</div>*@
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h4>Create a new account.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>*@
 
-@*Showing image before upload script*@ 
+@*Showing image before upload script*@
 <script type='text/javascript'>
-        function preview_image(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('output_image');
-                output.src = reader.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
+    function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
         }
+        reader.readAsDataURL(event.target.files[0]);
+    }
 </script>
 
 @section Scripts {

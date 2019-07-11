@@ -107,6 +107,11 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<ApplicationUser>()
+               .HasOne(e => e.Image)
+                .WithMany(i => i.Users)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Post>().HasOne(p => p.PageHeader);
 
             builder.Entity<Post>().HasMany(p => p.Sections);
@@ -114,6 +119,7 @@
             builder.Entity<Section>().HasMany(s => s.Paragraphs);
 
             builder.Entity<Paragraph>().HasOne(p => p.Image);
+
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
