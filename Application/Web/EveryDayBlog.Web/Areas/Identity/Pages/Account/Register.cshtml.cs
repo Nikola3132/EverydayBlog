@@ -85,12 +85,12 @@
 
             var user = new ApplicationUser
             {
-                UserName = this.Input.Email
-                ,Email = this.Input.Email
-                ,CreatedOn = DateTime.UtcNow
-                ,Description = this.Input.Description
-                ,FirstName = this.Input.FirstName
-                ,LastName = this.Input.LastName
+                UserName = this.Input.Email,
+                Email = this.Input.Email,
+                CreatedOn = DateTime.UtcNow,
+                Description = this.Input.Description,
+                FirstName = this.Input.FirstName,
+                LastName = this.Input.LastName,
             };
 
             if (imgForDb != null)
@@ -131,24 +131,25 @@
 
         public class InputModel
         {
-            private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {0} symbols";
+            private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {1} symbols";
             private const string NameErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
             private const string PasswordErrorMsg = "The {0} must be at least {2} and max {1} characters long.";
 
             // I cant put the string (jpg,jpeg,png,pdf) in the const dinamically because its const and asp.net core throws FormatException
-            private const string ImgExtsErrorMsg = "Your extension should be one of the following: jpg,jpeg,png,pdf";
-
-
+            private const string ImgExtsErrorMsg = "Your {0} extension should be one of the following: jpg,jpeg,png,pdf";
+            private const string NameRegexErrorMsg = "You cannot have more than one capital letter, not any other symbols except Latin alphabets";
 
             [Required]
             [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
             [DataType(DataType.Text)]
+            [RegularExpression("^[A-Z][a-z]+$", ErrorMessage = NameRegexErrorMsg)]
             [Display(Name = "first name")]
             public string FirstName { get; set; }
 
             [Required]
             [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
             [DataType(DataType.Text)]
+            [RegularExpression("^[A-Z][a-z]+$", ErrorMessage = NameRegexErrorMsg)]
             [Display(Name = "last name")]
             public string LastName { get; set; }
 
@@ -159,6 +160,7 @@
 
             [ModelBinder(typeof(FileToImageModelBinder))]
             [DataType(DataType.Upload)]
+            [Display(Name = "image")]
             [ImageExtensions(GlobalConstants.AllowedImageExtensions, ErrorMessage= ImgExtsErrorMsg)]
             public Image Image { get; set; }
 

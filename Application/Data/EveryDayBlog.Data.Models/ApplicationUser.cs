@@ -30,11 +30,9 @@ namespace EveryDayBlog.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
 

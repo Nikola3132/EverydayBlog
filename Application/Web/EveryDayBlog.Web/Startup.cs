@@ -101,13 +101,18 @@
             services.AddTransient<ISettingsService, SettingsService>();
 
 
-            // Google Authentication
-
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = this.configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
-            });
+            // External Authentications
+            services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = this.configuration["Authentication:Google:ClientId"];
+                    googleOptions.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
+                })
+                .AddTwitter(twitterOptions =>
+                {
+                    twitterOptions.ConsumerKey = this.configuration["Authentication:Twitter:ConsumerAPIKey"];
+                    twitterOptions.ConsumerSecret = this.configuration["Authentication:Twitter:ConsumerSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
