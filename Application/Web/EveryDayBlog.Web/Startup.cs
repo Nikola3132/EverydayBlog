@@ -111,7 +111,7 @@
                 .AddTwitter(twitterOptions =>
                 {
                     twitterOptions.ConsumerKey = this.configuration["Authentication:Twitter:ConsumerAPIKey"];
-                    twitterOptions.ConsumerSecret = this.configuration["Authentication:Twitter:ConsumerSecret"];
+                    twitterOptions.ConsumerSecret = this.configuration["Authentication:Twitter:ConsumerAPISecret"];
                 });
         }
 
