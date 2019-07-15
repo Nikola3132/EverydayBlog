@@ -11,6 +11,7 @@
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
+    using EveryDayBlog.Services.Messaging.Settings;
     using EveryDayBlog.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,8 @@
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequiredLength = 6;
+
+                    options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<ApplicationUserStore>()
@@ -84,6 +87,7 @@
                     options.ConsentCookie.Name = ".AspNetCore.ConsentCookie";
                 });
 
+
             services.AddSingleton(this.configuration);
 
             // Identity stores
@@ -96,10 +100,12 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
 
+
+            services.Configure<AuthMessageSenderOptions>(this.configuration);
 
             // External Authentications
             services.AddAuthentication()
