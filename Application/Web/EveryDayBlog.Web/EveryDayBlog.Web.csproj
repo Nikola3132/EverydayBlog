@@ -39,4 +39,8 @@
     <ProjectReference Include="..\EveryDayBlog.Web.Infrastructure\EveryDayBlog.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\" />
+  </ItemGroup>
 </Project>

@@ -39,7 +39,9 @@
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
             }
 
-            return this.Page();
+            this.TempData["info"] = "Thanks you for confirming your email!";
+
+            return this.RedirectToAction("Index", "Home", new { Area = "" });
         }
     }
 }

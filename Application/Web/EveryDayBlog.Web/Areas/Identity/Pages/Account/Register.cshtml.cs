@@ -136,6 +136,8 @@
                 //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 await this.signInManager.SignInAsync(user, isPersistent: false);
+                //TODO REDIRECT TO LOGIN AFTER REGISTER
+
                 return this.LocalRedirect(returnUrl);
             }
 
