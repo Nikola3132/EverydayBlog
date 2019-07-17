@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
     using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
@@ -13,12 +14,14 @@
     using EveryDayBlog.Web.ModelBinders;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using MimeKit;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -27,6 +30,7 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender sendGridEmailSender;
+        private readonly IHostingEnvironment env;
 
         //private readonly SendGridEmailSender sendGridEmailSender;
 
@@ -34,13 +38,15 @@
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            IHostingEnvironment env
             /*SendGridEmailSender sendGridEmailSender*/)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.sendGridEmailSender = emailSender;
+            this.env = env;
             //this.sendGridEmailSender = sendGridEmailSender;
         }
 
@@ -85,7 +91,6 @@
                 // If we got this far, something failed, redisplay form
                 return this.Page();
             }
-
             var imgForDb = this.Input.Image;
 
             var user = new ApplicationUser
@@ -102,40 +107,84 @@
             {
                 user.Image = this.Input.Image;
             }
+            //Sending an email 
+
+            var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = this.Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = user.Id, code = code },
+                protocol: this.Request.Scheme);
+
+            var builder = new BodyBuilder();
+
+            var pathToFile = this.env.WebRootPath
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "Templates"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "EmailTemplate"
+                        + Path.DirectorySeparatorChar.ToString()
+                        + "Confirm_EmailTemplate.html";
+
+
+            using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
+            {
+                builder.HtmlBody = sourceReader.ReadToEnd();
+            }
+
+            string messageBody = string.Format(
+                builder.HtmlBody,
+                callbackUrl);
+
+            await this.sendGridEmailSender.SendEmailAsync(
+                this.Input.Email,
+                "Confirm your email",
+                messageBody);
+
+
+
 
             var result = await this.userManager.CreateAsync(user, this.Input.Password);
             if (result.Succeeded)
             {
                 this.logger.LogInformation("User created a new account with password.");
+                await this.signInManager.SignInAsync(user, isPersistent:true);
 
-                //Sending an email
+                ////Sending an email 
 
-                var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = this.Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { userId = user.Id, code = code },
-                    protocol: this.Request.Scheme);
+                //var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackUrl = this.Url.Page(
+                //    "/Account/ConfirmEmail",
+                //    pageHandler: null,
+                //    values: new { userId = user.Id, code = code },
+                //    protocol: this.Request.Scheme);
 
-                this.ViewData["CallBackUrl"] = HtmlEncoder.Default.Encode(callbackUrl);
+                //var builder = new BodyBuilder();
 
-                var v = System.IO.File.ReadAllText(@"C:\Users\nikolaviktor3132\Desktop\EveryDayBlog NEWEST\EverydayBlog\Application\Web\EveryDayBlog.Web\Views\Email.cshtml");
+                //var pathToFile = this.env.WebRootPath
+                //            + Path.DirectorySeparatorChar.ToString()
+                //            + "Templates"
+                //            + Path.DirectorySeparatorChar.ToString()
+                //            + "EmailTemplate"
+                //            + Path.DirectorySeparatorChar.ToString()
+                //            + "Confirm_EmailTemplate.html";
 
 
-                //this.sendGridEmailSender.SendEmailAsync(
+                //using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
+                //{
+                //    builder.HtmlBody = sourceReader.ReadToEnd();
+                //}
+
+                //string messageBody = string.Format(
+                //    builder.HtmlBody,
+                //    callbackUrl);
+
+                //await this.sendGridEmailSender.SendEmailAsync(
                 //    this.Input.Email,
-
-                //    )
-
-                await this.sendGridEmailSender.SendEmailAsync(
-                    this.Input.Email,
-
-
-                    "Confirm your email",
-                    v + $@"<span class=""es-button-border"" style=""border-style:solid;border-color:#474745;background:#474745;border-width:0px;display:inline-block;border-radius:20px;width:auto;""> <a href=""{callbackUrl}"" class=""es-button"" target=""_blank"" style=""mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;font-size:16px;color:#EFEFEF;border-style:solid;border-color:#474745;border-width:6px 25px 6px 25px;display:inline-block;background:#474745;border-radius:20px;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center;"">Confirm Email</a> </span>");
-                //$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                await this.signInManager.SignInAsync(user, isPersistent: false);
+                //    "Confirm your email",
+                //    messageBody);
+                
+                //await this.signInManager.SignInAsync(user, isPersistent: false);
                 //TODO REDIRECT TO LOGIN AFTER REGISTER
 
                 return this.LocalRedirect(returnUrl);
