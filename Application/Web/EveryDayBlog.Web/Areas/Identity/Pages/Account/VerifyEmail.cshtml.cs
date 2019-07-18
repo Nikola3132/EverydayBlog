@@ -1,11 +1,13 @@
 namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
     using EveryDayBlog.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
 
+    [AllowAnonymous]
     public class VerifyEmailModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> signInManager;
@@ -31,9 +33,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
 
         public void OnGet(string returnUrl = null)
-
-            //TODO: Verify Email logic
         {
+            this.ViewData["EmailUser"] = this.TempData["Email"];
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
                 this.ModelState.AddModelError(string.Empty, this.ErrorMessage);

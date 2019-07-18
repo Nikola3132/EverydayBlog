@@ -14,10 +14,14 @@
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
+        public ConfirmEmailModel(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
@@ -38,8 +42,11 @@
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
             }
+            await this.signInManager.SignInAsync(user, isPersistent: true);
 
             this.TempData["info"] = "Thanks you for confirming your email!";
+
+
 
             return this.RedirectToAction("Index", "Home", new { Area = "" });
         }

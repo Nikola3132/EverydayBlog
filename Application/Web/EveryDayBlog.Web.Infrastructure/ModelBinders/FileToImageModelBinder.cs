@@ -1,10 +1,10 @@
-﻿namespace EveryDayBlog.Web.ModelBinders
+﻿namespace EveryDayBlog.Web.Infrastructure.ModelBinders
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Data.Models;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 

@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Web.CustomAttributes
+﻿namespace EveryDayBlog.Web.Infrastructure.CustomAttributes
 {
     using System;
     using System.Collections.Generic;
@@ -12,7 +12,7 @@
     {
         public ImageExtensionsAttribute(string fileExtensions)
         {
-            this.AllowedExtensions = fileExtensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            AllowedExtensions = fileExtensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
         private List<string> AllowedExtensions { get; set; }
@@ -25,7 +25,7 @@
             {
                 var fileName = file.ImageTitle;
 
-                return this.AllowedExtensions.Any(y => fileName.EndsWith(y));
+                return AllowedExtensions.Any(y => fileName.EndsWith(y));
             }
 
             return true;

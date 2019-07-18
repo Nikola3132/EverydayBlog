@@ -9,9 +9,11 @@
     using System.Threading.Tasks;
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
-    using EveryDayBlog.Web.CustomAttributes;
-    using EveryDayBlog.Web.ModelBinders;
+    using EveryDayBlog.Web.Infrastructure.CustomAttributes;
+    using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
@@ -29,8 +31,7 @@
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
-        private readonly IEmailSender sendGridEmailSender;
-        private readonly IHostingEnvironment env;
+        private readonly IEmailService emailService;
 
         //private readonly SendGridEmailSender sendGridEmailSender;
 
@@ -38,15 +39,13 @@
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            IHostingEnvironment env
+            IEmailService emailService
             /*SendGridEmailSender sendGridEmailSender*/)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
-            this.sendGridEmailSender = emailSender;
-            this.env = env;
+            this.emailService = emailService;
             //this.sendGridEmailSender = sendGridEmailSender;
         }
 
@@ -84,13 +83,13 @@
 
         public async Task<IActionResult> OnPostAsync(List<IFormFile> files, string returnUrl = null)
         {
-
             returnUrl = returnUrl ?? this.Url.Content("~/");
             if (!this.ModelState.IsValid)
             {
                 // If we got this far, something failed, redisplay form
                 return this.Page();
             }
+
             var imgForDb = this.Input.Image;
 
             var user = new ApplicationUser
@@ -107,87 +106,26 @@
             {
                 user.Image = this.Input.Image;
             }
-            //Sending an email 
 
+            var result = await this.userManager.CreateAsync(user, this.Input.Password);
             var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+
             var callbackUrl = this.Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
                 values: new { userId = user.Id, code = code },
                 protocol: this.Request.Scheme);
 
-            var builder = new BodyBuilder();
 
-            var pathToFile = this.env.WebRootPath
-                        + Path.DirectorySeparatorChar.ToString()
-                        + "Templates"
-                        + Path.DirectorySeparatorChar.ToString()
-                        + "EmailTemplate"
-                        + Path.DirectorySeparatorChar.ToString()
-                        + "Confirm_EmailTemplate.html";
+            await this.emailService.SendEmailToUser(callbackUrl, this.Input.Email);
 
-
-            using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
-            {
-                builder.HtmlBody = sourceReader.ReadToEnd();
-            }
-
-            string messageBody = string.Format(
-                builder.HtmlBody,
-                callbackUrl);
-
-            await this.sendGridEmailSender.SendEmailAsync(
-                this.Input.Email,
-                "Confirm your email",
-                messageBody);
-
-
-
-
-            var result = await this.userManager.CreateAsync(user, this.Input.Password);
             if (result.Succeeded)
             {
                 this.logger.LogInformation("User created a new account with password.");
-                await this.signInManager.SignInAsync(user, isPersistent:true);
-
-                ////Sending an email 
-
-                //var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-                //var callbackUrl = this.Url.Page(
-                //    "/Account/ConfirmEmail",
-                //    pageHandler: null,
-                //    values: new { userId = user.Id, code = code },
-                //    protocol: this.Request.Scheme);
-
-                //var builder = new BodyBuilder();
-
-                //var pathToFile = this.env.WebRootPath
-                //            + Path.DirectorySeparatorChar.ToString()
-                //            + "Templates"
-                //            + Path.DirectorySeparatorChar.ToString()
-                //            + "EmailTemplate"
-                //            + Path.DirectorySeparatorChar.ToString()
-                //            + "Confirm_EmailTemplate.html";
 
 
-                //using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
-                //{
-                //    builder.HtmlBody = sourceReader.ReadToEnd();
-                //}
-
-                //string messageBody = string.Format(
-                //    builder.HtmlBody,
-                //    callbackUrl);
-
-                //await this.sendGridEmailSender.SendEmailAsync(
-                //    this.Input.Email,
-                //    "Confirm your email",
-                //    messageBody);
-                
-                //await this.signInManager.SignInAsync(user, isPersistent: false);
-                //TODO REDIRECT TO LOGIN AFTER REGISTER
-
-                return this.LocalRedirect(returnUrl);
+                this.TempData["Email"] = this.Input.Email;
+                return this.RedirectToPage("VerifyEmail");
             }
 
             foreach (var error in result.Errors)
@@ -198,7 +136,7 @@
             return this.Page();
         }
 
-        public class InputModel
+        public class InputModel : IMapTo<ApplicationUser>
         {
             private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {1} symbols";
             private const string NameErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";

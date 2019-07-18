@@ -14,7 +14,6 @@
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Services.Messaging.Settings;
     using EveryDayBlog.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -62,12 +61,14 @@
                     options.Password.RequiredLength = 6;
 
                     options.SignIn.RequireConfirmedEmail = true;
+                    options.User.RequireUniqueEmail = true;
                 })
                 .AddDefaultTokenProviders()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<ApplicationUserStore>()
                 .AddRoleStore<ApplicationRoleStore>();
+            
 
             services.AddSession(options =>
             {
@@ -101,6 +102,8 @@
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IEmailService, EmailService>();
+
 
 
             services.Configure<AuthMessageSenderOptions>(this.configuration);
