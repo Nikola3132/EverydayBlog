@@ -1,9 +1,10 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
-    using EveryDayBlog.Data;
-    using Microsoft.AspNetCore.Mvc;
     using System.IO;
     using System.Linq;
+
+    using EveryDayBlog.Data;
+    using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {

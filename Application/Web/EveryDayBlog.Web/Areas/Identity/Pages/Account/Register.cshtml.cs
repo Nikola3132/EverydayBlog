@@ -14,6 +14,7 @@
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Web.Infrastructure.CustomAttributes;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
+    using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
@@ -124,8 +125,9 @@
                 this.logger.LogInformation("User created a new account with password.");
 
 
-                this.TempData["Email"] = this.Input.Email;
-                return this.RedirectToPage("VerifyEmail");
+                //this.TempData["Email"] = this.Input.Email;
+                this.TempData["EmailOptions"] = new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl };
+                return this.RedirectToPage("VerifyEmail", "OnGet"/*, new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl }*/);
             }
 
             foreach (var error in result.Errors)

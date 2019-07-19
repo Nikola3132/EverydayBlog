@@ -50,7 +50,7 @@
                                                 <tr>
                                                     <td align="center">
                                                         <span style="color:#48545d;font-size:22px;line-height: 24px;">
-                                                            We have sent an email to <span style="color:#22b124">@this.ViewData["EmailUser"]</span>
+                                                            We have sent an email to <span style="color:#22b124">@Model.EmailViewModel.Email</span>
                                                         </span>
 
                                                     </td>
@@ -78,7 +78,15 @@
                                                 <tr>
                                                     <td valign="top" width="48%" align="center">
                                                         <span>
-                                                            <a href="https://www.coinbase.com/signin" style="display: ruby-text; padding:15px 25px; background-color:#22b124; color:#ffffff; border-radius:3px; text-decoration:none;">Resent Email</a>
+                                                            @*@{ var dictionary =
+                                                                         new Dictionary<string, string>();
+
+
+                                                                dictionary.Add("callbackUrl", Model.EmailViewModel.CallbackUrl);
+                                                                dictionary.Add("email", Model.EmailViewModel.Email);}
+                                                            }*@
+
+                                                            <a asp-page="VerifyEmail" asp-page-handler="Resent" style="display: ruby-text; padding:15px 25px; background-color:#22b124; color:#ffffff; border-radius:3px; text-decoration:none;">Resent Email</a>
                                                         </span>
                                                     </td>
                                                 </tr>
