@@ -10,6 +10,7 @@
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Services.Extensions;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Web.Infrastructure.CustomAttributes;
@@ -23,6 +24,7 @@
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Logging;
     using MimeKit;
 
@@ -124,10 +126,13 @@
             {
                 this.logger.LogInformation("User created a new account with password.");
 
-
+                this.TempData.Clear();
                 //this.TempData["Email"] = this.Input.Email;
-                this.TempData["EmailOptions"] = new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl };
-                return this.RedirectToPage("VerifyEmail", "OnGet"/*, new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl }*/);
+                //this.TempData["EmailOptions"] = new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl };
+
+                TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
+
+                return this.RedirectToPage("VerifyEmail");
             }
 
             foreach (var error in result.Errors)

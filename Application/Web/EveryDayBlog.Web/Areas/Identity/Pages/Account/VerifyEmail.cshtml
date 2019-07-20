@@ -4,6 +4,10 @@
     this.ViewData["Title"] = "Please Verify Your Email Address";
 }
 
+    <style>
+        a:hover{color: green;}
+    </style>
+
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"
       style="margin: 0pt auto; padding: 0px;">
     <td valign="top">
@@ -78,13 +82,6 @@
                                                 <tr>
                                                     <td valign="top" width="48%" align="center">
                                                         <span>
-                                                            @*@{ var dictionary =
-                                                                         new Dictionary<string, string>();
-
-
-                                                                dictionary.Add("callbackUrl", Model.EmailViewModel.CallbackUrl);
-                                                                dictionary.Add("email", Model.EmailViewModel.Email);}
-                                                            }*@
 
                                                             <a asp-page="VerifyEmail" asp-page-handler="Resent" style="display: ruby-text; padding:15px 25px; background-color:#22b124; color:#ffffff; border-radius:3px; text-decoration:none;">Resent Email</a>
                                                         </span>

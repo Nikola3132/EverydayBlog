@@ -2,6 +2,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Services.Extensions;
+    using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -32,15 +34,13 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        [TempData(Key ="EmailOptions")]
-        public EmailViewModel EmailViewModel { get; set; }
-
         [TempData]
         public string ErrorMessage { get; set; }
 
-        //public EmailViewModel EmailViewModel { get; set; }
+        [ModelBinder(typeof(TempDataSerializedToObjectModelBinder<EmailViewModel>))]
+        public EmailViewModel EmailViewModel { get; set; }
 
-        public void OnGet(/*[FromQuery]EmailViewModel emailViewModel,*/ string returnUrl = null)
+        public async Task<IActionResult> OnGet(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
@@ -54,16 +54,15 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
+            TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.EmailViewModel.Email, CallbackUrl = this.EmailViewModel.CallbackUrl });
+
             this.ReturnUrl = returnUrl;
 
-            this.TempData["callBackUrl"] = this.EmailViewModel.CallbackUrl;
-            this.TempData["email"] = this.EmailViewModel.Email;
-
+            return this.Page();
         }
 
         public async Task<IActionResult> OnGetResentAsync(string returnUrl = null)
         {
-            //this.ViewData["EmailUser"] = this.TempData["Email"];
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
                 this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
@@ -76,12 +75,11 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            await this.emailService.SendEmailToUser(this.TempData["callBackUrl"].ToString(), this.TempData["email"].ToString());
-
+            await this.emailService.SendEmailToUser(this.EmailViewModel.CallbackUrl, this.EmailViewModel.Email);
 
             this.ReturnUrl = returnUrl;
 
-            return this.RedirectToAction("OnGet");
+            return this.Redirect("~/Identity/Account/VerifyEmail");
         }
     }
 }
