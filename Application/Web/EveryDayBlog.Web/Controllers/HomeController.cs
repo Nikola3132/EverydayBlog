@@ -33,13 +33,9 @@
             return this.View();
         }
 
-        [HttpGet]
-        public FileStreamResult ImageTest()
+        public ActionResult ModalPopUp()
         {
-            var image = db.Images.FirstOrDefault();
-
-            MemoryStream ms = new MemoryStream(image.ImageByte);
-            return new FileStreamResult(ms, image.ContentType);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

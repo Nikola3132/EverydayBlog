@@ -4,9 +4,35 @@
     this.ViewData["Title"] = "Please Verify Your Email Address";
 }
 
-    <style>
-        a:hover{color: green;}
-    </style>
+
+
+<style>
+    a:hover {
+        color: green;
+    }
+
+    /*#container .modal.fade {
+        -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+        transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+
+        #container .modal.fade.in {
+            left: 50%;
+        }
+
+    #container .modal-body {
+        max-height: 50px;
+    }
+
+    #article-editor {
+        width: 600px;
+        margin-left: -300px;
+        margin-right: -300px;
+    }*/
+</style>
+
 
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0"
       style="margin: 0pt auto; padding: 0px;">
@@ -90,7 +116,12 @@
                                                 <tr>
                                                     <td align="center">
                                                         <p style="color:#a2a2a2; font-size:12px; line-height:17px; font-style:italic;">
-                                                            If you haven't received an email after clicking the button, you can change it <a href="/"><b>here</b></a>
+                                                            If you haven't received an email after clicking the button, you can change it <!-- Modal placeholder -->
+                                                            <div id="modal-placeholder"></div>
+                                                            <a type="button"
+                                                               class="btn"
+                                                               href="#article-editor"
+                                                               data-toggle="modal">Here</a>
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -123,4 +154,3 @@
         </table>
     </td>
 </body>
-

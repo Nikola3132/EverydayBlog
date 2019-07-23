@@ -1,6 +1,10 @@
-﻿<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+﻿@using EveryDayBlog.Web.ViewModels.Users.ViewModels
+@model  UserProfileViewModel
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
 
 <header class="masthead" style="background-image: url('../../wwwroot/img/home-bg.jpg')">
     <div class="overlay"></div>
@@ -21,7 +25,15 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="~/img/default-avatar.png" alt="" />
+                    @if (Model.Image == null)
+                    {
+                        <img src="~/img/default-avatar.png" alt="" />
+                    }
+                    else
+                    {
+                        <img src="~/img/default-avatar.png" alt="" />
+
+                    }
                     <div class="file btn btn-lg btn-primary">
                         Change Photo
                         <input type="file" name="file" />

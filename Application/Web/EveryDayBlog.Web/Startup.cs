@@ -2,14 +2,16 @@
 {
     using System;
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using EveryDayBlog.Data;
     using EveryDayBlog.Data.Common;
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Data.Repositories;
     using EveryDayBlog.Data.Seeding;
+    using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Services.Extensions;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Services.Messaging.Settings;
@@ -68,7 +70,15 @@
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<ApplicationUserStore>()
                 .AddRoleStore<ApplicationRoleStore>();
-            
+
+            Account cloudinaryAcc = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryAcc);
+
+            services.AddSingleton(cloudinaryUtility);
 
             services.AddSession(options =>
             {
@@ -99,10 +109,12 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
+            services.AddTransient<IImageNameExtensions, ImageNameExtensions>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
 
 
 

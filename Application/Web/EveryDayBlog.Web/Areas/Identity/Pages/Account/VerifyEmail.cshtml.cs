@@ -81,5 +81,19 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             return this.Redirect("~/Identity/Account/VerifyEmail");
         }
+
+        public IActionResult OnGetChangeEmail()
+        {
+
+            return Partial("_ContactModalPartial",this.EmailViewModel);
+        }
+
+        public IActionResult OnPostChangeEmail(EmailViewModel model)
+        {
+            return this.Partial("_ContactModalPartial", model);
+        }
+
+
+        
     }
 }

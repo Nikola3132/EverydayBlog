@@ -7,6 +7,7 @@
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
+    using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
     using EveryDayBlog.Web.ViewModels.Settings;
     using EveryDayBlog.Web.ViewModels.Settings.ViewModels;
     using Microsoft.AspNetCore.Mvc;
@@ -37,5 +38,25 @@
 
             return this.RedirectToAction(nameof(this.Index));
         }
+        public IActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangeEmail(string email)
+        {
+            //db Entities updateaction = new dbEntities();
+            //int id = (Convert.ToInt32(Session["id"]));
+
+            //string myinfo = info;
+            //Product pp = updateaction.Product.Where(m => m.database_id.Equals(id) && m.name.Equals(myinfo)).SingleOrDefault();
+            //pp.price = price;
+            //pp.product = product;
+            //int i = updateaction.SaveChanges();
+            //Session["warning"] = i;
+            return Json(new { success = true, responseText = " Sucessfully." });
+        }
+
     }
 }

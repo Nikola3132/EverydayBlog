@@ -6,10 +6,12 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Extensions;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class FileToImageModelBinder : IModelBinder
     {
+
         public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)

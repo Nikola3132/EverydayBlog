@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Services.Extensions;
     using EveryDayBlog.Services.Mapping;
@@ -35,6 +36,7 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailService emailService;
+        private readonly ICloudinaryService cloudinaryService;
 
         //private readonly SendGridEmailSender sendGridEmailSender;
 
@@ -42,13 +44,15 @@
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailService emailService
+            IEmailService emailService,
+            ICloudinaryService cloudinaryService
             /*SendGridEmailSender sendGridEmailSender*/)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailService = emailService;
+            this.cloudinaryService = cloudinaryService;
             //this.sendGridEmailSender = sendGridEmailSender;
         }
 
@@ -108,6 +112,8 @@
             if (imgForDb != null)
             {
                 user.Image = this.Input.Image;
+                string url = this.cloudinaryService.UploudPicture(imgForDb);
+                user.Image.CloudUrl = url;
             }
 
             var result = await this.userManager.CreateAsync(user, this.Input.Password);
