@@ -1,6 +1,8 @@
 ﻿namespace EveryDayBlog.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -11,6 +13,7 @@
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -25,6 +28,8 @@
         }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
 
         public DbSet<Image> Images { get; set; }
 
@@ -108,6 +113,11 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
+               .HasOne(e => e.Country)
+               .WithMany(c => c.Users)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
                .HasOne(e => e.Image)
                 .WithMany(i => i.Users)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -119,6 +129,13 @@
             builder.Entity<Section>().HasMany(s => s.Paragraphs);
 
             builder.Entity<Paragraph>().HasOne(p => p.Image);
+
+            builder.Entity<Country>().HasMany(c => c.Users).WithOne(u => u.Country)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            var jsonText = File.ReadAllText(@"C:\Users\nikolaviktor3132\Desktop\EveryDayBlog NEWEST\EverydayBlog\Application\Data\EveryDayBlog.Data\JSON\countries.json");
+
+            builder.Entity<Country>().HasData(JsonConvert.DeserializeObject<List<Country>>(jsonText));
 
         }
 

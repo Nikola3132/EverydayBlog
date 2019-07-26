@@ -43,6 +43,13 @@ namespace EveryDayBlog.Data.Models
 
         public Image Image { get; set; }
 
+        [ForeignKey("Country")]
+        public string CountryCode { get; set; }
+
+        public Country Country { get; set; }
+
+        public string Profession { get; set; }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }

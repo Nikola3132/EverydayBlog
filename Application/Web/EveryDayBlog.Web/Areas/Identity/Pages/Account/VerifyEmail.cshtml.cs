@@ -2,9 +2,9 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
-    using EveryDayBlog.Services.Extensions;
+    using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
-    using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -82,16 +82,18 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
             return this.Redirect("~/Identity/Account/VerifyEmail");
         }
 
-        public IActionResult OnGetChangeEmail()
-        {
+        //CHANGE EMAIL
 
-            return Partial("_ContactModalPartial",this.EmailViewModel);
-        }
+        //public IActionResult OnGetChangeEmail()
+        //{
 
-        public IActionResult OnPostChangeEmail(EmailViewModel model)
-        {
-            return this.Partial("_ContactModalPartial", model);
-        }
+        //    return Partial("_ContactModalPartial",this.EmailViewModel);
+        //}
+
+        //public IActionResult OnPostChangeEmail(EmailViewModel model)
+        //{
+        //    return this.Partial("_ContactModalPartial", model);
+        //}
 
 
         

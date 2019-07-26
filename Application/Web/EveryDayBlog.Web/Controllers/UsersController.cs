@@ -1,26 +1,41 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using EveryDayBlog.Data.Common.Repositories;
-    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Data;
     using Microsoft.AspNetCore.Mvc;
 
     public class UsersController : BaseController
     {
-        private readonly IDeletableEntityRepository<ApplicationUser> users;
+        private readonly IUsersService usersService;
 
-        public UsersController(IDeletableEntityRepository<ApplicationUser> users)
+        public UsersController(IUsersService usersService)
         {
-            this.users = users;
+            this.usersService = usersService;
         }
 
-        [HttpGet]
-        public IActionResult Profile()
-        {
-            return this.View();
-        }
+        //[HttpGet]
+        //public IActionResult Profile()
+        //{
+        //    var userProfileViewModel
+        //        = this.usersService.GetUserByUsername<UserProfileInputModel>(this.User.Identity.Name);
+
+        //    return this.View(userProfileViewModel);
+        //}
+
+        //[HttpPut]
+        //public IActionResult Profile(UserProfileInputModel userProfileInputModel)
+        //{
+        //    var userProfileViewModel
+        //        = this.usersService.GetUserByUsername<UserProfileInputModel>(this.User.Identity.Name);
+
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.View(userProfileInputModel);
+        //    }
+
+
+
+        //    return this.View(userProfileViewModel);
+        //}
+
     }
 }

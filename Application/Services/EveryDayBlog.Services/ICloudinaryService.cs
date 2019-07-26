@@ -1,4 +1,5 @@
 ﻿using EveryDayBlog.Data.Models;
+using EveryDayBlog.Web.ViewModels.Images.InputModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace EveryDayBlog.Services
 {
     public interface ICloudinaryService
     {
-       string UploudPicture(Image image);
+       string UploudPicture(ImageInputModel image);
+
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+
     using CloudinaryDotNet;
     using EveryDayBlog.Data;
     using EveryDayBlog.Data.Common;
@@ -11,7 +12,6 @@
     using EveryDayBlog.Data.Seeding;
     using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
-    using EveryDayBlog.Services.Extensions;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Services.Messaging.Settings;
@@ -80,12 +80,6 @@
 
             services.AddSingleton(cloudinaryUtility);
 
-            services.AddSession(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.IdleTimeout = new TimeSpan(0, 4, 0, 0);
-            });
-
             services
                 .ConfigureApplicationCookie(options =>
                 {
@@ -93,9 +87,6 @@
                     options.LogoutPath = "/Identity/Account/Logout";
                     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 });
-
-
-
 
             services.AddSingleton(this.configuration);
 
@@ -109,16 +100,29 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IImageNameExtensions, ImageNameExtensions>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
-
-
             services.Configure<AuthMessageSenderOptions>(this.configuration);
+
+            // Distributed Cache
+            services.AddDistributedSqlServerCache(option =>
+            {
+                option.ConnectionString = this.configuration.GetConnectionString("DistributedCache");
+                option.SchemaName = "dbo";
+                option.TableName = "CacheUpdatedEmails";
+            });
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.IdleTimeout = new TimeSpan(0, 4, 0, 0);
+            });
 
             // External Authentications
             services.AddAuthentication()
@@ -133,7 +137,6 @@
                     twitterOptions.ConsumerSecret = this.configuration["Authentication:Twitter:ConsumerAPISecret"];
                 });
 
-
             services
                 .AddMvc()
                 .AddRazorPagesOptions(options =>
@@ -143,7 +146,6 @@
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

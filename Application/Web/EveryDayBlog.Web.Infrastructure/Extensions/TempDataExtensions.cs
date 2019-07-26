@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Services.Extensions
+﻿namespace EveryDayBlog.Web.Infrastructure.Extensions
 {
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Newtonsoft.Json;

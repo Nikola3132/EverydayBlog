@@ -6,26 +6,49 @@
 
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services;
+    using EveryDayBlog.Services.Data;
     using EveryDayBlog.Services.Mapping;
-    using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
     using EveryDayBlog.Web.ViewModels.Settings;
     using EveryDayBlog.Web.ViewModels.Settings.ViewModels;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController
     {
         private readonly IDeletableEntityRepository<Setting> repository;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly IUsersService userService;
 
-        public SettingsController(IDeletableEntityRepository<Setting> repository)
+        public SettingsController(IDeletableEntityRepository<Setting> repository,
+            UserManager<ApplicationUser> userManager,
+            ICloudinaryService cloudinaryService,
+            IUsersService userService)
         {
             this.repository = repository;
+            this.userManager = userManager;
+            this.cloudinaryService = cloudinaryService;
+            this.userService = userService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var settings = this.repository.All().To<SettingViewModel>().ToList();
             var model = new SettingsListViewModel { Settings = settings };
             return this.View(model);
+        }
+        public async Task<IActionResult> DeleteImg()
+        {
+           //var userImageUrl = this.userService.GetUserProfileImageIfExists(this.User.Identity.Name);
+
+           // this.cloudinaryService.DeleteAnImage(userImageUrl);
+
+            var settings = this.repository.All().To<SettingViewModel>().ToList();
+            var model = new SettingsListViewModel { Settings = settings };
+
+            return this.Content("Ready");
         }
 
         public async Task<IActionResult> InsertSetting()

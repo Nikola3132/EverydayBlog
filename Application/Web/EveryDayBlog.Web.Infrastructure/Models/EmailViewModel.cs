@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Web.ViewModels.Emails.ViewModels
+﻿namespace EveryDayBlog.Web.Infrastructure.Models
 {
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using System.ComponentModel.DataAnnotations;

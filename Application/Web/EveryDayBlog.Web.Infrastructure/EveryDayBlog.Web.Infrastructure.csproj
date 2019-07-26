@@ -14,14 +14,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\EveryDayBlog.Data.Models\EveryDayBlog.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Services\EveryDayBlog.Services\EveryDayBlog.Services.csproj" />
     <ProjectReference Include="..\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
   </ItemGroup>
 

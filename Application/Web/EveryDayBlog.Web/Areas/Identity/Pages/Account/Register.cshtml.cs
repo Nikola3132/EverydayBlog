@@ -7,16 +7,18 @@
     using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
+    using AutoMapper;
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
-    using EveryDayBlog.Services.Extensions;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Web.Infrastructure.CustomAttributes;
+    using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
-    using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
+    using EveryDayBlog.Web.ViewModels.Images.InputModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
@@ -25,6 +27,7 @@
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Logging;
     using MimeKit;
@@ -36,7 +39,7 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailService emailService;
-        private readonly ICloudinaryService cloudinaryService;
+        private readonly IUsersService usersService;
 
         //private readonly SendGridEmailSender sendGridEmailSender;
 
@@ -45,14 +48,15 @@
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailService emailService,
-            ICloudinaryService cloudinaryService
+            IUsersService usersService
+           
             /*SendGridEmailSender sendGridEmailSender*/)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailService = emailService;
-            this.cloudinaryService = cloudinaryService;
+            this.usersService = usersService;
             //this.sendGridEmailSender = sendGridEmailSender;
         }
 
@@ -66,7 +70,7 @@
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public async Task OnGet(string returnUrl = null)
+        public async Task OnGet(/*string returnUrl = null*/)
         {
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
@@ -78,26 +82,23 @@
                 this.Response.Redirect("/Home/Error");
             }
 
-            returnUrl = returnUrl ?? this.Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            this.ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(List<IFormFile> files, string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(List<IFormFile> files/*, string returnUrl = null*/)
         {
-            returnUrl = returnUrl ?? this.Url.Content("~/");
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (!this.ModelState.IsValid)
             {
                 // If we got this far, something failed, redisplay form
                 return this.Page();
             }
-
-            var imgForDb = this.Input.Image;
 
             var user = new ApplicationUser
             {
@@ -107,16 +108,15 @@
                 Description = this.Input.Description,
                 FirstName = this.Input.FirstName,
                 LastName = this.Input.LastName,
+                CountryCode = this.Input.CountryCode,
             };
+            var result = await this.userManager.CreateAsync(user, this.Input.Password);
 
-            if (imgForDb != null)
+            if (this.Input.Image != null)
             {
-                user.Image = this.Input.Image;
-                string url = this.cloudinaryService.UploudPicture(imgForDb);
-                user.Image.CloudUrl = url;
+               await this.usersService.AddUserImage(this.Input.Image, user.UserName);
             }
 
-            var result = await this.userManager.CreateAsync(user, this.Input.Password);
             var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var callbackUrl = this.Url.Page(
@@ -125,7 +125,6 @@
                 values: new { userId = user.Id, code = code },
                 protocol: this.Request.Scheme);
 
-
             await this.emailService.SendEmailToUser(callbackUrl, this.Input.Email);
 
             if (result.Succeeded)
@@ -133,10 +132,9 @@
                 this.logger.LogInformation("User created a new account with password.");
 
                 this.TempData.Clear();
-                //this.TempData["Email"] = this.Input.Email;
-                //this.TempData["EmailOptions"] = new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl };
 
                 TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
+
 
                 return this.RedirectToPage("VerifyEmail");
             }
@@ -158,6 +156,9 @@
             // I cant put the string (jpg,jpeg,png,pdf) in the const dinamically because its const and asp.net core throws FormatException
             private const string ImgExtsErrorMsg = "Your {0} extension should be one of the following: jpg,jpeg,png,pdf";
             private const string NameRegexErrorMsg = "You cannot have more than one capital letter, not any other symbols except Latin alphabets";
+
+            private const string CountryCodeRequredErrorMsg = "You are obligated to select your country";
+
 
             [Required]
             [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
@@ -182,7 +183,7 @@
             [DataType(DataType.Upload)]
             [Display(Name = "image")]
             [ImageExtensions(GlobalConstants.AllowedImageExtensions, ErrorMessage= ImgExtsErrorMsg)]
-            public Image Image { get; set; }
+            public ImageInputModel Image { get; set; }
 
             [Required]
             [EmailAddress]
@@ -199,6 +200,10 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = CountryCodeRequredErrorMsg)]
+            public string CountryCode { get; set; }
+
         }
     }
 }

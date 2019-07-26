@@ -23,6 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\EveryDayBlog.Data.Common\EveryDayBlog.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\EveryDayBlog.Data.Models\EveryDayBlog.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\EveryDayBlog.Services.Mapping\EveryDayBlog.Services.Mapping.csproj" />
+    <ProjectReference Include="..\EveryDayBlog.Services\EveryDayBlog.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Services\EveryDayBlog.Services.Mapping\EveryDayBlog.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Emails\ViewModels\" />
+  </ItemGroup>
+
 </Project>

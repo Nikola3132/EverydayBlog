@@ -12,7 +12,7 @@
     {
         public ImageExtensionsAttribute(string fileExtensions)
         {
-            AllowedExtensions = fileExtensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            this.AllowedExtensions = fileExtensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
         private List<string> AllowedExtensions { get; set; }
@@ -25,7 +25,7 @@
             {
                 var fileName = file.ImageTitle;
 
-                return AllowedExtensions.Any(y => fileName.EndsWith(y));
+                return this.AllowedExtensions.Any(y => fileName.EndsWith(y));
             }
 
             return true;

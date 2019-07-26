@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using CloudinaryDotNet;
-using System.IO;
-using EveryDayBlog.Data.Models;
-using CloudinaryDotNet.Actions;
-
-namespace EveryDayBlog.Services
+﻿namespace EveryDayBlog.Services
 {
+    using System;
+    using System.IO;
+
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using EveryDayBlog.Web.ViewModels.Images.InputModels;
+
     public class CloudinaryService : ICloudinaryService
     {
 
@@ -20,7 +17,7 @@ namespace EveryDayBlog.Services
             this.cloudinaryUtility = cloudinaryUtility;
         }
 
-        public string UploudPicture(Image image)
+        public string UploudPicture(ImageInputModel image)
         {
             UploadResult uploadResult;
 
@@ -30,6 +27,8 @@ namespace EveryDayBlog.Services
                 {
                     Folder = "Users",
                     File = new FileDescription(image.ImageTitle, ms),
+                    PublicId = Guid.NewGuid().ToString(),
+                    Invalidate = true,
                 };
 
                 uploadResult = this.cloudinaryUtility.Upload(uploadParams);

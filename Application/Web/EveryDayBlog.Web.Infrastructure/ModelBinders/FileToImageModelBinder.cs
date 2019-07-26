@@ -4,9 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using EveryDayBlog.Data.Models;
-    using EveryDayBlog.Services.Extensions;
+    using EveryDayBlog.Web.ViewModels.Images.InputModels;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class FileToImageModelBinder : IModelBinder
@@ -33,7 +31,7 @@
                     using (var stream = new MemoryStream())
                     {
                         await imgFormFile.CopyToAsync(stream);
-                        bindingContext.Result = ModelBindingResult.Success(new Image
+                        bindingContext.Result = ModelBindingResult.Success(new ImageInputModel
                         {
                             CreatedOn = DateTime.UtcNow,
                             ImageByte = stream.ToArray(),

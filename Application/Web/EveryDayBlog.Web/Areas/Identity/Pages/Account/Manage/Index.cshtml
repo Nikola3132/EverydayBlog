@@ -1,42 +1,172 @@
 ﻿@page
+@using EveryDayBlog.Data.Repositories;
+
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
+@inject ICountryService countryService
 
-<h4>@ViewData["Title"]</h4>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                @if (Model.IsEmailConfirmed)
-                {
-                    <div class="input-group">
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<style type="text/css">
+    #inputField, #firstName, #lastName, #country {
+        background-color: white;
+        -webkit-appearance: none;
+        position: relative;
+        padding: 1px 50px 10px 5px;
+        border: none;
+        background-color: white;
+        color: #0062cc;
+        -webkit-font-smoothing: antialiased;
+        outline: none;
+    }
+</style>
+
+
+
+<div class="container emp-profile">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    @if (Model.Input.ImageCloudUrl == null)
+                    {
+                        <label for="file-input">
+                            <img src="~/img/default-avatar.png" alt="Profile image" />
+                        </label>
+                    }
+                    else
+                    { 
+                        <label for="file-input">
+                            <img src="@Model.Input.ImageCloudUrl" id="output_image" alt="Profile image" />
+                        </label>
+                    }
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input asp-for="Input.Image" id="file-input" accept="image/*" onchange="preview_image(event)" type="file" />
                     </div>
-                }
-                else
-                {
-                    <input asp-for="Input.Email" class="form-control" />
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-                }
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <h5 class="col-md-9">
+                        <span style="color:#0062cc" id="firstNameChange">@Model.Input.FirstName</span>
+                        <span style="color:#0062cc" id="lastNameChange">@Model.Input.LastName</span>
+                    </h5>
+                    <div class="col-md-3">
+                        <button type="submit" class="profile-edit-btn" name="btnAddMore">Edit Profile</button>
+                    </div>
+                </div>
+
+                <h6>
+                    <span>From: <span id="countryChange" style="color:#0062cc">@Model.Input.Country</span></span>
+                </h6>
+                <hr style=" width: 50%; height: 2px; background-color: #0062cc;border: none; text-align:left;margin: 0 auto 0 0;" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label>First name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="Input.FirstName" value="@Model.Input.FirstName" oninput="firstNameChanging()" id="firstName" />
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Last name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="Input.LastName" value="@Model.Input.LastName" oninput="lastNameChanging()" id="lastName" />
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="Input.Email" value="@Model.Input.Email" id="inputField" />
+                            </div>
+                        </div>
+                        <hr>
+
+                        @{List<SelectListItem> countries = countryService
+                                               .GetAllConties()
+                                               .Select(c => new SelectListItem()
+                                               {
+                                                   Value = c.Code,
+                                                   Text = c.Name
+                                               }).ToList(); }
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Country</label>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" asp-for="Input.Country" oninput="countryChanging()" id="country" asp-items="countries">
+                                </select>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Profession</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="Input.Profession" value="@Model.Input.Profession" placeholder="Share your interests" id="inputField" />
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-6">
+                                <textarea asp-for="Input.Description" value="@Model.Input.Description" placeholder="Write more about yourself!" rows="10" id="inputField"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
+
+
+<script type='text/javascript'>
+    function firstNameChanging() {
+        var x = document.getElementById("firstName").value;
+        document.getElementById("firstNameChange").innerHTML = x;
+    };
+
+    function lastNameChanging() {
+        var x = document.getElementById("lastName").value;
+        document.getElementById("lastNameChange").innerHTML = x;
+    };
+
+    function countryChanging() {
+        var x = document.getElementById("country").value;
+        document.getElementById("countryChange").innerHTML = x;
+    };
+
+    function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

@@ -1,5 +1,4 @@
-﻿using EveryDayBlog.Services.Extensions;
-using EveryDayBlog.Web.ViewModels.Emails.ViewModels;
+﻿using EveryDayBlog.Web.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using EveryDayBlog.Web.Infrastructure.Extensions;
 
 namespace EveryDayBlog.Web.Infrastructure.ModelBinders
 {
@@ -22,9 +22,9 @@ namespace EveryDayBlog.Web.Infrastructure.ModelBinders
             var tempDataDictionaryFactory = bindingContext.HttpContext.RequestServices.GetRequiredService<ITempDataDictionaryFactory>();
             var tempDataDictionary = tempDataDictionaryFactory.GetTempData(bindingContext.HttpContext);
 
-            var emailViewModel = TempDataExtensions.Get<EmailViewModel>(tempDataDictionary, "EmailOptions");
+            var emailViewModel = tempDataDictionary.Get<EmailViewModel>("EmailOptions");
 
             bindingContext.Result = ModelBindingResult.Success(emailViewModel);
-            }
         }
     }
+}
