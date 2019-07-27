@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Web.ViewModels.Images.InputModels;
     using Microsoft.AspNetCore.Http;
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
@@ -19,11 +19,11 @@
 
         public override bool IsValid(object value)
         {
-            var file = value as Image;
+            var file = value as ImageInputModel;
 
             if (file != null)
             {
-                var fileName = file.ImageTitle;
+                var fileName = file.ImageTitle.ToLower();
 
                 return this.AllowedExtensions.Any(y => fileName.EndsWith(y));
             }

@@ -87,10 +87,13 @@
 
             return this.Page();
         }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!this.ModelState.IsValid)
             {
+                string cloudinaryUrl = this.usersService.GetUserImageIfExists(this.User.Identity.Name);
+                this.Input.ImageCloudUrl = cloudinaryUrl;
                 return this.Page();
             }
 
@@ -103,12 +106,11 @@
             var email = await this.userManager.GetEmailAsync(user);
             if (this.Input.Email != email)
             {
-                var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
 
                 var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
-                    values: new { userId = user.Id, code = code },
+                    values: new { userId = user.Id },
                     protocol: this.Request.Scheme);
 
                 await this.emailService.SendEmailToUser(callbackUrl, this.Input.Email);
@@ -119,7 +121,7 @@
 
                 string distributedCacheKey = email;
 
-                await this.distributedCache.SetStringAsync("distributedCacheKey", this.Input.Email);
+                await this.distributedCache.SetStringAsync(user.Email, this.Input.Email);
 
                 this.TempData["alert"] = "Your email won't be updated until you have confirm it in your mail!";
             }

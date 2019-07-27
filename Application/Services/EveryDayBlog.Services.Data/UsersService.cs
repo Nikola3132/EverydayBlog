@@ -39,7 +39,7 @@
         public string GetUserImageIfExists(string username)
         {
              var cloudinaryImgUrl = this.users.All().Where(u => u.UserName == username)
-                .Include(u => u.Image).SingleOrDefault().Image.CloudUrl;
+                .Include(u => u.Image).SingleOrDefault().Image?.CloudUrl;
 
             return cloudinaryImgUrl;
         }

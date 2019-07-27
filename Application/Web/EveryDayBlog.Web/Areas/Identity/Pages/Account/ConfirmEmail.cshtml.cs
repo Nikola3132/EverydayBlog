@@ -31,7 +31,7 @@
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId == null)
             {
                 return this.RedirectToPage("/Index");
             }
@@ -43,6 +43,7 @@
             }
 
             var changeToNewEmail = await this.distributedCache.GetStringAsync(user.Email);
+            await this.distributedCache.RemoveAsync(user.Email);
 
             if (changeToNewEmail != null)
             {
@@ -53,7 +54,11 @@
                     var currentUserId = await this.userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{currentUserId}'.");
                 }
+
+                await this.userManager.SetUserNameAsync(user, changeToNewEmail);
+                code = await this.signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
             }
+
 
             var result = await this.userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
