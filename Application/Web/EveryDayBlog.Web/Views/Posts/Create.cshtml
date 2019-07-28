@@ -13,7 +13,9 @@
 <div class="contact1">
     <div class="container-contact1">
         <div class="contact1-pic js-tilt" data-tilt>
-            <img src="~/img/blog-icon.png" alt="IMG">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/img/blog-icon.png" alt="IMG">
+            </a>
         </div>
 
         <form class="contact1-form validate-form">
@@ -44,7 +46,7 @@
                             <a href="#" class="close" data-dismiss="modal">&#10006;</a>
                         </div>
                         <div class="modal-body">
-                            <form id="myForm">
+                            <form id="myFormSection">
                                 <div class="wrap-input1 validate-input" data-validate="Section's title is required">
                                     <input class="input1" type="text" name="SectionTitle" placeholder="Section's title">
                                     <span class="shadow-input1"></span>
@@ -59,7 +61,7 @@
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn btn-outline-dark">Cancel</a>
-                            <input type="reset" value="Submit" class="btn btn-success" id="btnSubmit">
+                            <input type="reset" value="Submit" class="btn btn-success" id="btnSubmitSection">
 
                         </div>
                     </div>
@@ -87,18 +89,15 @@
     $('.js-tilt').tilt({
         scale: 1.1
     })
-</script>
-
-<script>
 
     document.ready(function () {
-        $("btnSubmit").click(function () {
-            var myFormData = $("#myForm").serialize();
+        $("btnSubmitSection").click(function () {
+            var myFormData = $("#myFormSection").serialize();
 
 
             $.ajax({
-                type: "POST",
-                url:"/Posts/Create",
+                method: "post",
+                url:"/PostsController.cs/Create",
                 data: myFormData,
                 success: function () {
                     $("#myModal").modal("hide")

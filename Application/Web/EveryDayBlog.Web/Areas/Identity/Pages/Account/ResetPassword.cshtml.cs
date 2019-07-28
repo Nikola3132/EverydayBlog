@@ -58,7 +58,7 @@
             var result = await this.userManager.ResetPasswordAsync(user, this.Input.Code, this.Input.Password);
             if (result.Succeeded)
             {
-                return this.RedirectToPage("./ResetPasswordConfirmation");
+                return this.RedirectToPage("./Login");
             }
 
             foreach (var error in result.Errors)

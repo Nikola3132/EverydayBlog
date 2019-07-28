@@ -11,6 +11,12 @@
     {
         [HttpGet]
         public IActionResult Create()
+        { 
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(string myFormData)
         {
             return this.View();
         }
