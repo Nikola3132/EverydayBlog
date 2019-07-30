@@ -11,6 +11,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [AllowAnonymous]
@@ -49,7 +51,10 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                this.Response.Redirect("/Home/Error");
+                this.TempData["alert"] = "You've already confirmed your email. We'll redirect you to Home Page!";
+
+                Thread.Sleep(new TimeSpan(0, 0, 2));
+                return this.Partial("~/Views/Shared/Partials/_ClosePartial.cshtml");
             }
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
@@ -70,7 +75,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                this.Response.Redirect("/Home/Error");
+                Thread.Sleep(new TimeSpan(0, 0, 2));
+                this.Partial("~/Views/Shared/Partials/_ClosePartial.cshtml");
             }
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
@@ -81,21 +87,5 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             return this.Redirect("~/Identity/Account/VerifyEmail");
         }
-
-        //CHANGE EMAIL
-
-        //public IActionResult OnGetChangeEmail()
-        //{
-
-        //    return Partial("_ContactModalPartial",this.EmailViewModel);
-        //}
-
-        //public IActionResult OnPostChangeEmail(EmailViewModel model)
-        //{
-        //    return this.Partial("_ContactModalPartial", model);
-        //}
-
-
-        
     }
 }
