@@ -139,6 +139,7 @@
 
             services
                 .AddMvc()
+                .AddViewLocalization()
                 .AddRazorPagesOptions(options =>
                 {
                     options.AllowAreas = true;

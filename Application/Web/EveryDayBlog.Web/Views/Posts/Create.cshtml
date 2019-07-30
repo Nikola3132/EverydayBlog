@@ -18,7 +18,7 @@
             </a>
         </div>
 
-        <form class="contact1-form validate-form">
+        <form method="post" class="contact1-form validate-form">
             <span class="contact1-form-title">
                 Feel free to ask or narrate!
             </span>
@@ -43,34 +43,30 @@
 
                         <div class="modal-header">
                             <h3 class="modal-title">Create your section</h3>
-                            <a href="#" class="close" data-dismiss="modal">&#10006;</a>
+                            <a class="close" data-dismiss="modal">&#10006;</a>
                         </div>
                         <div class="modal-body">
-                            <form id="myFormSection">
+                            <form method="post" id="myFormSection">
                                 <div class="wrap-input1 validate-input" data-validate="Section's title is required">
-                                    <input class="input1" type="text" name="SectionTitle" placeholder="Section's title">
+                                    <input class="input1" type="text" id="SectionTitle" name="SectionTitle" placeholder="Section's title">
                                     <span class="shadow-input1"></span>
                                 </div>
 
                                 <div class="wrap-input1 validate-input" data-validate="Content is required">
-                                    <textarea class="input1" name="Content" placeholder="Start your content with 'What','Why','How' and etc, if only you are asking a question!...Otherwise we wouldn't recognize it as question."></textarea>
+                                    <textarea class="input1" id="SectionContent" name="SectionContent" placeholder="Start your content with 'What','Why','How' and etc, if only you are asking a question!...Otherwise we wouldn't recognize it as question."></textarea>
                                     <span class="shadow-input1"></span>
                                 </div>
                             </form>
-                            
+
                         </div>
                         <div class="modal-footer">
-                            <a href="#" class="btn btn-outline-dark">Cancel</a>
-                            <input type="reset" value="Submit" class="btn btn-success" id="btnSubmitSection">
+                            <a data-dismiss="modal" class="btn btn-outline-dark">Cancel</a>
+                            <input type="submit" value="Submit" class="btn btn-success" id="btnSubmitSection">
 
                         </div>
                     </div>
                 </div>
-
-
             </div>
-            <!--Creating sections with pop up-->
-            <!--TODO IMAGE-->
 
 
             <div class="container-contact1-form-btn">
@@ -92,13 +88,20 @@
 
     document.ready(function () {
         $("btnSubmitSection").click(function () {
-            var myFormData = $("#myFormSection").serialize();
+            var mainTitle = $("MainTitle").text;
+            var subTitle = $("SubTitle").text;
+            var sectionTitle = $("SectionTitle").text;
+            var sectionContent = $("SectionContent").text;
 
+            var section = { "SectionTitle": sectionTitle, "SectionContent": sectionContent }
+            var post = { "MainTitle": mainTitle, "SubTitle": subTitle, "Section": section }
 
+            var obj = { "post": post };
             $.ajax({
-                method: "post",
-                url:"/PostsController.cs/Create",
-                data: myFormData,
+                type: 'POST',
+                traditional: true,
+                url: "/PostsController.cs/Create",
+                data: JSON.stringify(obj),
                 success: function () {
                     $("#myModal").modal("hide")
                 }
