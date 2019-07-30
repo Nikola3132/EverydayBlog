@@ -4,6 +4,6 @@ namespace EveryDayBlog.Services.Data
 {
     public interface IEmailService
     {
-        Task<bool> SendEmailToUser(string callBackUrl, string email);
+        Task<bool> SendEmailToUserAsync(string callBackUrl, string email);
     }
 }

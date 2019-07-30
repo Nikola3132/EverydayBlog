@@ -6,8 +6,10 @@
     using System.Threading.Tasks;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class PostsController : BaseController
     {
         [HttpGet]

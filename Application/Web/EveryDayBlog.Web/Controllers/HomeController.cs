@@ -33,11 +33,6 @@
             return this.View();
         }
 
-        public ActionResult ModalPopUp()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => this.View();
     }

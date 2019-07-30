@@ -26,27 +26,28 @@
             this.images = images;
             this.cloudinaryService = cloudinaryService;
         }
-        public TEntity GetUserByUsername<TEntity>(string username)
+
+        public async Task<TEntity> GetUserByUsernameAsync<TEntity>(string username)
         {
             var currentUser = this.users
                 .All()
                 .Where(u => u.UserName == username)
-                .To<TEntity>().SingleOrDefault();
+                .To<TEntity>().SingleOrDefaultAsync();
 
-            return currentUser;
+            return await currentUser;
         }
 
-        public string GetUserImageIfExists(string username)
+        public async Task<string> GetUserImageIfExistsAsync(string username)
         {
-             var cloudinaryImgUrl = this.users.All().Where(u => u.UserName == username)
-                .Include(u => u.Image).SingleOrDefault().Image?.CloudUrl;
+             var currentUser = await this.users.All().Where(u => u.UserName == username)
+                .Include(u => u.Image).SingleOrDefaultAsync();
 
-            return cloudinaryImgUrl;
+             return currentUser.Image?.CloudUrl;
         }
 
-        public async Task<bool> AddUserImage(ImageInputModel imageInputModel, string username)
+        public async Task<bool> AddUserImageAsync(ImageInputModel imageInputModel, string username)
         {
-            var currentUser = this.users.All().SingleOrDefault(u => u.UserName == username);
+            var currentUser = await this.users.All().SingleOrDefaultAsync(u => u.UserName == username);
             var cloudUrl = this.cloudinaryService.UploudPicture(imageInputModel);
 
             var imgForDb = new Image
@@ -63,9 +64,9 @@
             return addedImgs == 1;
         }
 
-        public async Task<bool> DeleteUserImg(string email)
+        public async Task<bool> DeleteUserImgAsync(string email)
         {
-            var currentUser = this.users.All().Include(u => u.Image).SingleOrDefault(u => u.Email == email);
+            var currentUser = await this.users.All().Include(u => u.Image).SingleOrDefaultAsync(u => u.Email == email);
 
             currentUser.ImageId = null;
 
@@ -80,6 +81,7 @@
             {
                 return true;
             }
+
             return false;
 
         }

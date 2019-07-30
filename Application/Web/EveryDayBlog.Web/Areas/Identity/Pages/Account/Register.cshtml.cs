@@ -114,7 +114,7 @@
 
             if (this.Input.Image != null)
             {
-               await this.usersService.AddUserImage(this.Input.Image, user.UserName);
+               await this.usersService.AddUserImageAsync(this.Input.Image, user.UserName);
             }
 
             var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -125,7 +125,7 @@
                 values: new { userId = user.Id, code = code },
                 protocol: this.Request.Scheme);
 
-            await this.emailService.SendEmailToUser(callbackUrl, this.Input.Email);
+            await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
 
             if (result.Succeeded)
             {

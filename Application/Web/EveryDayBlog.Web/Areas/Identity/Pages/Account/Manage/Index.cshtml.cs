@@ -59,12 +59,13 @@
 
         public async Task<IActionResult> OnGetAsync()
         {
-            string cloudinaryUrl = this.usersService.GetUserImageIfExists(this.User.Identity.Name);
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
+
+            string cloudinaryUrl = await this.usersService.GetUserImageIfExistsAsync(this.User.Identity.Name);
 
             var userName = await this.userManager.GetUserNameAsync(user);
             var email = await this.userManager.GetEmailAsync(user);
@@ -92,7 +93,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                string cloudinaryUrl = this.usersService.GetUserImageIfExists(this.User.Identity.Name);
+                string cloudinaryUrl = await this.usersService.GetUserImageIfExistsAsync(this.User.Identity.Name);
                 this.Input.ImageCloudUrl = cloudinaryUrl;
                 return this.Page();
             }
@@ -113,7 +114,7 @@
                     values: new { userId = user.Id },
                     protocol: this.Request.Scheme);
 
-                await this.emailService.SendEmailToUser(callbackUrl, this.Input.Email);
+                await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
 
                 this.TempData.Clear();
 
@@ -137,9 +138,9 @@
             {
                 if (user.ImageId != null)
                 {
-                    await this.usersService.DeleteUserImg(user.UserName);
+                    await this.usersService.DeleteUserImgAsync(user.UserName);
                 }
-                await this.usersService.AddUserImage(this.Input.Image, user.UserName);
+                await this.usersService.AddUserImageAsync(this.Input.Image, user.UserName);
             }
 
             this.efRepository.Update(user);

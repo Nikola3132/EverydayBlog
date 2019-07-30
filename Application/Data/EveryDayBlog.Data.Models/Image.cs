@@ -14,10 +14,6 @@
 
         public string CloudUrl { get; set; }
 
-        [NotMapped]
-        [Required]
-        public byte[] ImageByte { get; set; }
-
         public string ImagePath { get; set; }
 
         [Required]

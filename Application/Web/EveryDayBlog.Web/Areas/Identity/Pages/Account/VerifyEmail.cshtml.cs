@@ -75,7 +75,7 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
 
-            await this.emailService.SendEmailToUser(this.EmailViewModel.CallbackUrl, this.EmailViewModel.Email);
+            await this.emailService.SendEmailToUserAsync(this.EmailViewModel.CallbackUrl, this.EmailViewModel.Email);
 
             this.ReturnUrl = returnUrl;
 

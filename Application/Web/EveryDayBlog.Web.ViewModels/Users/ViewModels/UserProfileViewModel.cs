@@ -1,13 +1,14 @@
-﻿using AutoMapper;
-using EveryDayBlog.Data.Models;
-using EveryDayBlog.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace EveryDayBlog.Web.ViewModels.Users.ViewModels
+﻿namespace EveryDayBlog.Web.ViewModels.Users.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using AutoMapper;
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
+
     public class UserProfileViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {
         public string Description { get; set; }

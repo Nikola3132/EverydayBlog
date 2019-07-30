@@ -7,12 +7,12 @@
 
     public interface IUsersService
     {
-        TEntity GetUserByUsername<TEntity>(string username);
+        Task<TEntity> GetUserByUsernameAsync<TEntity>(string username);
 
-        string GetUserImageIfExists(string username);
+        Task<string> GetUserImageIfExistsAsync(string username);
 
-        Task<bool> AddUserImage(ImageInputModel imageInputModel, string username);
+        Task<bool> AddUserImageAsync(ImageInputModel imageInputModel, string username);
 
-        Task<bool> DeleteUserImg(string username);
+        Task<bool> DeleteUserImgAsync(string username);
     }
 }

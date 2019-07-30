@@ -18,7 +18,7 @@
             this.sendGridEmailSender = sendGridEmailSender;
         }
 
-        public async Task<bool> SendEmailToUser(string callBackUrl, string email)
+        public async Task<bool> SendEmailToUserAsync(string callBackUrl, string email)
         {
             var builder = new BodyBuilder();
 
