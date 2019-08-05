@@ -3,11 +3,14 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
 
     public interface IUsersService
     {
         Task<TEntity> GetUserByUsernameAsync<TEntity>(string username);
+
+        Task<ApplicationUser> GetUserByUsernameAsync(string username);
+
 
         Task<string> GetUserImageIfExistsAsync(string username);
 

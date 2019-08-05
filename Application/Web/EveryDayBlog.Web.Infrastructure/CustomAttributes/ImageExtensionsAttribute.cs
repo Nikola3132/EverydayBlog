@@ -4,8 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
-    using Microsoft.AspNetCore.Http;
+    using EveryDayBlog.Web.Infrastructure.Models;
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class ImageExtensionsAttribute : ValidationAttribute

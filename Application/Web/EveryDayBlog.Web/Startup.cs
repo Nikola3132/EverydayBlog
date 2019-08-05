@@ -103,6 +103,9 @@
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ISectionService, SectionService>();
+            services.AddTransient<IPageHeaderService, PageHeaderService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<IEmailService, EmailService>();

@@ -4,7 +4,8 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Web.Infrastructure.Models;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class FileToImageModelBinder : IModelBinder
@@ -17,11 +18,6 @@
                 throw new ArgumentNullException(nameof(bindingContext));
             }
 
-            var valueProviderResult =
-            bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-
-            if (valueProviderResult == ValueProviderResult.None)
-            {
                 var imgFormFile = bindingContext.HttpContext.Request.Form.Files.FirstOrDefault();
 
                 if (imgFormFile != null)
@@ -41,7 +37,7 @@
                         });
                     }
                 }
-            }
+            
         }
     }
 }

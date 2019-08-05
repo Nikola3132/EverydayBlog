@@ -1,33 +1,48 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
-    using EveryDayBlog.Web.ViewModels.Sections.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Threading.Tasks;
 
     [Authorize]
     public class PostsController : BaseController
     {
-        [HttpGet]
-        public IActionResult Create()
-        { 
-            return this.View();
+        private readonly IPostService postService;
+        private readonly ILogger<PostsController> logger;
+
+        public PostsController(
+            IPostService postService,
+            ILogger<PostsController> logger)
+        {
+            this.postService = postService;
+            this.logger = logger;
         }
+
+        [HttpGet]
+        public IActionResult Create() => this.View();
 
         [HttpPost]
-        public IActionResult Create(PostInputModel post)
+        public async Task<IActionResult> Create(PostInputModel post)
         {
-            return this.View();
-        }
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(post);
+            }
 
-        [HttpGet]
-        public IActionResult Edit()
-        {
-            return this.View();
+            var isPostCreated = await this.postService.CreatePostAsync(post, this.User.Identity.Name);
+
+            if (!isPostCreated)
+            {
+                this.TempData["alert"] = "Something went wrong! We'll look at the problem and soon if all is well, your post will be uploaded!";
+                this.logger.LogError("Post cannot be saved in the database.");
+
+                // TODO: Manually upload the post from admin!
+            }
+
+            return this.Redirect("/");
         }
     }
 }

@@ -51,10 +51,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                this.TempData["alert"] = "You've already confirmed your email. We'll redirect you to Home Page!";
-
-                Thread.Sleep(new TimeSpan(0, 0, 2));
-                return this.Partial("~/Views/Shared/Partials/_ClosePartial.cshtml");
+                this.TempData["alert"] = "You've already confirmed your email.";
+                return this.Redirect("~/Home/Index");
             }
 
             returnUrl = returnUrl ?? this.Url.Content("~/");
@@ -75,8 +73,8 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                Thread.Sleep(new TimeSpan(0, 0, 2));
-                this.Partial("~/Views/Shared/Partials/_ClosePartial.cshtml");
+                this.TempData["alert"] = "You've already confirmed your email.";
+                return this.Redirect("~/Home/Index");
             }
 
             returnUrl = returnUrl ?? this.Url.Content("~/");

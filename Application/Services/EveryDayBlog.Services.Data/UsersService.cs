@@ -3,11 +3,11 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using EveryDayBlog.Common;
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +37,15 @@
             return await currentUser;
         }
 
+        public async Task<ApplicationUser> GetUserByUsernameAsync(string username)
+        {
+            var currentUser = this.users
+               .All()
+               .SingleOrDefaultAsync(u => u.UserName == username);
+
+            return await currentUser;
+        }
+
         public async Task<string> GetUserImageIfExistsAsync(string username)
         {
              var currentUser = await this.users.All().Where(u => u.UserName == username)
@@ -48,7 +57,7 @@
         public async Task<bool> AddUserImageAsync(ImageInputModel imageInputModel, string username)
         {
             var currentUser = await this.users.All().SingleOrDefaultAsync(u => u.UserName == username);
-            var cloudUrl = this.cloudinaryService.UploudPicture(imageInputModel);
+            var cloudUrl = this.cloudinaryService.UploudPicture(imageInputModel, GlobalConstants.UsersFolderName);
 
             var imgForDb = new Image
             {

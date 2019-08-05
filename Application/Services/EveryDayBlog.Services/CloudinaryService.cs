@@ -5,7 +5,7 @@
 
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
 
     public class CloudinaryService : ICloudinaryService
     {
@@ -17,7 +17,7 @@
             this.cloudinaryUtility = cloudinaryUtility;
         }
 
-        public string UploudPicture(ImageInputModel image)
+        public string UploudPicture(ImageInputModel image, string folderName)
         {
             UploadResult uploadResult;
 
@@ -25,7 +25,7 @@
             {
                 ImageUploadParams uploadParams = new ImageUploadParams
                 {
-                    Folder = "Users",
+                    Folder = folderName,
                     File = new FileDescription(image.ImageTitle, ms),
                     PublicId = Guid.NewGuid().ToString(),
                     Invalidate = true,

@@ -6,9 +6,56 @@
 <link rel="stylesheet" type="text/css" href="~/css/util.css">
 <link rel="stylesheet" type="text/css" href="~/css/main.css">
 
+@using EveryDayBlog.Web.ViewModels.Posts.InputModels;
+
+@model PostInputModel
+
 @{
     this.ViewData["Title"] = "Create Post";
 }
+
+<style>
+    #file {
+        display: none
+    }
+
+    .file_label {
+        display: block;
+        margin: 20px auto;
+        font-size: 20px;
+        font-family: Arial;
+        width: 250px;
+        height: 40px;
+        line-height: 30px;
+        background-color: #57b846;
+        color: #FFF;
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #CCC;
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out
+    }
+
+        .file_label:hover {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+    .fa {
+        margin-right: 5px
+    }
+
+    
+
+
+    small {
+        display: block;
+        text-align: center;
+        margin: 2%;
+        font-size: 10px;
+        font-family: Arial;
+    }
+</style>
 
 <div class="contact1">
     <div class="container-contact1">
@@ -18,54 +65,53 @@
             </a>
         </div>
 
-        <form method="post" class="contact1-form validate-form">
+        <form method="post" enctype="multipart/form-data" asp-controller="Posts" asp-action="Create" class="contact1-form validate-form">
             <span class="contact1-form-title">
                 Feel free to ask or narrate!
             </span>
 
-            <div class="wrap-input1 validate-input" data-validate="Title is required">
-                <input class="input1" type="text" name="MainTitle" placeholder="Main title...">
+            <span asp-validation-for="PageHeader.MainTitle" class="text-danger"></span>
+
+            <div class="wrap-input1">
+                <input class="input1" type="text" asp-for="PageHeader.MainTitle" placeholder="Main title...">
                 <span class="shadow-input1"></span>
             </div>
 
-            <div class="wrap-input1 validate-input" data-validate="Sub title is required">
-                <input class="input1" type="text" name="SubTitle" placeholder="Sub title...">
+            <span asp-validation-for="PageHeader.SubTitle" class="text-danger"></span>
+
+            <div class="wrap-input1">
+                <input class="input1" asp-for="PageHeader.SubTitle" type="text" placeholder="Sub title...">
                 <span class="shadow-input1"></span>
             </div>
 
-            <div class="wrap-input1 validate-input" data-validate="Add at least one section">
-                <a href="#" class="btn btn-link" data-toggle="modal" data-target="#myModal">Add a section</a>
+            <span asp-validation-for="PageHeader.Image" class="text-danger"></span>
+
+            <input id="file" asp-for="PageHeader.Image" accept="image/*" type="file" onchange="ImgMsg()" />
+            <div class="file-field">
+                <label id="demo" for="file" class="file_label">
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                </label>
+                <input id="file" asp-for="PageHeader.Image" type="file" accept="image/*" />
+
+                <small>background image</small>
+
             </div>
 
-            <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+            <hr>
 
-                        <div class="modal-header">
-                            <h3 class="modal-title">Create your section</h3>
-                            <a class="close" data-dismiss="modal">&#10006;</a>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" id="myFormSection">
-                                <div class="wrap-input1 validate-input" data-validate="Section's title is required">
-                                    <input class="input1" type="text" id="SectionTitle" name="SectionTitle" placeholder="Section's title">
-                                    <span class="shadow-input1"></span>
-                                </div>
+            <span asp-validation-for="Section.SectionTitle" class="text-danger"></span>
 
-                                <div class="wrap-input1 validate-input" data-validate="Content is required">
-                                    <textarea class="input1" id="SectionContent" name="SectionContent" placeholder="Start your content with 'What','Why','How' and etc, if only you are asking a question!...Otherwise we wouldn't recognize it as question."></textarea>
-                                    <span class="shadow-input1"></span>
-                                </div>
-                            </form>
+            <div class="wrap-input1">
+                <input asp-for="Section.SectionTitle" class="input1" type="text" placeholder="Section's title">
+                <span class="shadow-input1"></span>
+            </div>
 
-                        </div>
-                        <div class="modal-footer">
-                            <a data-dismiss="modal" class="btn btn-outline-dark">Cancel</a>
-                            <input type="submit" value="Submit" class="btn btn-success" id="btnSubmitSection">
+            <span asp-validation-for="Section.SectionContent" class="text-danger"></span>
 
-                        </div>
-                    </div>
-                </div>
+
+            <div class="wrap-input1">
+                <textarea class="input1" asp-for="Section.SectionContent" placeholder="Start your content with 'What','Why','How' and etc, if only you are asking a question!...Otherwise we wouldn't recognize it as question."></textarea>
+                <span class="shadow-input1"></span>
             </div>
 
 
@@ -81,31 +127,14 @@
     </div>
 </div>
 
+
 <script>
     $('.js-tilt').tilt({
         scale: 1.1
     })
 
-    document.ready(function () {
-        $("btnSubmitSection").click(function () {
-            var mainTitle = $("MainTitle").text;
-            var subTitle = $("SubTitle").text;
-            var sectionTitle = $("SectionTitle").text;
-            var sectionContent = $("SectionContent").text;
+    function ImgMsg(e) {
+        document.getElementById("demo").innerHTML = "Added";
 
-            var section = { "SectionTitle": sectionTitle, "SectionContent": sectionContent }
-            var post = { "MainTitle": mainTitle, "SubTitle": subTitle, "Section": section }
-
-            var obj = { "post": post };
-            $.ajax({
-                type: 'POST',
-                traditional: true,
-                url: "/PostsController.cs/Create",
-                data: JSON.stringify(obj),
-                success: function () {
-                    $("#myModal").modal("hide")
-                }
-            })
-        })
-    })
+    }
 </script>

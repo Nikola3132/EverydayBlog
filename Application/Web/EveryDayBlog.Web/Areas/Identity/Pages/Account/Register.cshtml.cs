@@ -18,7 +18,6 @@
     using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.Infrastructure.Models;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
@@ -41,7 +40,6 @@
         private readonly IEmailService emailService;
         private readonly IUsersService usersService;
 
-        //private readonly SendGridEmailSender sendGridEmailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,

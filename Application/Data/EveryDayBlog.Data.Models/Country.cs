@@ -6,9 +6,10 @@
 
     using EveryDayBlog.Data.Common.Models;
 
-    public class Country 
+    public class Country
     {
         [Required]
+        [MaxLength(56)]
         public string Name { get; set; }
 
         [Key]

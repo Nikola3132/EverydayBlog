@@ -33,8 +33,6 @@
 
         public DbSet<Image> Images { get; set; }
 
-        public DbSet<Paragraph> Paragraphs { get; set; }
-
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Section> Sections { get; set; }
@@ -125,10 +123,6 @@
             builder.Entity<Post>().HasOne(p => p.PageHeader);
 
             builder.Entity<Post>().HasMany(p => p.Sections);
-
-            builder.Entity<Section>().HasMany(s => s.Paragraphs);
-
-            builder.Entity<Paragraph>().HasOne(p => p.Image);
 
             builder.Entity<Country>().HasMany(c => c.Users).WithOne(u => u.Country)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -12,7 +12,6 @@
     using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.Infrastructure.Models;
-    using EveryDayBlog.Web.ViewModels.Images.InputModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;

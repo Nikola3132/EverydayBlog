@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\EveryDayBlog.Data.Models\EveryDayBlog.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\EveryDayBlog.Web.Infrastructure\EveryDayBlog.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Web\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
   </ItemGroup>
 

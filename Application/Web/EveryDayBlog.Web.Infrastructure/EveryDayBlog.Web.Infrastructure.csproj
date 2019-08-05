@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Data\EveryDayBlog.Data.Models\EveryDayBlog.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>

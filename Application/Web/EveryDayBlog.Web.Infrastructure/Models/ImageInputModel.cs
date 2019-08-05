@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Web.ViewModels.Images.InputModels
+﻿namespace EveryDayBlog.Web.Infrastructure.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -16,7 +16,6 @@
 
         [Required]
         public string ContentType { get; set; }
-
         public DateTime CreatedOn { get; set; }
     }
 }
