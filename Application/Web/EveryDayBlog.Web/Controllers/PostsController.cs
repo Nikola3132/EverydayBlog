@@ -2,6 +2,7 @@
 {
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
+    using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -43,6 +44,18 @@
             }
 
             return this.Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var post = this.postService.GetPostByIdAsync<IndexPostViewModel>(id);
+            if (post == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(post);
         }
     }
 }

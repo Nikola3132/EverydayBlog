@@ -115,6 +115,7 @@ img::-moz-selection {
         text-transform: uppercase;
     }
 
+
 @media only screen and (min-width: 992px) {
     #mainNav {
         border-bottom: 1px solid transparent;
@@ -614,4 +615,4 @@ footer {
         color: #040505
     }
 
-
+   

@@ -8,8 +8,10 @@
 
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Data.Models.Enums;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
+    using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
     using Microsoft.EntityFrameworkCore;
 
@@ -75,6 +77,61 @@
                 .Where(p => p.Id == postId)
                 .To<TEntity>()
                 .SingleOrDefaultAsync();
+        }
+
+        public IEnumerable<TEntity> GetPostsBySearch<TEntity>(string searchString)
+        {
+            var searchStringClean = searchString
+                .Split(
+                    new string[]
+                {
+                    ",", ".", " ",
+                }, StringSplitOptions.RemoveEmptyEntries);
+
+            IQueryable<Post> posts = this.posts
+                .All()
+                .Include(p => p.PageHeader)
+                .Where(x => searchStringClean
+                .All(c => x.PageHeader.Title.ToLower().Contains(c.ToLower())));
+
+            return posts.To<TEntity>();
+        }
+
+        public IEnumerable<TEntity> GetPostsFilter<TEntity>(string searchString)
+        {
+            if (searchString != null)
+            {
+                return this.GetPostsBySearch<TEntity>(searchString);
+            }
+
+            return this.GetVisiblePosts<TEntity>();
+        }
+
+        public IEnumerable<TEntity> GetVisiblePosts<TEntity>()
+        {
+            return this.posts.All()
+                             .Include(p => p.PageHeader)
+                             .ThenInclude(x => x.Image)
+                             .Include(x => x.User)
+                             .To<TEntity>();
+        }
+
+        public IEnumerable<IndexPostViewModel> OrderBy(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy)
+        {
+            if (sortBy == PostsSort.Oldest)
+            {
+                return posts.OrderBy(p => p.PostedBy).ToList();
+            }
+
+            // ProductsSortType.Newest
+            return posts.OrderByDescending(p => p.PostedBy).ToList();
+        }
+
+        public Post GetProductById(int id)
+        {
+            return this.posts.All().Include(p => p.PageHeader)
+                                   .Include(x => x.User)
+                                   .FirstOrDefault(x => x.Id == id);
         }
     }
 }

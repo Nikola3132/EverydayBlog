@@ -12,6 +12,8 @@
 
         public const string PageIndicatorPost = "Post";
 
+        public const string UrlTemplateAutoComplete = "https://localhost:44319/Posts/Details/{0}";
+
 
 
 

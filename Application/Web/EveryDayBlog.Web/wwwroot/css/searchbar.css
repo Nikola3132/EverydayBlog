@@ -1,0 +1,38 @@
+﻿/*-------------------------------------------------------------------------*/
+.search-section {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    font: 400 18px 'Open Sans', sans-serif;
+    display: inline-block;
+}
+
+.submitButtonSearch {
+    position: relative;
+    width: 5%;
+    top: 1px;
+    left: 0;
+    padding: 10px;
+    background: #0085A1;
+    border-radius: 25px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar {
+    width: 60px;
+    padding: 10px 35px 10px 60px;
+    border-radius: 5px;
+    border: none;
+    background-image: url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png');
+    background-repeat: no-repeat;
+    background-size: 46px;
+    transition: all 250ms ease-in-out;
+    outline: none;
+    animation: intro 4s ease-in-out;
+}
+
+.large-width {
+    width: 50%;
+}

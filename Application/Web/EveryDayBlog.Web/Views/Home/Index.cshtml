@@ -2,7 +2,36 @@
     this.ViewData["Title"] = "Home";
 }
 <!-- Main Content -->
+@using EveryDayBlog.Web.ViewModels.Home.ViewModels;
+@model IndexViewModel
+
+<partial name="~/Views/Shared/Partials/_MiddleBlogHeaderPartial.cshtml" />
+
+
 <div class="container">
+    <div class="row mb-2">
+        <div class="col-md-12 col-lg-6">
+            @if (Model.SearchString != null)
+            {
+                <strong>Търсене на: </strong>@Model.SearchString
+            }
+        </div>
+        <div class="col-md-12 col-lg-6 text-right">
+            <form method="post" asp-controller="Home" asp-action="Index">
+                <input type="hidden" name="SearchString" value="@Model.SearchString">
+                <input type="hidden" name="Page" value="@Model.PageNumber">
+                <span class="text-muted">Сортирай:</span>
+                <select name="SortBy" id="SortBy" onchange="this.form.submit();">
+                    <option value="1" selected="@(Model.SortBy.ToString() == "Newest" ? true : false)">Newest</option>
+                    <option value="2" selected="@(Model.SortBy.ToString() == "Oldest" ? true : false)">Oldest</option>
+                    @*<option value="3" selected="@(Model.SortBy.ToString() == "RatedDescending" ? true : false)">Цена(низх.)</option>
+                        <option value="4" selected="@(Model.SortBy.ToString() == "RatedAscending" ? true : false)">Цена(възх.)</option>*@
+                </select>
+            </form>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <div class="post-preview">
@@ -20,6 +49,9 @@
                     on September 24, 2019
                 </p>
             </div>
+
+
+
             <hr>
             <div class="post-preview">
                 <a href="post.html">
@@ -75,5 +107,6 @@
 </div>
 <hr>
 
-
-
+@section Scripts {
+    <script src="~/js/rating.js"></script>
+}

@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
-
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Data.Models.Enums;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
@@ -16,6 +17,14 @@
         Task<bool> AddSectionToPostAsync(int postId, SectionInputModel sectionInputModel);
 
         Task<TEntity> GetPostByIdAsync<TEntity>(int postId);
+
+        IEnumerable<TEntity> GetPostsFilter<TEntity>(string searchString);
+
+        IEnumerable<TEntity> GetPostsBySearch<TEntity>(string searchString);
+
+        IEnumerable<TEntity> GetVisiblePosts<TEntity>();
+
+        IEnumerable<IndexPostViewModel> OrderBy(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy);
 
 
     }
