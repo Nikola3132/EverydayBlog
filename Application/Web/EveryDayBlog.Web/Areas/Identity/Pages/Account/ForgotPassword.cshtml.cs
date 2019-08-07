@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
@@ -17,6 +17,7 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailSender emailSender;
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {

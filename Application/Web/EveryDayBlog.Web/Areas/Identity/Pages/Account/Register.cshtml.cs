@@ -18,6 +18,7 @@
     using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.Infrastructure.Models;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,8 @@
 
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public string ReturnUrl { get; set; }
 

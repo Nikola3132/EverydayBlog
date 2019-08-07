@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -28,6 +28,8 @@
         }
 
         public IList<UserLoginInfo> CurrentLogins { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public IList<AuthenticationScheme> OtherLogins { get; set; }
 

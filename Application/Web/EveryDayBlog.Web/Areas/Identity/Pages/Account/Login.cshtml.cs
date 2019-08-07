@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -19,6 +19,7 @@
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
         {

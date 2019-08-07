@@ -9,6 +9,9 @@
     this.ViewData["Title"] = "Register";
 }
 
+<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@Model.PageHeader" />
+
+
 <div class="container">
     <div class="card bg-light">
         <article class="card-body mx-auto" style="max-width: 400px;">
@@ -57,12 +60,12 @@
                 </div>
 
                 @{List<SelectListItem> countries = countryService
-                                  .GetAllConties()
-                                  .Select(c => new SelectListItem()
-                                  {
-                                      Value = c.Code,
-                                      Text = c.Name
-                                  }).ToList(); }
+                                    .GetAllConties()
+                                    .Select(c => new SelectListItem()
+                                    {
+                                        Value = c.Code,
+                                        Text = c.Name
+                                    }).ToList(); }
 
 
                 <div class="form-group input-group">

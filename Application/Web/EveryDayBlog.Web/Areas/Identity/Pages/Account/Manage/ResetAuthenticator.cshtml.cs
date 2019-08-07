@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,6 +29,8 @@
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public async Task<IActionResult> OnGet()
         {

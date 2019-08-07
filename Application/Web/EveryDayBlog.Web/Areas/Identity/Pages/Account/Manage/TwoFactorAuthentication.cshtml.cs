@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -30,6 +30,8 @@
         }
 
         public bool HasAuthenticator { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public int RecoveryCodesLeft { get; set; }
 

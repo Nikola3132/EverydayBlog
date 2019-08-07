@@ -47,9 +47,9 @@
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var post = this.postService.GetPostByIdAsync<IndexPostViewModel>(id);
+            var post = await this.postService.GetPostByIdAsync<IndexPostViewModel>(id);
             if (post == null)
             {
                 return this.NotFound();

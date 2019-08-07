@@ -4,6 +4,7 @@
     ViewData["Title"] = "Disable two-factor authentication (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
+<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@Model.PageHeader" />
 
 <partial name="_StatusMessage" for="StatusMessage" />
 <h1>@ViewData["Title"]</h1>

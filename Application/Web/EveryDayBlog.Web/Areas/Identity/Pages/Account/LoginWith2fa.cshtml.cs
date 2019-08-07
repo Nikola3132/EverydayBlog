@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -28,6 +28,8 @@
 
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public bool RememberMe { get; set; }
 

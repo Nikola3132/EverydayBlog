@@ -12,6 +12,7 @@
     using EveryDayBlog.Web.Infrastructure.Extensions;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.Infrastructure.Models;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,8 @@
         }
 
         public string Username { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 

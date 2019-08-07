@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -26,6 +26,8 @@
 
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }

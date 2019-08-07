@@ -1,6 +1,7 @@
 ﻿@page
 @using EveryDayBlog.Data.Repositories;
 
+
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
@@ -39,7 +40,7 @@
                         </label>
                     }
                     else
-                    { 
+                    {
                         <label for="file-input">
                             <img src="@Model.Input.ImageCloudUrl" id="output_image" alt="Profile image" />
                         </label>
@@ -100,12 +101,12 @@
                         <hr>
 
                         @{List<SelectListItem> countries = countryService
-                                               .GetAllConties()
-                                               .Select(c => new SelectListItem()
-                                               {
-                                                   Value = c.Code,
-                                                   Text = c.Name
-                                               }).ToList(); }
+                                                   .GetAllConties()
+                                                   .Select(c => new SelectListItem()
+                                                   {
+                                                       Value = c.Code,
+                                                       Text = c.Name
+                                                   }).ToList(); }
 
                         <div class="row">
                             <div class="col-md-6">

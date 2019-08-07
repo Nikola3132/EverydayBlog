@@ -36,7 +36,6 @@
             if (sort == "Yours")
             {
                 posts = await this.postService.OrderByAsync(posts, model.SortBy, this.User.Identity.Name);
-
             }
             else
             {

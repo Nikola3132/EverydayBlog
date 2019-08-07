@@ -1,11 +1,22 @@
-﻿<header class="masthead" style="background-image: url('../../wwwroot/img/home-bg.jpg')">
+﻿@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+@model PageHeaderViewModel
+
+@{ 
+    string img = null;
+
+    if (Model?.Image?.CloudUrl != null)
+    {
+        img = Model.Image?.CloudUrl;
+    }
+ }
+<header class="masthead" style="background-image: url(@img)">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>ViewData["Heading"]</h1>
-                    <span class="subheading">ViewData["SubHeading"]</span>
+                    <h1>@Model?.Title</h1>
+                    <span class="subheading">@Model?.SubTitle</span>
                 </div>
             </div>
         </div>

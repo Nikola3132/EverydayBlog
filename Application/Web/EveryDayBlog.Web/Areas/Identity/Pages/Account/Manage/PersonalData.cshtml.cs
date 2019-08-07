@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using EveryDayBlog.Data.Models;
-
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,6 +15,8 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<PersonalDataModel> logger;
+
+        public PageHeaderViewModel PageHeader { get; set; }
 
         public PersonalDataModel(
             UserManager<ApplicationUser> userManager,
