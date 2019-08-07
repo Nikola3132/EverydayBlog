@@ -9,3 +9,4 @@
 $(function () {
     $('span.stars').stars();
 });
+

@@ -1,18 +1,19 @@
-﻿<div>
-    <form class="search-section">
+﻿
+
+    <div class="search-section">
+
         <input class="search-bar" type="text" id="Search" name="Search" placeholder="Search and find!">
-        <button class="submitButtonSearch">Go!</button>
-    </form>
-</div>
+        </div>
+    
 <hr />
 
 <script>
     var searchBar = document.querySelector('.search-bar');
 
-function expandSearchBar() {
-    searchBar.addEventListener('click', function () {
-        this.style.width = '30%';
-    })
-}
+    function expandSearchBar() {
+        searchBar.addEventListener('click', function () {
+            this.style.width = '30%';
+        })
+    }
     expandSearchBar();
 </script>

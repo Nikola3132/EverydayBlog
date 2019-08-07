@@ -3,9 +3,10 @@
     public enum PostsSort
     {
         // TODO: Rating Post
-        Newest = 1,
-        Oldest = 2,
-        RatedDescending = 3,
-        RatedAscending = 4,
+        Newest = 0,
+        Oldest = 1,
+        Yours = 2,
+        //RatedDescending = 3,
+        //RatedAscending = 4,
     }
 }

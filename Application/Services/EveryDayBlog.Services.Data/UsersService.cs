@@ -94,5 +94,10 @@
             return false;
 
         }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string id)
+        {
+            return await this.users.All().SingleOrDefaultAsync(u => u.Id == id);
+        }
     }
 }

@@ -24,7 +24,7 @@
 
         IEnumerable<TEntity> GetVisiblePosts<TEntity>();
 
-        IEnumerable<IndexPostViewModel> OrderBy(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy);
+        Task<IEnumerable<IndexPostViewModel>> OrderByAsync(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy, string username = null);
 
 
     }

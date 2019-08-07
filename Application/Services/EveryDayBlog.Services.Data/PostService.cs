@@ -14,6 +14,7 @@
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
     using Microsoft.EntityFrameworkCore;
+    using X.PagedList;
 
     public class PostService : IPostService
     {
@@ -109,22 +110,31 @@
 
         public IEnumerable<TEntity> GetVisiblePosts<TEntity>()
         {
-            return this.posts.All()
-                             .Include(p => p.PageHeader)
-                             .ThenInclude(x => x.Image)
+            var notDeletedPosts = this.posts.All()
                              .Include(x => x.User)
+                             .ThenInclude(u => u.Country)
+                             .Include(p => p.PageHeader)
+                             .ThenInclude(x => x.Image);
+
+            return notDeletedPosts
                              .To<TEntity>();
+
         }
 
-        public IEnumerable<IndexPostViewModel> OrderBy(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy)
+        public async Task<IEnumerable<IndexPostViewModel>> OrderByAsync(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy, string username = null)
         {
             if (sortBy == PostsSort.Oldest)
             {
-                return posts.OrderBy(p => p.PostedBy).ToList();
+                return await posts.OrderBy(p => p.CreatedOn).ToListAsync();
+            }
+            else if (sortBy == PostsSort.Yours)
+            {
+                return await posts.Where(p => p.User.Email == username).ToListAsync();
+
             }
 
-            // ProductsSortType.Newest
-            return posts.OrderByDescending(p => p.PostedBy).ToList();
+            // Products SortType.Newest
+            return await posts.OrderByDescending(p => p.CreatedOn).ToListAsync();
         }
 
         public Post GetProductById(int id)

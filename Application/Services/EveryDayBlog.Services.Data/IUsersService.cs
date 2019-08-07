@@ -11,6 +11,7 @@
 
         Task<ApplicationUser> GetUserByUsernameAsync(string username);
 
+        Task<ApplicationUser> GetUserByIdAsync(string id);
 
         Task<string> GetUserImageIfExistsAsync(string username);
 

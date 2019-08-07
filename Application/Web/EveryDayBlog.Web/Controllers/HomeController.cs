@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using EveryDayBlog.Common;
     using EveryDayBlog.Data;
     using EveryDayBlog.Services.Data;
@@ -14,7 +15,7 @@
     public class HomeController : BaseController
     {
         private const int DefaultPageNumber = 1;
-        private const int DefaultPageSize = 8;
+        private const int DefaultPageSize = 5;
         private const string NoResultsFound = "No results found!";
 
 
@@ -27,22 +28,30 @@
             this.postService = postService;
         }
 
-        [HttpGet]
-        public IActionResult Index(IndexViewModel model)
+        public async Task<IActionResult> Index(IndexViewModel model)
         {
             var posts = this.postService.GetPostsFilter<IndexPostViewModel>(model.SearchString);
-            posts = this.postService.OrderBy(posts, model.SortBy).ToList();
+
+            var sort = model.SortBy.ToString();
+            if (sort == "Yours")
+            {
+                posts = await this.postService.OrderByAsync(posts, model.SortBy, this.User.Identity.Name);
+
+            }
+            else
+            {
+                posts = await this.postService.OrderByAsync(posts, model.SortBy);
+            }
 
             int pageNumber = model.PageNumber ?? DefaultPageNumber;
-            int pageSize = DefaultPageSize;
+            int pageSize = model.PageSize ?? DefaultPageSize;
 
             var pageProductsViewModel = posts.ToPagedList(pageNumber, pageSize);
 
-            model.ProductsViewModel = pageProductsViewModel;
+            model.PostsViewModel = pageProductsViewModel;
 
             return this.View(model);
         }
-
 
         public IActionResult GetProduct(string term)
         {
