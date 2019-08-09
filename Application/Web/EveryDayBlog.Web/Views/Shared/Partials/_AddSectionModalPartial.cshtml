@@ -1,0 +1,40 @@
+﻿@model EveryDayBlog.Web.ViewModels.Sections.InputModels.SectionInputModel
+<!-- Modal -->
+<form asp-controller="Sections" asp-action="Add" method="post">
+    <div class="modal fade" id="add-section" tabindex="-1" role="dialog" aria-labelledby="addSectionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSectionLabel">Add section</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*<form method="post" asp-controller="Sections" asp-action="Add">*@
+                            <small style="font-size:60%">Your title cannot be with more than 20 and lower than 3 symbols</small>
+                            <div class="wrap-input1">
+                                <input asp-for="SectionTitle" class="input1" type="text" placeholder="Section's title">
+                                <span class="shadow-input1"></span>
+                            </div>
+
+                            <div class="wrap-input1">
+                                <small style="font-size:60%;">"Your content cannot be lower than 3 symbols"</small>
+                                <textarea class="input1" asp-for="SectionContent" placeholder="Start your content with 'What','Why','How' and etc, if only you are asking a question!...Otherwise we wouldn't recognize it as question."></textarea>
+                                <span class="shadow-input1"></span>
+                            </div>
+                            @*</form>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<hr />

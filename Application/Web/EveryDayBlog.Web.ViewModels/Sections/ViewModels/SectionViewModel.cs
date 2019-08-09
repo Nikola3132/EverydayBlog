@@ -6,10 +6,10 @@ using System.Text;
 
 namespace EveryDayBlog.Web.ViewModels.Sections.ViewModels
 {
-    public class SectionViewModel: IMapFrom<Section>
+    public class SectionViewModel : IMapFrom<SectionPost>
     {
-        public string Title { get; set; }
+        public string SectionTitle { get; set; }
 
-        public string Content { get; set; }
+        public string SectionContent { get; set; }
     }
 }

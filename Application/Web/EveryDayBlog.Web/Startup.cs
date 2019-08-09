@@ -141,7 +141,10 @@
                 });
 
             services
-                .AddMvc()
+                .AddMvc(options =>
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                })
                 .AddViewLocalization()
                 .AddRazorPagesOptions(options =>
                 {

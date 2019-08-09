@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace EveryDayBlog.Web.ViewModels.Sections.InputModels
 {
     public class SectionInputModel
     {
-
         private const string TitleErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
         private const string ContentErrorMsg = "Your {0} cannot be lower than {1}";
-
-
 
         [Required]
         [StringLength(maximumLength: 20, MinimumLength = 3, ErrorMessage = TitleErrorMsg)]
@@ -21,7 +17,7 @@ namespace EveryDayBlog.Web.ViewModels.Sections.InputModels
 
         [Required]
         [MinLength(3, ErrorMessage = ContentErrorMsg)]
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "content")]
         public string SectionContent { get; set; }
     }

@@ -16,8 +16,8 @@
 
         public ApplicationUser User { get; set; }
 
-        public virtual ICollection<Section> Sections { get; set; }
-        = new List<Section>();
+        public virtual ICollection<SectionPost> PostSections { get; set; }
+        = new List<SectionPost>();
 
         [Required]
         [ForeignKey("PageHeader")]

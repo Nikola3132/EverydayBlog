@@ -42,7 +42,9 @@
 
             var sectionForAdding = await this.sectionService.CreateSectionServiceOnlyAsync(sectionInputModel);
 
-            currentPost.Sections.Add(sectionForAdding);
+            //currentPost.Sections.Add(sectionForAdding);
+            currentPost.PostSections.Add(new SectionPost { Section = sectionForAdding });
+
 
             int savedChanges = await this.posts.SaveChangesAsync();
 
@@ -65,7 +67,9 @@
                 PageHeaderId = pageHeaderId,
             };
 
-            postForDb.Sections.Add(section);
+            //postForDb.Sections.Add(section);
+            postForDb.PostSections.Add(new SectionPost { Section = section });
+
 
             await this.posts.AddAsync(postForDb);
 

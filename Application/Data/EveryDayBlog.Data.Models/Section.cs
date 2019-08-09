@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using EveryDayBlog.Data.Common.Models;
 
     public class Section : BaseDeletableModel<int>, IPostFormable
@@ -13,5 +13,8 @@
 
         [Required]
         public string Content { get; set; }
+
+        public virtual ICollection<SectionPost> SectionPosts { get; set; }
+        = new List<SectionPost>();
     }
 }

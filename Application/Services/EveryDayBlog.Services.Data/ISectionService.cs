@@ -9,7 +9,7 @@
 
     public interface ISectionService
     {
-        Task<int> CreateSectionAsync(SectionInputModel sectionInputModel);
+        Task<int> CreateSectionAsync(SectionInputModel sectionInputModel, int postId);
 
         Task<Section> CreateSectionServiceOnlyAsync(SectionInputModel sectionInputModel);
 

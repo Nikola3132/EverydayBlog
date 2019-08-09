@@ -49,6 +49,8 @@
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            this.TempData["ProductId"] = id;
+
             var post = await this.postService.GetPostByIdAsync<IndexPostViewModel>(id);
             if (post == null)
             {

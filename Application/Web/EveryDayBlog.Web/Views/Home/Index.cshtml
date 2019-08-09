@@ -8,103 +8,112 @@
 @using X.PagedList;
 @using EveryDayBlog.Data.Models.Enums;
 @model IndexViewModel
-
 @*TODO MODEL*@
 <partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@Model.PageHeader" />
 
 <partial name="~/Views/Shared/Partials/_MiddleBlogHeaderPartial.cshtml" />
 
-
-<div class="container">
-    <div class="row mb-2">
-        <div class="col-md-12 col-lg-6">
-            @if (Model.SearchString != null)
-            {
-                <strong>Search: </strong>@Model.SearchString
-            }
-        </div>
-        <div class="col-md-12 col-lg-6 text-right">
-            <form method="post" asp-controller="Home" asp-action="Index">
-                <input type="hidden" asp-for="SearchString" value="@Model.SearchString">
-                <input type="hidden" asp-for="PageNumber" value="@Model.PageNumber">
-                <span class="text-muted">Sort:</span>
-                <select name="SortBy" asp-for="SortBy" asp-items="@Html.GetEnumSelectList(typeof(PostsSort))" id="SortBy" onchange="this.form.submit();">
-                </select>
-            </form>
-        </div>
-    </div>
-
-
+@if (Model.PostsViewModel.Count == 0)
+{
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-
-            @foreach (var post in Model.PostsViewModel)
-            {
-                <div class="post-preview">
-                    <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">
-                        <h2 class="post-title">
-                            @post.PageHeader.Title
-                        </h2>
-                        <h3 class="post-subtitle">
-                            @post.PageHeader.SubTitle
-                        </h3>
-                    </a>
-                    <p class="post-meta">
-                        Posted by
-                        @{
-                            string fullName = null;
-                            string country = null;
-
-                            if (post.User.FirstName != null && post.User.LastName != null)
-                            {
-                                fullName = post.User.FirstName + " " + post.User.LastName;
-                            }
-                            if (post.User.Country != null)
-                            {
-                                country = post.User.Country;
-                            }
-
-                            var dataContent = "The user hasn't provided enough information for himself!";
-                            if (fullName != null && country != null)
-                            {
-                                dataContent = $"My name is {fullName} and I'm from {country}";
-                            }
-                        }
-                        <a title="@post.User.Email" data-toggle="popover" data-trigger="hover" data-content="@dataContent">@post.User.Email</a>
-                        on @post.CreatedOn.ToString("d MMMM yyyy")
-                    </p>
-                </div>
-            }
-            <!-- Pager -->
-            <div class="clearfix">
-                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        <div class="col-6" style="margin:auto">
+            <h2> We're sorry, but you hadn't created any posts yet. We urge you to be the FIRST. Create your</h2>
+            <div class="col-3" style="margin:auto">
+                <h1 style="margin:auto"><a style="color:blue" asp-controller="Posts" asp-action="Create">FIRST</a></h1>
             </div>
         </div>
     </div>
-</div>
-<hr>
+}
+else
+{
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-md-12 col-lg-6">
+                @if (Model.SearchString != null)
+                {
+                    <strong>Search: </strong>@Model.SearchString
+                }
+            </div>
+            <div class="col-md-12 col-lg-6 text-right">
+                <form method="post" asp-controller="Home" asp-action="Index">
+                    <input type="hidden" asp-for="SearchString" value="@Model.SearchString">
+                    <input type="hidden" asp-for="PageNumber" value="@Model.PageNumber">
+                    <span class="text-muted">Sort:</span>
+                    <select name="SortBy" asp-for="SortBy" asp-items="@Html.GetEnumSelectList(typeof(PostsSort))" id="SortBy" onchange="this.form.submit();">
+                    </select>
+                </form>
+            </div>
+        </div>
 
 
-<div class="mt-3 d-flex justify-content-around">
-    @Html.PagedListPager((IPagedList)Model.PostsViewModel, page => Url.Action("Index",
-                                            new
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+
+                @foreach (var post in Model.PostsViewModel)
+                {
+                    <div class="post-preview">
+                        <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id">
+                            <h2 class="post-title">
+                                @post.PageHeader.Title
+                            </h2>
+                            <h3 class="post-subtitle">
+                                @post.PageHeader.SubTitle
+                            </h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            @{
+                                string fullName = null;
+                                string country = null;
+
+                                if (post.User.FirstName != null && post.User.LastName != null)
+                                {
+                                    fullName = post.User.FirstName + " " + post.User.LastName;
+                                }
+                                if (post.User.Country != null)
+                                {
+                                    country = post.User.Country;
+                                }
+
+                                var dataContent = "The user hasn't provided enough information for himself!";
+                                if (fullName != null && country != null)
+                                {
+                                    dataContent = $"My name is {fullName} and I'm from {country}";
+                                }
+                            }
+                            <a title="@post.User.Email" data-toggle="popover" data-trigger="hover" data-content="@dataContent">@post.User.Email</a>
+                            on @post.CreatedOn.ToString("d MMMM yyyy")
+                        </p>
+                    </div>
+                }
+                <!-- Pager -->
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+
+    <div class="mt-3 d-flex justify-content-around">
+        @Html.PagedListPager((IPagedList)Model.PostsViewModel, page => Url.Action("Index",
+                                                new
+                                                    {
+                                                    PageNumber = page,
+                                                    PageSize = Model.PageSize,
+                                                    SearchString = Model.SearchString,
+                                                    SortBy = Model.SortBy
+                                                }),
+                                                new PagedListRenderOptions
                                                 {
-                                                PageNumber = page,
-                                                PageSize = Model.PageSize,
-                                                SearchString = Model.SearchString,
-                                                SortBy = Model.SortBy
-                                            }),
-                                            new PagedListRenderOptions
-                                            {
-                                                MaximumPageNumbersToDisplay = 5,
-                                                LiElementClasses = new string[] { "page-item" },
-                                                PageClasses = new string[] { "page-link" }
-                                            })
-</div>
+                                                    MaximumPageNumbersToDisplay = 5,
+                                                    LiElementClasses = new string[] { "page-item" },
+                                                    PageClasses = new string[] { "page-link" }
+                                                })
+    </div>
 
-
-
-
+}
 @section Scripts {
     <script src="~/js/rating.js"></script>
 }
