@@ -9,6 +9,9 @@
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Home.ViewModels;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
+    using EveryDayBlog.Web.ViewModels.UsersRequests.InputModels;
+    using EveryDayBlog.Web.ViewModels.UsersRequests.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using X.PagedList;
 
@@ -21,11 +24,21 @@
 
 
         private readonly IPostService postService;
+        private readonly IUserRequestService userRequestService;
+        private readonly IUsersService usersService;
+
+
 
         public HomeController(
-            IPostService postService)
+            IPostService postService,
+            IUserRequestService userRequestService,
+            IUsersService usersService)
         {
             this.postService = postService;
+            this.userRequestService = userRequestService;
+            this.usersService = usersService;
+
+
         }
 
         public async Task<IActionResult> Index(IndexViewModel model)
@@ -80,9 +93,42 @@
         }
 
         [HttpGet]
-        public IActionResult Contact()
+        public async Task<IActionResult> Contact()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var currentUserFullName = await this.usersService.GetUserFullName(this.User.Identity.Name);
+                var userForContact = new UserRequestInputModel();
+
+                userForContact.Email = this.User.Identity.Name;
+
+                if (!string.IsNullOrEmpty(currentUserFullName))
+                {
+                    userForContact.Name = currentUserFullName;
+                }
+
+                return this.View(userForContact);
+            }
+
             return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contact(UserRequestInputModel userRequestInputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(userRequestInputModel);
+            }
+
+            var isQuestionSendedCreated = await this.userRequestService.SendQuestionAsync(userRequestInputModel);
+
+            if (isQuestionSendedCreated)
+            {
+                this.TempData["info"] = "Your question was sent successfully! We'll answer you soon on the email you gave us!";
+            }
+
+            return this.Redirect("/");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

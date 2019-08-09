@@ -1,5 +1,6 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
+    using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
@@ -13,13 +14,16 @@
     {
         private readonly IPostService postService;
         private readonly ILogger<PostsController> logger;
+        private readonly IProtectionService protectionService;
 
         public PostsController(
             IPostService postService,
-            ILogger<PostsController> logger)
+            ILogger<PostsController> logger,
+            IProtectionService protectionService)
         {
             this.postService = postService;
             this.logger = logger;
+            this.protectionService = protectionService;
         }
 
         [HttpGet]

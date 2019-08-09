@@ -15,7 +15,9 @@
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Services.Messaging.Settings;
+    using EveryDayBlog.Web.Authorization.Posts;
     using EveryDayBlog.Web.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -99,6 +101,13 @@
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+            // Authorization handlers.
+            //services.AddScoped<IAuthorizationHandler,
+            //                      PostIsOwnerAuthorizationHandler>();
+
+            //services.AddSingleton<IAuthorizationHandler,
+            //                      PostAdministratorsAuthorizationHandler>();
+
             // Application services
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
@@ -110,6 +119,8 @@
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IProtectionService, ProtectionService>();
+            services.AddTransient<IUserRequestService, UserRequestService>();
 
             services.Configure<AuthMessageSenderOptions>(this.configuration);
 

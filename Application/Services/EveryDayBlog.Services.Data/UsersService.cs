@@ -99,5 +99,20 @@
         {
             return await this.users.All().SingleOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<string> GetUserFullName(string username)
+        {
+            var currentUser = await this.users.All().SingleOrDefaultAsync(u => u.Email == username);
+            var first = currentUser?.FirstName ?? string.Empty;
+
+            var last = currentUser?.LastName ?? string.Empty;
+            var fullName = first + " " + last;
+
+            if (fullName == " ")
+            {
+                fullName = string.Empty;
+            }
+            return fullName;
+        }
     }
 }

@@ -15,6 +15,9 @@
 
         Task<string> GetUserImageIfExistsAsync(string username);
 
+        Task<string> GetUserFullName(string username);
+
+
         Task<bool> AddUserImageAsync(ImageInputModel imageInputModel, string username);
 
         Task<bool> DeleteUserImgAsync(string username);

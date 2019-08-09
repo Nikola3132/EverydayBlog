@@ -4,14 +4,17 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    public class SectionsController : Controller
+    [Authorize]
+    public class SectionsController : BaseController
     {
         private readonly ISectionService sectionService;
         private readonly ILogger<SectionsController> logger;

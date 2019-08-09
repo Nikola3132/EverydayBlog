@@ -42,7 +42,6 @@
 
             var sectionForAdding = await this.sectionService.CreateSectionServiceOnlyAsync(sectionInputModel);
 
-            //currentPost.Sections.Add(sectionForAdding);
             currentPost.PostSections.Add(new SectionPost { Section = sectionForAdding });
 
 

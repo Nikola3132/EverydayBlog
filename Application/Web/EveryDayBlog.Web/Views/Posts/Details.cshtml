@@ -66,19 +66,20 @@
 </article>
 <hr>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-section">
+@if (this.Model.UserEmail == User.Identity.Name)
+{
+    <div class="container-contact1-form-btn">
+        <button type="button" data-toggle="modal" data-target="#add-section" class="contact1-form-btn">
+            <span>
+                Add other section
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-section">
     Add Section
-</button>
+</button>*@
 
 <partial name="~/Views/Shared/Partials/_AddSectionModalPartial.cshtml" model="@Model.SectionInputModel" />
-
-@*<form method="post" asp-controller="Sections" asp-action="Add"></form>
-<div class="container-contact1-form-btn">
-    <button class="contact1-form-btn">
-        <span>
-            Add other section
-            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-        </span>
-    </button>
-</div>*@
+}
 

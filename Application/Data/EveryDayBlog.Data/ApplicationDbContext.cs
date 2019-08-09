@@ -29,12 +29,13 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<UserRequest> UserRequest { get; set; }
+
         public DbSet<Country> Countries { get; set; }
 
         public DbSet<Image> Images { get; set; }
 
         public DbSet<SectionPost> SectionsPosts { get; set; }
-
 
         public DbSet<Post> Posts { get; set; }
 

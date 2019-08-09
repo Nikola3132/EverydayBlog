@@ -19,6 +19,8 @@
 
         public string UserId { get; set; }
 
+        public string UserEmail { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public List<SectionViewModel> Sections { get; set; }
