@@ -1,9 +1,8 @@
 ﻿@using EveryDayBlog.Web.ViewModels.UsersRequests.InputModels;
 @model UserRequestInputModel
-
 @*@{
-    this.ViewData["Title"] = "Contact";
-}*@
+        this.ViewData["Title"] = "Contact";
+    }*@
 
 <partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@Model?.PageHeader" />
 
@@ -16,28 +15,20 @@
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label asp-for="Name">Name</label>
-
-                        @if (Model?.Name != null && this.User.Identity.IsAuthenticated)
-                        {
-                            <input type="text" class="form-control" asp-for="Name" disabled>
-                        }
-                        else
-                        {
-                            <input type="text" class="form-control" placeholder="Name" asp-for="Name">
-                            <span asp-validation-for="Name"></span>
-                        }
+                        <input type="text" class="form-control" placeholder="Name" asp-for="Name">
+                        <span asp-validation-for="Name"></span>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label asp-for="Email">Email Address</label>
-                        @if (Model?.Email != null  && this.User.Identity.IsAuthenticated)
+                        @if (Model?.Email != null && this.User.Identity.IsAuthenticated)
                         {
-                            <input class="form-control" asp-for="Email" disabled>
+                            <input class="form-control" asp-for="Email" value="@Model.Email" disabled>
                         }
                         else
                         {
-                            <input class="form-control" asp-for="Email" placeholder="Email Address">
+                            <input class="form-control" asp-for="Email" required placeholder="Email Address">
                             <span asp-validation-for="Email"></span>
 
                         }

@@ -22,7 +22,7 @@
             }
 
             // Administrators can do anything.
-            if (context.User.IsInRole(Role.Admin.ToString()))
+            if (context.User.IsInRole(Role.Administrator.ToString()))
             {
                 context.Succeed(requirement);
             }

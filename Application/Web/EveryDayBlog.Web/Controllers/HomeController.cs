@@ -116,6 +116,11 @@
         [HttpPost]
         public async Task<IActionResult> Contact(UserRequestInputModel userRequestInputModel)
         {
+            if (userRequestInputModel.Email == null)
+            {
+                userRequestInputModel.Email = this.User.Identity.Name;
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(userRequestInputModel);

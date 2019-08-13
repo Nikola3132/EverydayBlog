@@ -1,4 +1,4 @@
-﻿namespace EveryDayBlog.Web.ViewModels.Posts.ViewModels
+﻿namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -7,11 +7,9 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
-    using EveryDayBlog.Web.ViewModels.Sections.InputModels;
     using EveryDayBlog.Web.ViewModels.Sections.ViewModels;
-    using EveryDayBlog.Web.ViewModels.Users.ViewModels;
 
-    public class IndexPostViewModel : IMapFrom<Post>, IHaveCustomMappings
+    public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -26,19 +24,16 @@
         public List<SectionViewModel> Sections { get; set; }
         = new List<SectionViewModel>();
 
-        public SectionInputModel SectionInputModel { get; set; }
-
-        public UserPreviewViewModel User { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Post, IndexPostViewModel>().ForMember(
+            configuration.CreateMap<Post, PostViewModel>().ForMember(
                 m => m.UserId,
                 opt => opt.MapFrom(x => x.User.Id));
 
-            configuration.CreateMap<Post, IndexPostViewModel>().ForMember(
+            configuration.CreateMap<Post, PostViewModel>().ForMember(
                 m => m.Sections,
                 opt => opt.MapFrom(x => x.PostSections));
+
         }
     }
 }

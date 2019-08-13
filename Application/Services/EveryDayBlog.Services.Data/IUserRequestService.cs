@@ -1,5 +1,6 @@
 ﻿namespace EveryDayBlog.Services.Data
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using EveryDayBlog.Web.ViewModels.UsersRequests.InputModels;
@@ -15,6 +16,25 @@
         Task<bool> HardDeleteAsync(int userRequestId);
 
         Task<TEntity> TakeUserRequestById<TEntity>(int userRequestId);
+
+        Task<List<TEntity>> TakeAllRequests<TEntity>();
+
+        Task<List<TEntity>> TakeAllNonDeletedRequests<TEntity>();
+
+        Task<List<TEntity>> TakeAllDeletedRequests<TEntity>();
+
+        Task<bool> AnyDeletedUserRequests();
+
+        Task<List<TEntity>> TakeAllNonReadedRequests<TEntity>();
+
+        Task<List<TEntity>> TakeAllReadedRequests<TEntity>();
+
+        int TakeAllReadedRequestsCount();
+
+        int TakeAllRequestsCount();
+
+        int TakeAllUnReadedRequestsCount();
+
 
 
 

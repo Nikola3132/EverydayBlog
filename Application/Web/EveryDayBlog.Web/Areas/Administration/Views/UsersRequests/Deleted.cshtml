@@ -1,0 +1,67 @@
+﻿@using EveryDayBlog.Web.Areas.Administration.ViewModels.Messages.ViewModel;
+
+@model DeletedMessagesViewModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h3 text-center text-muted font-italic">Deleted messages</div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="row">
+                        <th scope="col" class="col-md-6 col d-flex justify-content-center">By</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Phone</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Readed</th>
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in Model.DeletedMessages)
+                    {
+                        <tr class="row">
+                            <td class="col-md-6 col d-flex justify-content-center">
+                                @message.Name
+                            </td>
+
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @message.Phone
+                            </td>
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @if (message.IsReaded)
+                                {
+                                    <i class="fas fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-times"></i>
+                                }
+                            </td>
+                            <td class="col-md-2 col d-flex justify-content-around">
+                                <div class="mr-2">
+                                    <form asp-area="Administration"  asp-controller="UsersRequests" asp-action="Deleted" method="post">
+                                        <button type="button" class='btn btn-group-sm' data-toggle="modal" data-target="#deleteForever" style='background-color:transparent;'>
+                                            <i class="far fa-hand-point-right"></i>Click<i class="far fa-hand-point-left"></i>
+                                        </button>
+                                        <partial name="/Areas/Administration/Views/Shared/Partials/_DeleteUserRequestForeverPartial.cshtml" model="@message" />
+                                    </form>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.DeletedMessages.Count() == 0)
+            {
+                <div class="mobile-fondsize-11 h6 text-center font-italic">You haven't deleted messages!</div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+

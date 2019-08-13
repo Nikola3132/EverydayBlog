@@ -3,13 +3,19 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">EveryDay Blog</a>
-        @if (User.IsInRole(Role.Admin.ToString()))
-        {
-                <a class="nav-link text-white" asp-area="Administrator" asp-controller="Home" asp-action="Index"><i class="fas fa-cogs"></i>Admin Panel<span class="sr-only">(current)</span></a>
-         
-        }
+       
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-lg-auto">
+                @if (User.IsInRole(Role.Administrator.ToString()))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-success" asp-area="Administration" asp-controller="Home" asp-action="Index"><i class="fas fa-cogs"></i> Admin Panel<span class="sr-only">(current)</span></a>
+                    </li>
+                }
+
+                @*<a class="nav-link text-white" asp-area="Administrator" asp-controller="Home" asp-action="Index"><i class="fas fa-cogs"></i>Admin Panel<span class="sr-only">(current)</span></a>*@
+
+               
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                 </li>

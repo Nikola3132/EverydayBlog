@@ -60,12 +60,28 @@
             return pageHeaderForDb.Id;
         }
 
+        public TEntity GetAdminPageHeadersByPageIndicatorAsync<TEntity>()
+        {
+            return this.pageHeaders.All()
+                .Where(ph => ph.PageIndicator == GlobalConstants.AdministratorRoleName)
+                .To<TEntity>()
+                .FirstOrDefault();
+        }
+
         public async Task<TEntity> GetPageHeaderById<TEntity>(int pageHeaderId)
         {
            return await this.pageHeaders.All()
                 .Where(ph => ph.Id == pageHeaderId)
                 .To<TEntity>()
                 .SingleOrDefaultAsync();
+        }
+
+        public async Task<List<TEntity>> GetPageHeadersByPageIndicatorAsync<TEntity>(string pageIndicator)
+        {
+           return await this.pageHeaders.All()
+                .Where(ph => ph.PageIndicator == pageIndicator)
+                .To<TEntity>()
+                .ToListAsync<TEntity>();
         }
     }
 }

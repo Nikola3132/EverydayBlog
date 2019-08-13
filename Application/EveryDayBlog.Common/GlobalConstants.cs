@@ -2,7 +2,7 @@
 {
     public static class GlobalConstants
     {
-        public const string AdministratorRoleName = "Admin";
+        public const string AdministratorRoleName = "Administrator";
         //Separated by ','
         public const string AllowedImageExtensions = "jpg,jpeg,png,pdf";
 
@@ -21,8 +21,10 @@
         public static readonly string DeleteOperationName = "Delete";
 
 
+        
         public const string UrlTemplateAutoComplete = "https://localhost:44319/Posts/Details/{0}";
 
+        public const string ImgAdminCloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1565522820/PageHeaders/16679_aejjiz.jpg";
 
 
 

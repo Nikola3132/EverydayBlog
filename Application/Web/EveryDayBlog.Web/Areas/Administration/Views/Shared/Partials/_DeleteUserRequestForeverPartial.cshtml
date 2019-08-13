@@ -1,0 +1,29 @@
+﻿@using EveryDayBlog.Web.ViewModels.UsersRequests.ViewModels;
+
+@model UserRequestDetailsViewModel
+<!-- Modal -->
+<div class="modal fade" id="deleteForever" tabindex="-1" role="dialog" aria-labelledby="deleteForeverTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteForeverTitle">@Model.Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This is the user's<a class='btn btn-group-sm' title="By: @Model.Email" data-toggle="popover" data-content="@Model.Message" style='background-color:transparent;'>
+                        <i class="fas fa-envelope-open-text"></i> Message
+                    </a>
+                </p>
+                <hr>
+                <p>If you click the DELETE button ,you'll delete the user's request forever!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-danger" asp-route-id="@Model.Id" type="submit" >Hard Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

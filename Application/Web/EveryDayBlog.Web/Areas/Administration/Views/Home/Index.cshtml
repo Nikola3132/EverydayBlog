@@ -1,0 +1,71 @@
+﻿@*@using EveryDayBlog.Web.Areas.Administration.ViewModels.Home.ViewModels;
+@model IndexViewModel
+
+<div class="container mobile-fondsize-11">
+    <div class="mobile-fondsize-20 h3 text-muted text-center pb-2">@ViewData["Title"]</div>
+    <table class="table table-hover">
+        <thead>
+            <tr class="row d-flex justify-content-around">
+                <th scope="col" class="col-1 d-flex justify-content-center"></th>
+                <th scope="col" class="col-3 d-flex justify-content-center">Title</th>
+                <th scope="col" class="col-1 d-flex justify-content-center">Sub Title</th>
+                <th scope="col" class="col-2 d-flex justify-content-center">User's Email</th>
+                <th scope="col" class="col-2 d-flex justify-content-center">Sections Count</th>
+                <th scope="col" class="col-3 d-flex justify-content-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                <tr class="row d-flex justify-content-around">
+                    <td class="col-1 d-flex justify-content-center">
+                        <img src="@post.PageHeader?.Image?.CloudUrl" width="50" height="50">
+                    </td>
+                    <td class="col-3 d-flex justify-content-center">
+                        @if (post.Hide)
+            {
+                            @post.Name
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@post.Id">
+                                @post.Name
+                            </a>
+                        }
+                    </td>
+                    <td class="col-1 d-flex justify-content-center">
+                        @(post.Price)лв.
+                        @(post.ParnersPrice)лв.
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @post.ChildCategory.ParentCategory.Name
+                    </td>
+                    <td class="col-2 d-flex justify-content-center">
+                        @post.ChildCategory.Name
+                    </td>
+                    <td class="col-md-3 d-flex justify-content-around">
+                        @if (post.Hide)
+            {
+                            <div>
+                                <a asp-action="Show" asp-route-id="@post.Id" class="btn btn-outline-info btn-sm">Направи видим</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mr-2">
+                                <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-primary btn-sm mobile-fondsize-11">Промени</a>
+                            </div>
+                            <div class="mr-2">
+                                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@post.Id" class="btn btn-danger btn-sm">Детайли</a>
+                            </div>
+                            <div>
+                                <a asp-action="Hide" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">Скрий</a>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>*@
+

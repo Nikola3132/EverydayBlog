@@ -45,7 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Administration\ViewModels\Home\InputModels\" />
+    <Folder Include="Areas\Administration\ViewModels\Posts\InputModels\" />
     <Folder Include="Views\Sections\" />
-    <Folder Include="Views\Shared\Components\" />
   </ItemGroup>
 </Project>
