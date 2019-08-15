@@ -34,7 +34,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(post);
+                return this.View();
             }
 
             var isPostCreated = await this.postService.CreatePostAsync(post, this.User.Identity.Name);

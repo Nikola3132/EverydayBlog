@@ -26,6 +26,11 @@
 
         Task<IEnumerable<IndexPostViewModel>> OrderByAsync(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy, string username = null);
 
+        Task<bool> HidePostById(int postId);
+
+        Task<int> GetPageHeaderIdAsync(int postId);
+
+        Task<string> GetCreatorsIdAsync(int postId);
 
     }
 }

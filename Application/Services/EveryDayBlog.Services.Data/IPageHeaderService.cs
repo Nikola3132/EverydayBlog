@@ -9,13 +9,12 @@
     {
         Task<int> CreatePageHeaderAsync(PageHeaderInputModel pageHeaderInputModel);
 
+
         Task<TEntity> GetPageHeaderById<TEntity>(int pageHeaderId);
 
         Task<List<TEntity>> GetPageHeadersByPageIndicatorAsync<TEntity>(string pageIndicator);
 
         TEntity GetAdminPageHeadersByPageIndicatorAsync<TEntity>();
-
-
-
+        Task<bool> UpdateAsync(int pageHeaderId, PageHeaderInputModel pageHeaderInputModel);
     }
 }

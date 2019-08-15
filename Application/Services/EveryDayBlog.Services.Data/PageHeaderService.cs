@@ -70,18 +70,51 @@
 
         public async Task<TEntity> GetPageHeaderById<TEntity>(int pageHeaderId)
         {
-           return await this.pageHeaders.All()
-                .Where(ph => ph.Id == pageHeaderId)
-                .To<TEntity>()
-                .SingleOrDefaultAsync();
+            return await this.pageHeaders.All()
+                 .Where(ph => ph.Id == pageHeaderId)
+                 .To<TEntity>()
+                 .SingleOrDefaultAsync();
         }
 
         public async Task<List<TEntity>> GetPageHeadersByPageIndicatorAsync<TEntity>(string pageIndicator)
         {
-           return await this.pageHeaders.All()
-                .Where(ph => ph.PageIndicator == pageIndicator)
-                .To<TEntity>()
-                .ToListAsync<TEntity>();
+            return await this.pageHeaders.All()
+                 .Where(ph => ph.PageIndicator == pageIndicator)
+                 .To<TEntity>()
+                 .ToListAsync<TEntity>();
+        }
+
+        public async Task<bool> UpdateAsync(int pageHeaderId, PageHeaderInputModel pageHeaderInputModel)
+        {
+            var pageHeader = await this.pageHeaders.All().SingleOrDefaultAsync(ph => ph.Id == pageHeaderId);
+
+
+            var pageHeaderImg = pageHeaderInputModel.Image;
+
+            pageHeader.ModifiedOn = DateTime.UtcNow;
+            pageHeader.Title = pageHeaderInputModel.MainTitle;
+            pageHeader.SubTitle = pageHeaderInputModel.SubTitle;
+
+            if (pageHeaderImg != null)
+            {
+                var folderName = GlobalConstants.PageHeadersFolderName;
+
+                var cloudUrl = this.cloudinaryService.UploudPicture(pageHeaderImg, folderName);
+                pageHeader.Image = new Image
+                {
+                    CloudUrl = cloudUrl,
+                    ContentType = pageHeaderImg.ContentType,
+                    CreatedOn = DateTime.UtcNow,
+                    ImageByte = pageHeaderImg.ImageByte,
+                    ImagePath = pageHeaderImg.ImagePath,
+                    ImageTitle = pageHeaderImg.ImageTitle,
+                };
+            }
+
+            this.pageHeaders.Update(pageHeader);
+            var savedChanges = await this.pageHeaders.SaveChangesAsync();
+
+            return savedChanges > 0;
         }
     }
 }

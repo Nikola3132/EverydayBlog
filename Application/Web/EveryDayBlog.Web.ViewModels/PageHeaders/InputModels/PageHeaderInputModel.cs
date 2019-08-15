@@ -3,12 +3,14 @@
     using System.ComponentModel.DataAnnotations;
 
     using EveryDayBlog.Common;
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Web.Infrastructure.CustomAttributes;
     using EveryDayBlog.Web.Infrastructure.ModelBinders;
     using EveryDayBlog.Web.Infrastructure.Models;
     using Microsoft.AspNetCore.Mvc;
 
-    public class PageHeaderInputModel
+    public class PageHeaderInputModel 
     {
         private const string SubTitleErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
         private const string MainTitleErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";

@@ -60,12 +60,12 @@
                 </div>
 
                 @{List<SelectListItem> countries = countryService
-                                    .GetAllConties()
-                                    .Select(c => new SelectListItem()
-                                    {
-                                        Value = c.Code,
-                                        Text = c.Name
-                                    }).ToList(); }
+                                      .GetAllConties()
+                                      .Select(c => new SelectListItem()
+                                      {
+                                          Value = c.Code,
+                                          Text = c.Name
+                                      }).ToList(); }
 
 
                 <div class="form-group input-group">
@@ -140,6 +140,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
 }
 
 

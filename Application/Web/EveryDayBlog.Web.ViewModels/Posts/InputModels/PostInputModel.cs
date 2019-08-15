@@ -14,8 +14,11 @@
     {
         [BindProperty]
         public PageHeaderInputModel PageHeader { get; set; }
+        = new PageHeaderInputModel();
 
         [BindProperty]
+
         public SectionInputModel Section { get; set; }
+        = new SectionInputModel();
     }
 }

@@ -1,0 +1,50 @@
+﻿@using  EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels;
+
+@model List<DeletedSectionViewModel>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+            <div class="mobile-fondsize-20 h3 text-center text-muted font-italic">Deleted messages</div>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="row">
+                        <th scope="col" class="col-md-2 col d-flex justify-content-center">By</th>
+                        <th scope="col" class="col-md-4 col d-flex justify-content-center">Title</th>
+                        <th scope="col" class="col-md-6 col d-flex justify-content-center">Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sectionn in Model)
+                    {
+                        <tr class="row">
+                            <td class="col-md-2 col d-flex justify-content-center">
+                                @sectionn.Id
+                            </td>
+
+                            <td class="col-md-4 col d-flex justify-content-center">
+                                @sectionn.Title
+                            </td>
+                            <td class="col-md-6 col d-flex justify-content-center">
+                               @sectionn.Content
+                            </td>
+                            <td class="col-md-12 col d-flex justify-content-center">
+                                <div class="mr-2">
+                                        <a asp-area="Administration" asp-controller="Sections" asp-action="Reorganize" asp-route-id="@sectionn.Id" class='btn btn-group-sm btn-outline-success' style='background-color:transparent;'>
+                                            <i class="fas fa-hammer" style="color:forestgreen">Reorganize</i>
+                                        </a>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.Count() == 0)
+            {
+                <div class="mobile-fondsize-11 h6 text-center font-italic">There aren't any deleted sections!</div>
+            }
+        </div>
+    </div>
+</div>
+

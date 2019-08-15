@@ -109,7 +109,6 @@
             var email = await this.userManager.GetEmailAsync(user);
             if (this.Input.Email != email)
             {
-
                 var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
@@ -119,7 +118,6 @@
                 await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
 
                 this.TempData.Clear();
-
                 TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
 
                 string distributedCacheKey = email;

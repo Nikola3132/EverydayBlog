@@ -1,0 +1,27 @@
+﻿@using  EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels;
+@model ReorganizeSectionViewModel;
+
+<div class="col-xl-12">
+    <div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+        <form asp-area="Administration" asp-action="Reorganize" asp-controller="Sections" class="text-center border border-light p-5" method="post" >
+            <div class="mobile-fondsize-20 h3 text-center text-warning font-weight-bold">Are you sure, you want to make the section visible again?</div>
+
+            <!-- Email -->
+            <label asp-for="@Model.Title"></label>
+            <input asp-for="@Model.Title" class="form-control" disabled />
+
+            <!-- Password -->
+            <label asp-for="@Model.Content"></label>
+            <input asp-for="@Model.Content" class="form-control" disabled />
+
+
+
+            <!-- Sign in button -->
+            <button class="btn btn-info my-2" type="submit">Reorganize</button>
+
+            <a asp-area="Administration" asp-controller="Sections" asp-action="Deleted" asp-route-id="@Model.Id" class="btn btn-danger">Back</a>
+
+        </form>
+    </div>
+</div>
+<!-- Default form login -->

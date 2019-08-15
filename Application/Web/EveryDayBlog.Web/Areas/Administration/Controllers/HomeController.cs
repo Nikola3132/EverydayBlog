@@ -1,32 +1,33 @@
 ﻿namespace EveryDayBlog.Web.Areas.Administration.Controllers
 {
-    using EveryDayBlog.Services.Data;
-    using EveryDayBlog.Web.Areas.Administration.ViewModels.Dashboard;
+    using System.Linq;
 
+    using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Web.Areas.Administration.ViewModels.Home.ViewModels;
+    using EveryDayBlog.Web.ViewModels.Images.ViewModels;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+    using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : AdministrationController
     {
 
-        public HomeController()
-        {
+        private readonly IPostService postService;
 
+        public HomeController(IPostService postService)
+        {
+            this.postService = postService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            var viewModel = new EveryDayBlog.Web.Areas.Administration.ViewModels.Home.ViewModels.IndexViewModel()
+            var allNotHidenPosts = this.postService.GetVisiblePosts<IndexPostViewModel>().ToList();
+
+            var viewModel = new IndexViewModel()
             {
-                PageHeader = new Web.ViewModels.PageHeaders.ViewModels.PageHeaderViewModel
-                {
-                    Image = new Web.ViewModels.Images.ViewModels.ImageBackgroundViewModel
-                    {
-                        CloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1565342409/PageHeaders/589c5691-5d07-4421-b5a1-fcc1179b0616.jpg"
-                    }
-                ,
-                    Title = "fsfsd",
-                    SubTitle = " sdfsdfsdf"
-                }
+                PageHeader = new PageHeaderViewModel { Image = new ImageBackgroundViewModel { } },
+                Posts = allNotHidenPosts,
             };
             return this.View(viewModel);
         }

@@ -1,0 +1,116 @@
+﻿@using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels;
+
+@model EditPostInputModel
+<link rel="stylesheet" type="text/css" href="~/css/main.css">
+
+<div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+    <div class="mobile-fondsize-20 h3 text-center text-muted font-italic">Edit Post</div>
+    <hr class="w-50" />
+    <div class="container">
+        <form asp-area="Administration" asp-controller="Posts" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group justify-content-center">
+                    @if (Model?.PageHeader?.Image.CloudUrl != null)
+                    {
+                        <label for="file-input" class="col d-flex col-md-12 justify-content-md-center">
+                            <img src="@Model?.PageHeader?.Image?.CloudUrl" id="output_image" height="600" width="1000" alt="page image" />
+                        </label>
+                    }
+                    <div class="file btn btn-lg btn-outline-success d-flex col d-flex col-md-12 justify-content-md-center">
+                        <input asp-for="PageHeader.Image" id="file-input" accept="image/*" onchange="preview_image(event)" type="file" />
+                    </div>
+                    <span asp-validation-for="PageHeader.Image" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="PageHeader.MainTitle" class="control-label"></label>
+                <input asp-for="PageHeader.MainTitle" class="form-control" />
+                <span asp-validation-for="PageHeader.MainTitle" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label asp-for="PageHeader.SubTitle" class="control-label"></label>
+                <input asp-for="PageHeader.SubTitle" class="form-control" />
+                <span asp-validation-for="PageHeader.SubTitle" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success" asp-route-postId="@Model.Id"><i class="fas fa-paint-roller"></i> Change Header</button>
+            </div>
+        </form>
+        <br />
+        <br />
+
+        <div class="container">
+            <div class="col-sm-12">
+                <div class="container mobile-fondsize-11 shadow-lg p-4 mb-4 bg-white">
+                    <div class="mobile-fondsize-20 h3 text-center text-muted font-italic">Sections</div>
+
+                    <hr />
+                    <div class="row">
+                        <span class="text-secondary col-md-4 col d-flex justify-content-center">Title</span>
+                        <span class="text-secondary col-md-8 col d-flex justify-content-center">Sub Title</span>
+                    </div>
+                    <hr />
+
+                    <br />
+                    @if (Model.Sections.Count == 0)
+                    {
+                        <div class="mobile-fondsize-11 h6 text-center font-italic">There aren't any sections!</div>
+                    }
+                    else
+                    {
+                        @foreach (var sectionn in Model?.Sections)
+                        {
+                            <form method="post" asp-area="Administration" asp-controller="Sections" asp-action="Edit" asp-route-id="@sectionn.Id" asp-route-postId="@Model.Id">
+                                <div class="row">
+
+                                    <div class="col-md-4 col d-flex justify-content-center">
+                                        <input asp-for="@sectionn.SectionTitle" class="form-control" />
+                                        <span asp-validation-for="@sectionn.SectionTitle" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-8 col d-flex justify-content-center form-group">
+
+                                        <input asp-for="@sectionn.SectionContent" class="form-control" />
+                                        <span asp-validation-for="@sectionn.SectionContent" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="col-md-6 col d-flex justify-content-start">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                    <div class="col-md-6 col d-flex justify-content-end">
+                                        <button asp-area="Administration" asp-controller="Sections" asp-action="Delete" asp-route-id="@sectionn.Id" asp-route-postId="@Model.Id" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                            <br />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

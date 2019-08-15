@@ -82,45 +82,18 @@
                         <a href="#" class="nav-link dropdown-toggle dropdown-item">Reports</a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item px-1 py-0">
-                                <a asp-controller="Reports" asp-action="All" class="dropdown-item nav-link">See all</a>
+                                <a asp-area="Administration" asp-controller="Reports" asp-action="All" class="dropdown-item nav-link">See all</a>
                             </li>
                             <li class="dropdown-item px-1 py-0">
-                                <a asp-controller="Reports" asp-action="Create" class="dropdown-item nav-link">Add new</a>
+                                <a asp-area="Administration" asp-controller="Posts" asp-action="Deleted" class="dropdown-item nav-link">Deleted</a>
+                            </li>
+                            <li class="dropdown-item px-1 py-0">
+                                <a asp-area="Administration" asp-controller="Reports" asp-action="Create" class="dropdown-item nav-link">Add new</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
             </li>
-            @*<li class="nav-item">
-                <a asp-area="Administration" asp-controller="UserRequests" asp-action="Index" class="nav-link font-weight-bold">
-                    @if (Model..UserRequestsCount != 0)
-                    {
-                        <i class="fas fa-envelope" aria-hidden="true"><sup>@Model.UserRequestsCount</sup></i>
-                    }
-                    Messages
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-users"></i>
-                    @if (Model.PartnerRequestsCount != 0)
-                    {
-                        <sup>@Model.PartnerRequestsCount</sup>
-                    }
-                    Потребители
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-area="Administration" asp-controller="PartnerRequests" asp-action="All" class="dropdown-item nav-link">
-                        Заявки за партньорство
-                        @if (Model.PartnerRequestsCount != 0)
-                        {
-                            <sup class="font-weight-bold text-danger">@Model.PartnerRequestsCount</sup>
-                        }
-
-                    </a>
-                    <a asp-area="Administration" asp-controller="Partners" asp-action="All" class="dropdown-item nav-link">Партньори</a>
-                </div>
-          </li> *@ 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Posts
@@ -130,10 +103,10 @@
                         <a href="#" class="dropdown-item nav-link dropdown-toggle">User's Posts</a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item px-1 py-0">
-                                <a asp-controller="UsersPosts" asp-action="All" class="dropdown-item nav-link">See all</a>
+                                <a asp-area="Administration" asp-controller="Home" asp-action="Index" class="dropdown-item nav-link">See all</a>
                             </li>
                             <li class="dropdown-item px-1 py-0">
-                                <a asp-controller="UsersPosts" asp-action="Add" class="dropdown-item nav-link">Create TOP Post</a>
+                                <a asp-area="Administration" asp-controller="Sections" asp-action="Deleted" class="dropdown-item nav-link">See all deleted</a>
                             </li>
                         </ul>
                     </li>
@@ -141,10 +114,10 @@
                         <a href="#" class="dropdown-item nav-link dropdown-toggle">Premium User's Posts </a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-item px-1 py-0">
-                                    <a asp-controller="PremiumUsersPosts" asp-action="All" class="dropdown-item nav-link">See all</a>
+                                    <a asp-area="Administration" asp-controller="PremiumUsersPosts" asp-action="All" class="dropdown-item nav-link">See all</a>
                                 </li>
                                 <li class="dropdown-item px-1 py-0">
-                                    <a asp-controller="PremiumUsersPosts" asp-action="Add" class="dropdown-item nav-link">Create TOP Post</a>
+                                    <a asp-area="Administration" asp-controller="PremiumUsersPosts" asp-action="Add" class="dropdown-item nav-link">Create TOP Post</a>
                                 </li>
                             </ul>
                     </li>
@@ -155,9 +128,9 @@
                     Page Headers
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a asp-controller="PageHeaders" asp-action="All" class="dropdown-item nav-link">All Page Headers</a>
-                    <a asp-controller="PageHeaders" asp-action="Reported" class="dropdown-item nav-link">Reported Page Headers</a>
-                    <a asp-controller="Products" asp-action="AllHide" class="dropdown-item nav-link">Hide Page Headers</a>
+                    <a asp-area="Administration" asp-controller="PageHeaders" asp-action="All" class="dropdown-item nav-link">All Page Headers</a>
+                    <a asp-area="Administration" asp-controller="PageHeaders" asp-action="Reported" class="dropdown-item nav-link">Reported Page Headers</a>
+                    <a asp-area="Administration" asp-controller="Products" asp-action="AllHide" class="dropdown-item nav-link">Hide Page Headers</a>
                 </div>
             </li>
         </ul>

@@ -1,17 +1,16 @@
-﻿@*@using EveryDayBlog.Web.Areas.Administration.ViewModels.Home.ViewModels;
+﻿@using EveryDayBlog.Web.Areas.Administration.ViewModels.Home.ViewModels;
 @model IndexViewModel
 
-<div class="container mobile-fondsize-11">
-    <div class="mobile-fondsize-20 h3 text-muted text-center pb-2">@ViewData["Title"]</div>
+<div class="container mobile-fondsize-11 shadow p-4 mb-4 bg-white">
+    <div class="mobile-fondsize-20 h3 text-muted text-center pb-2">All Posts</div>
     <table class="table table-hover">
         <thead>
             <tr class="row d-flex justify-content-around">
                 <th scope="col" class="col-1 d-flex justify-content-center"></th>
                 <th scope="col" class="col-3 d-flex justify-content-center">Title</th>
-                <th scope="col" class="col-1 d-flex justify-content-center">Sub Title</th>
+                <th scope="col" class="col-4 d-flex justify-content-center">Sub Title</th>
                 <th scope="col" class="col-2 d-flex justify-content-center">User's Email</th>
                 <th scope="col" class="col-2 d-flex justify-content-center">Sections Count</th>
-                <th scope="col" class="col-3 d-flex justify-content-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -22,50 +21,59 @@
                         <img src="@post.PageHeader?.Image?.CloudUrl" width="50" height="50">
                     </td>
                     <td class="col-3 d-flex justify-content-center">
-                        @if (post.Hide)
-            {
-                            @post.Name
-                        }
-                        else
-                        {
-                            <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@post.Id">
-                                @post.Name
-                            </a>
-                        }
+                        @*@if (post.Hide)
+                            {
+                                            @post.Name
+                                        }
+                                        else
+                                        {*@
+                        <a asp-area="" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" style="color:#007bff">
+                            @post.PageHeader?.Title
+                        </a>
+                        @*}*@
                     </td>
-                    <td class="col-1 d-flex justify-content-center">
-                        @(post.Price)лв.
-                        @(post.ParnersPrice)лв.
-                    </td>
-                    <td class="col-2 d-flex justify-content-center">
-                        @post.ChildCategory.ParentCategory.Name
+                    <td class="col-4 d-flex justify-content-center">
+                        @post.PageHeader?.SubTitle
                     </td>
                     <td class="col-2 d-flex justify-content-center">
-                        @post.ChildCategory.Name
+                        @post.UserEmail
                     </td>
-                    <td class="col-md-3 d-flex justify-content-around">
-                        @if (post.Hide)
-            {
-                            <div>
-                                <a asp-action="Show" asp-route-id="@post.Id" class="btn btn-outline-info btn-sm">Направи видим</a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="mr-2">
-                                <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-primary btn-sm mobile-fondsize-11">Промени</a>
-                            </div>
-                            <div class="mr-2">
-                                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@post.Id" class="btn btn-danger btn-sm">Детайли</a>
-                            </div>
-                            <div>
-                                <a asp-action="Hide" asp-route-id="@post.Id" class="btn btn-outline-danger btn-sm">Скрий</a>
-                            </div>
-                        }
+                    <td class="col-2 d-flex justify-content-center">
+                        @post.Sections?.Count()
+                    </td>
+                    <td class="col-md-6 d-flex justify-content-around">
+                        @*@if (post.Hide)
+                             {
+                                <div>
+                                    <a asp-action="Show" asp-route-id="@post.Id" class="btn btn-outline-info btn-sm">Направи видим</a>
+                                </div>
+                             }
+                            else
+                            {*@
+
+                        <a asp-area="Administration" asp-controller="Posts" asp-action="Edit" asp-route-postId="@post.Id" class="btn btn-success btn-group-sm mobile-fondsize-11">
+                            <i class="fas fa-wrench"></i> Change
+                        </a>
+
+
+                        <a asp-area="" asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="btn btn-group-sm btn-danger">
+                            <i class="fas fa-info"></i>  Details
+                        </a>
+
+                        @*<a class='btn btn-group-sm' title="By: @message.Email" data-toggle="popover" data-content="@message.Message" style='background-color:transparent;'>
+                                <i class="fas fa-envelope-open-text"></i> Message
+                            </a>*@
+
+                        <a asp-area="Administration" asp-controller="Posts" asp-action="Hide" asp-route-id="@post.Id" class="btn btn-group-sm btn-outline-dark">
+                            <i class="far fa-eye-slash"></i>  Hide
+                        </a>
+
+                        @*}*@
                     </td>
                 </tr>
+
             }
         </tbody>
     </table>
-</div>*@
+</div>
 

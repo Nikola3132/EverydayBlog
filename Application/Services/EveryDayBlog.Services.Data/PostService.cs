@@ -10,6 +10,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Data.Models.Enums;
     using EveryDayBlog.Services.Mapping;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
@@ -145,6 +146,28 @@
             return this.posts.All().Include(p => p.PageHeader)
                                    .Include(x => x.User)
                                    .FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<bool> HidePostById(int postId)
+        {
+            var currentPost = this.posts.All().FirstOrDefault(p => p.Id == postId);
+            this.posts.Delete(currentPost);
+
+            return await this.posts.SaveChangesAsync() > 0;
+        }
+
+        public async Task<int> GetPageHeaderIdAsync(int postId)
+        {
+            var post = await this.posts.All().Include(p => p.PageHeader).SingleOrDefaultAsync(P => P.Id == postId);
+
+            return post.PageHeader.Id;
+        }
+
+        public async Task<string> GetCreatorsIdAsync(int postId)
+        {
+            var post = await this.posts.All().SingleOrDefaultAsync(p => p.Id == postId);
+
+            return post.UserId;
         }
     }
 }
