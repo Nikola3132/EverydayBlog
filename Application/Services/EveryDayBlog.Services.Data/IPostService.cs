@@ -16,6 +16,9 @@
 
         Task<bool> AddSectionToPostAsync(int postId, SectionInputModel sectionInputModel);
 
+        Task<List<TEntity>> AllHidenPosts<TEntity>();
+
+
         Task<TEntity> GetPostByIdAsync<TEntity>(int postId);
 
         IEnumerable<TEntity> GetPostsFilter<TEntity>(string searchString);
@@ -26,11 +29,14 @@
 
         Task<IEnumerable<IndexPostViewModel>> OrderByAsync(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy, string username = null);
 
-        Task<bool> HidePostById(int postId);
+        Task<bool> HidePostByIdAsync(int postId);
 
         Task<int> GetPageHeaderIdAsync(int postId);
 
         Task<string> GetCreatorsIdAsync(int postId);
+
+        Task<bool> MakeVisibleAsync(int postId);
+
 
     }
 }

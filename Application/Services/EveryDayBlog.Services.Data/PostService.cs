@@ -148,7 +148,7 @@
                                    .FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<bool> HidePostById(int postId)
+        public async Task<bool> HidePostByIdAsync(int postId)
         {
             var currentPost = this.posts.All().FirstOrDefault(p => p.Id == postId);
             this.posts.Delete(currentPost);
@@ -168,6 +168,22 @@
             var post = await this.posts.All().SingleOrDefaultAsync(p => p.Id == postId);
 
             return post.UserId;
+        }
+
+        public async Task<List<TEntity>> AllHidenPosts<TEntity>()
+        {
+            return await this.posts.AllWithDeleted().Where(p => p.IsDeleted == true).To<TEntity>().ToListAsync();
+        }
+
+        public async Task<bool> MakeVisibleAsync(int postId)
+        {
+            var deletedCurrentPost = await this.posts.AllWithDeleted().SingleOrDefaultAsync(p => p.Id == postId && p.IsDeleted);
+
+            deletedCurrentPost.IsDeleted = false;
+
+            this.posts.Update(deletedCurrentPost);
+
+            return await this.posts.SaveChangesAsync() > 0;
         }
     }
 }

@@ -78,20 +78,7 @@
                     <li class="dropdown-item dropdown-submenu px-1 py-0">
                         <a asp-area="Administration" asp-controller="UsersRequests" asp-action="Deleted" class="dropdown-item nav-link">Bin</a>
                     </li>
-                    <li class="dropdown-item dropdown-submenu px-1 py-0">
-                        <a href="#" class="nav-link dropdown-toggle dropdown-item">Reports</a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item px-1 py-0">
-                                <a asp-area="Administration" asp-controller="Reports" asp-action="All" class="dropdown-item nav-link">See all</a>
-                            </li>
-                            <li class="dropdown-item px-1 py-0">
-                                <a asp-area="Administration" asp-controller="Posts" asp-action="Deleted" class="dropdown-item nav-link">Deleted</a>
-                            </li>
-                            <li class="dropdown-item px-1 py-0">
-                                <a asp-area="Administration" asp-controller="Reports" asp-action="Create" class="dropdown-item nav-link">Add new</a>
-                            </li>
-                        </ul>
-                    </li>
+                    
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -106,24 +93,16 @@
                                 <a asp-area="Administration" asp-controller="Home" asp-action="Index" class="dropdown-item nav-link">See all</a>
                             </li>
                             <li class="dropdown-item px-1 py-0">
-                                <a asp-area="Administration" asp-controller="Sections" asp-action="Deleted" class="dropdown-item nav-link">See all deleted</a>
+                                <a asp-area="Administration" asp-controller="Sections" asp-action="Deleted" class="dropdown-item nav-link">Bin</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown-item dropdown-submenu px-1 py-0">
-                        <a href="#" class="dropdown-item nav-link dropdown-toggle">Premium User's Posts </a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-item px-1 py-0">
-                                    <a asp-area="Administration" asp-controller="PremiumUsersPosts" asp-action="All" class="dropdown-item nav-link">See all</a>
-                                </li>
-                                <li class="dropdown-item px-1 py-0">
-                                    <a asp-area="Administration" asp-controller="PremiumUsersPosts" asp-action="Add" class="dropdown-item nav-link">Create TOP Post</a>
-                                </li>
-                            </ul>
+                     <li class="dropdown-item dropdown-submenu px-1 py-0">
+                        <a asp-area="Administration" asp-controller="Posts" asp-action="Hidden" class="dropdown-item nav-link">Bin</a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown">
+            @*<li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle font-weight-bold" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Page Headers
                 </a>
@@ -132,7 +111,7 @@
                     <a asp-area="Administration" asp-controller="PageHeaders" asp-action="Reported" class="dropdown-item nav-link">Reported Page Headers</a>
                     <a asp-area="Administration" asp-controller="Products" asp-action="AllHide" class="dropdown-item nav-link">Hide Page Headers</a>
                 </div>
-            </li>
+            </li>*@
         </ul>
     </div>
 </nav>

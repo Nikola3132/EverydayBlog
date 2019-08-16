@@ -91,7 +91,36 @@ namespace EveryDayBlog.Web.Areas.Administration.Controllers
             return this.RedirectToAction("Edit", "Posts", new { postId});
         }
 
-       
+        [HttpGet]
+        public async Task<IActionResult> Hide(int id)
+        {
+           bool isHide = await this.postService.HidePostByIdAsync(id);
+
+           if (isHide == false)
+            {
+                this.TempData["alert"] = "Something went wrong!";
+            }
+
+           return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Hidden()
+        {
+            var hiddenPosts = await this.postService.AllHidenPosts<HiddenPostViewModel>();
+            return this.View(hiddenPosts);
+        }
+
+        public async Task<IActionResult> Reorganize(int id)
+        {
+            var isReorganized = await this.postService.MakeVisibleAsync(id);
+            if (isReorganized == false)
+            {
+                this.TempData["alert"] = "Something went wrong!";
+            }
+
+            return this.RedirectToAction("Hidden");
+        }
 
         [NonAction]
         private EditPostInputModel FillThePost(EditPostViewModel editPostViewModel, EditPostInputModel editPostInputModel)
