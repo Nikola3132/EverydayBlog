@@ -48,6 +48,5 @@
     <Folder Include="Areas\Administration\ViewModels\Home\InputModels\" />
     <Folder Include="Areas\Administration\ViewModels\PageHeaders\ViewModels\" />
     <Folder Include="Areas\Administration\ViewModels\Sections\InputModels\" />
-    <Folder Include="Views\Sections\" />
   </ItemGroup>
 </Project>

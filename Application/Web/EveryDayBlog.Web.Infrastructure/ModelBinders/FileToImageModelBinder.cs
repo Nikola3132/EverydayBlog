@@ -18,9 +18,9 @@
                 throw new ArgumentNullException(nameof(bindingContext));
             }
 
-                var imgFormFile = bindingContext.HttpContext.Request.Form.Files.FirstOrDefault();
+            var imgFormFile = bindingContext.HttpContext.Request.Form.Files.FirstOrDefault();
 
-                if (imgFormFile != null)
+            if (imgFormFile != null)
                 {
                     var filePath = Path.GetTempFileName();
 

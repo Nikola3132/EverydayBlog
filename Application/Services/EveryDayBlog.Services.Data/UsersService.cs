@@ -39,11 +39,11 @@
 
         public async Task<ApplicationUser> GetUserByUsernameAsync(string username)
         {
-            var currentUser = this.users
+            var currentUser = await this.users
                .All()
                .SingleOrDefaultAsync(u => u.UserName == username);
 
-            return await currentUser;
+            return currentUser;
         }
 
         public async Task<string> GetUserImageIfExistsAsync(string username)
