@@ -1,6 +1,7 @@
 ﻿namespace EveryDayBlog.Services.Data.Tests.Config
 {
     using System.Reflection;
+
     using EveryDayBlog.Services.Data.Tests.ViewModels;
     using EveryDayBlog.Services.Mapping;
     using EveryDayBlog.Web.Areas.Administration.ViewModels.Messages.ViewModel;

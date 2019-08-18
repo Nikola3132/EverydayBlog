@@ -111,6 +111,7 @@
 
             // Assert
             Assert.True(expectedSection.Id == result.Id);
+
         }
 
         [Fact]
