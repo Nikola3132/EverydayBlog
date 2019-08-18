@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels
 {
-    public class ReorganizeSectionViewModel : IMapFrom<Section>
+    public class ReorganizeSectionViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 

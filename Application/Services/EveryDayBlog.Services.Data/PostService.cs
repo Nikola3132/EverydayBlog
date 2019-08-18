@@ -39,7 +39,8 @@
 
         public async Task<bool> AddSectionToPostAsync(int postId, SectionInputModel sectionInputModel)
         {
-            var currentPost = await this.GetPostByIdAsync<Post>(postId);
+            var currentPost = await this.posts.All()
+                .SingleOrDefaultAsync(p => p.Id == postId);
 
             var sectionForAdding = await this.sectionService.CreateSectionServiceOnlyAsync(sectionInputModel);
 
@@ -133,7 +134,7 @@
             }
             else if (sortBy == PostsSort.Yours)
             {
-                return await posts.Where(p => p.User.Email == username).ToListAsync();
+                return await posts.Where(p => p.UserEmail == username).ToListAsync();
 
             }
 
@@ -141,12 +142,12 @@
             return await posts.OrderByDescending(p => p.CreatedOn).ToListAsync();
         }
 
-        public Post GetProductById(int id)
-        {
-            return this.posts.All().Include(p => p.PageHeader)
-                                   .Include(x => x.User)
-                                   .FirstOrDefault(x => x.Id == id);
-        }
+        //public Post GetPostById(int id)
+        //{
+        //    return this.posts.All().Include(p => p.PageHeader)
+        //                           .Include(x => x.User)
+        //                           .FirstOrDefault(x => x.Id == id);
+        //}
 
         public async Task<bool> HidePostByIdAsync(int postId)
         {

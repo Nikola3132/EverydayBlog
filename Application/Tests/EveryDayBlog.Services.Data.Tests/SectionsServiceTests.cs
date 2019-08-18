@@ -244,16 +244,6 @@
                     }
                 });
 
-            //repository.Setup(all => all.Update(It.IsAny<Section>())).Callback(
-            //  (Section target) =>
-            //  {
-            //      if (testSectionList.Any(service => service.Id == target.Id))
-            //      {
-            //          var sectionFromList = testSectionList.FirstOrDefault(s => s.Id == target.Id);
-            //          sectionFromList = target;
-            //      }
-            //  });
-
             return repository;
         }
 

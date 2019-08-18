@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels
 {
-    public class DeletedSectionViewModel : IMapFrom<Section>
+    public class DeletedSectionViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 
