@@ -9,7 +9,13 @@ namespace EveryDayBlog.Services.Data.Tests
     {
         public BaseTest()
         {
-            InitilizeAutoMapper.InitializeMapper();
+            bool initialized = false;
+
+            if (!initialized)
+            {
+               InitilizeAutoMapper.InitializeMapper();
+                initialized = true;
+            }
         }
     }
 }

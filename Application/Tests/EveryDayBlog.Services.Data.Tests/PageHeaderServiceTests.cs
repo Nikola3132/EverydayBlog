@@ -67,28 +67,7 @@
 
 
 
-        [Fact]
-        public void GetAdminPageHeadersByPageIndicatorAsyncShouldReturnTheAdminPageHeader()
-        {
-            // Arrange
-            var expectedPageHeader = new PageHeader
-            {
-                Id = 1,
-                Image = new Image { },
-                Title = "dsfsd",
-                SubTitle = "qwedfsfs",
-                PageIndicator = GlobalConstants.AdministratorRoleName,
-            };
-
-            // Act
-
-            PageHeaderViewModel pageHeaderViewModel = this.pageHeaderService.GetAdminPageHeadersByPageIndicatorAsync<PageHeaderViewModel>();
-
-            // Assert
-            Assert.True(pageHeaderViewModel != null);
-            Assert.True(pageHeaderViewModel.PageIndicator == GlobalConstants.AdministratorRoleName);
-            Assert.True(pageHeaderViewModel.Title == expectedPageHeader.Title && pageHeaderViewModel.SubTitle == expectedPageHeader.SubTitle);
-        }
+       
 
 
         [Fact]
