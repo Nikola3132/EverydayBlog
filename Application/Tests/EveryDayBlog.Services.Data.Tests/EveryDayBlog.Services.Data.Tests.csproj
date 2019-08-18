@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\EveryDayBlog.Data\EveryDayBlog.Data.csproj" />
-    <ProjectReference Include="..\..\Services\EveryDayBlog.Services.Data\EveryDayBlog.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\EveryDayBlog.Web\EveryDayBlog.Web.csproj" />
   </ItemGroup>
 
 </Project>
