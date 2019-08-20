@@ -34,15 +34,13 @@
                 Title = sectionInputModel.SectionTitle,
             };
 
-
             await this.sections.AddAsync(sectionForDb);
+
 
             sectionForDb.SectionPosts.Add(new SectionPost { PostId = postId });
 
-            this.sections.Update(sectionForDb);
-
+            //this.sections.Update(sectionForDb);
             await this.sections.SaveChangesAsync();
-
 
             return sectionForDb.Id;
         }

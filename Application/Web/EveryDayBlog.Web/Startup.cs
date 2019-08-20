@@ -16,6 +16,7 @@
     using EveryDayBlog.Services.Messaging;
     using EveryDayBlog.Services.Messaging.Settings;
     using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels;
+    using EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels;
     using EveryDayBlog.Web.Authorization.Posts;
     using EveryDayBlog.Web.ViewModels;
     using Microsoft.AspNetCore.Authorization;
@@ -163,7 +164,7 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, typeof(Startup).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, typeof(Startup).GetTypeInfo().Assembly, typeof(DeletedSectionViewModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

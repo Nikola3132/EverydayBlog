@@ -41,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EveryDayBlog.Common\EveryDayBlog.Common.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Application\EveryDayBlog.Common\EveryDayBlog.Common.csproj" />
     <ProjectReference Include="..\..\Web\EveryDayBlog.Web.ViewModels\EveryDayBlog.Web.ViewModels.csproj" />
     <ProjectReference Include="..\EveryDayBlog.Data.Common\EveryDayBlog.Data.Common.csproj" />
     <ProjectReference Include="..\EveryDayBlog.Data.Models\EveryDayBlog.Data.Models.csproj" />
