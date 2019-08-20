@@ -1,12 +1,13 @@
-﻿using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
-using EveryDayBlog.Web.ViewModels.UsersRequests.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Messages.ViewModel
+﻿namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Messages.ViewModel
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+    using EveryDayBlog.Web.ViewModels.UsersRequests.ViewModels;
+
     public class MessagesViewModel
     {
         public PageHeaderViewModel PageHeader { get; set; }

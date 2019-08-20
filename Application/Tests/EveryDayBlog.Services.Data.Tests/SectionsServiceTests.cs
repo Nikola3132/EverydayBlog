@@ -111,7 +111,6 @@
 
             // Assert
             Assert.True(expectedSection.Id == result.Id);
-
         }
 
         [Fact]
@@ -136,11 +135,11 @@
 
             // Act
             var result = await this.sectionService.HardDelete(testedSection.Id);
+
             // Assert
             Assert.True(this.sectionRepository.All().FirstOrDefault(s => s.Id == 8) == expectedSection);
         }
 
-        
         [Fact]
         public async Task ReorganizeAsyncShouldReturnSoftDeletedSectionWithFalseIsDeleted()
         {
@@ -149,6 +148,7 @@
 
             // Act
             var result = await this.sectionService.ReorganizeAsync(testedSection.Id);
+
             // Assert
             Assert.True(testedSection.IsDeleted == false);
         }
@@ -172,41 +172,12 @@
             Assert.True(expectedSection.SectionContent == testedSection.Content && expectedSection.SectionTitle == expectedSection.SectionTitle && expectedSection.Id == testedSection.Id);
         }
 
-        //[Fact]
-        //public async Task GetUserFullNameShouldReturnFullName()
-        //{
-        //    // Arrange
-        //    var user = new ApplicationUser
-        //    {
-        //        Id = "3",
-        //        FirstName = "Third",
-        //        LastName = "Third",
-        //        Email = "third@gmail.com",
-        //        UserName = "third@gmail.com",
-        //    };
-        //    var expectedFullName = "Third Third";
-
-        //    // Act
-        //    var result = await this.userService.GetUserFullName(user.UserName);
-
-        //    // Assert
-        //    Assert.Equal(expectedFullName, result);
-        //}
-
-
-
         private Mock<IDeletableEntityRepository<Section>> GetSectionRepository(List<Section> testSectionList)
         {
             var repository = new Mock<IDeletableEntityRepository<Section>>();
             repository.Setup(all => all.All()).Returns(testSectionList.Where(x => !x.IsDeleted).AsQueryable().BuildMockDbQuery().Object);
             repository.Setup(all => all.AllWithDeleted()).Returns(testSectionList.AsQueryable().BuildMockDbQuery().Object);
-            //System.Func<Section, Task> addFunc = (Section target) =>
-            //        {
 
-            //            Task.Run(() => testSectionList.Add(target)).ConfigureAwait(true); /*testSectionList.Add(target)*/
-
-            //            Task.CompletedTask.ConfigureAwait(true);
-            //        };
             repository.Setup(all => all.AddAsync(It.IsAny<Section>())).Returns(
                 (Section section) =>
                 {
@@ -252,7 +223,6 @@
         {
             var list = new List<Section>
             {
-
                 new Section
                 {
                     Id = 1,

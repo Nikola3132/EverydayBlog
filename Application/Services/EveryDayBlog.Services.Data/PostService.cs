@@ -28,8 +28,7 @@
             IDeletableEntityRepository<Post> posts,
             IUsersService usersService,
             IPageHeaderService pageHeaderService,
-            ISectionService sectionService
-            )
+            ISectionService sectionService)
         {
             this.posts = posts;
             this.usersService = usersService;
@@ -45,7 +44,6 @@
             var sectionForAdding = await this.sectionService.CreateSectionServiceOnlyAsync(sectionInputModel);
 
             currentPost.PostSections.Add(new SectionPost { Section = sectionForAdding });
-
 
             int savedChanges = await this.posts.SaveChangesAsync();
 
@@ -68,9 +66,7 @@
                 PageHeaderId = pageHeaderId,
             };
 
-            //postForDb.Sections.Add(section);
             postForDb.PostSections.Add(new SectionPost { Section = section });
-
 
             await this.posts.AddAsync(postForDb);
 
@@ -123,7 +119,6 @@
 
             return notDeletedPosts
                              .To<TEntity>();
-
         }
 
         public async Task<IEnumerable<IndexPostViewModel>> OrderByAsync(IEnumerable<IndexPostViewModel> posts, PostsSort sortBy, string username = null)
@@ -135,19 +130,11 @@
             else if (sortBy == PostsSort.Yours)
             {
                 return await posts.Where(p => p.UserEmail == username).ToListAsync();
-
             }
 
             // Products SortType.Newest
             return await posts.OrderByDescending(p => p.CreatedOn).ToListAsync();
         }
-
-        //public Post GetPostById(int id)
-        //{
-        //    return this.posts.All().Include(p => p.PageHeader)
-        //                           .Include(x => x.User)
-        //                           .FirstOrDefault(x => x.Id == id);
-        //}
 
         public async Task<bool> HidePostByIdAsync(int postId)
         {
@@ -159,7 +146,7 @@
 
         public async Task<int> GetPageHeaderIdAsync(int postId)
         {
-            var post = await this.posts.All().Include(p => p.PageHeader).SingleOrDefaultAsync(P => P.Id == postId);
+            var post = await this.posts.All().Include(p => p.PageHeader).SingleOrDefaultAsync(p1 => p1.Id == postId);
 
             return post.PageHeader.Id;
         }

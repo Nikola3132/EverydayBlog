@@ -2,7 +2,12 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@Model.PageHeader" />
+@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+@using EveryDayBlog.Common
+
+@{ var pageHeader = new PageHeaderViewModel { Title = GlobalConstants.Profile };}
+
+<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="@pageHeader" />
 
 
 <div class="row">

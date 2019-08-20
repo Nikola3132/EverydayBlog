@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EveryDayBlog.Services
+﻿namespace EveryDayBlog.Services
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+
     public class ProtectionService : IProtectionService
     {
         private readonly IAuthorizationService authorizationService;
@@ -16,10 +14,10 @@ namespace EveryDayBlog.Services
             this.authorizationService = authorizationService;
         }
 
-        public async Task<bool> IsAuthorized<TResource>(ClaimsPrincipal User, TResource resource, string policy)
+        public async Task<bool> IsAuthorized<TResource>(ClaimsPrincipal user, TResource resource, string policy)
         {
             var isAuthorized = await this.authorizationService.AuthorizeAsync(
-                User,
+                user,
                 resource,
                 policyName: policy);
 

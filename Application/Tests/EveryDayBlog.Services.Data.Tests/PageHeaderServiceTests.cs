@@ -23,7 +23,6 @@
         private PageHeaderService pageHeaderService;
         private CloudinaryService cloudinaryService;
 
-
         public PageHeaderServiceTests()
         {
             Account cloudinaryAcc
@@ -65,11 +64,6 @@
             Assert.True(actualPageHeader != null);
         }
 
-
-
-       
-
-
         [Fact]
         public async Task GetPageHeaderByIdShouldReturnExpectedPageHeader()
         {
@@ -83,6 +77,7 @@
                 SubTitle = "qwedfsfs",
                 PageIndicator = "SDFSDF",
             };
+
             // Act
             PageHeaderViewModel pageHeaderViewModel = await this.pageHeaderService.GetPageHeaderById<PageHeaderViewModel>(inputId);
 
@@ -177,11 +172,10 @@
                     PageIndicator = "SDFSDF",
                 },
             };
-            // Act
 
+            // Act
             List<PageHeaderViewModel> firstSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(adminIndicator);
             List<PageHeaderViewModel> secondSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(randomIndicator);
-
 
             // Assert
             Assert.True(firstSetPageHeaderViewModel.Count == expectedFirstSetPageHeader.Count && secondSetPageHeaderViewModel.Count == expectedSecondSetPageHeader.Count);
@@ -190,9 +184,9 @@
             for (int i = 0; i < expectedSecondSetPageHeader.Count; i++)
             {
                 Assert.True(expectedSecondSetPageHeader[i].PageIndicator == secondSetPageHeaderViewModel[i].PageIndicator);
-
             }
         }
+
         private List<PageHeader> GetTestPageHeadersList()
         {
             var list = new List<PageHeader>

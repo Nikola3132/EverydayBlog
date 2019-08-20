@@ -1,9 +1,8 @@
 ﻿namespace EveryDayBlog.Web.ViewModels.Settings.ViewModels
 {
+    using AutoMapper;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

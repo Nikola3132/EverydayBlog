@@ -1,15 +1,16 @@
-﻿using EveryDayBlog.Services.Data;
-using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels;
-using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
-using EveryDayBlog.Web.Infrastructure.Models;
-using System.Linq;
-using EveryDayBlog.Web.ViewModels.Sections.InputModels;
-
-namespace EveryDayBlog.Web.Areas.Administration.Controllers
+﻿namespace EveryDayBlog.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using EveryDayBlog.Services.Data;
+    using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels;
+    using EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.ViewModels;
+    using EveryDayBlog.Web.Infrastructure.Models;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
+    using EveryDayBlog.Web.ViewModels.Sections.InputModels;
+    using Microsoft.AspNetCore.Mvc;
+
     public class PostsController : AdministrationController
     {
         private readonly IPostService postService;

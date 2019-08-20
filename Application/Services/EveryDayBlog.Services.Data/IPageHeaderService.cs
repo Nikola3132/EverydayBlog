@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using EveryDayBlog.Common;
     using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
 
     public interface IPageHeaderService

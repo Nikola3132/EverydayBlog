@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EveryDayBlog.Data.Models;
-using EveryDayBlog.Services.Mapping;
-
-namespace EveryDayBlog.Web.ViewModels.Contries.ViewModels
+﻿namespace EveryDayBlog.Web.ViewModels.Contries.ViewModels
 {
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
+
     public class CountryRegisterViewModel : IMapFrom<Country>
     {
         public string Name { get; set; }

@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace EveryDayBlog.Data.Migrations
+﻿namespace EveryDayBlog.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +19,7 @@ namespace EveryDayBlog.Data.Migrations
                 table: "AspNetUsers",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<int>(
                 name: "ImageId",
@@ -31,7 +32,7 @@ namespace EveryDayBlog.Data.Migrations
                 table: "AspNetUsers",
                 maxLength: 50,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateTable(
                 name: "Images",
@@ -45,7 +46,7 @@ namespace EveryDayBlog.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     ImageTitle = table.Column<string>(nullable: true),
                     ImageByte = table.Column<byte[]>(nullable: false),
-                    ImagePath = table.Column<string>(nullable: true)
+                    ImagePath = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {
@@ -65,7 +66,7 @@ namespace EveryDayBlog.Data.Migrations
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     SubTitle = table.Column<string>(maxLength: 100, nullable: false),
                     PageIndicator = table.Column<string>(nullable: false),
-                    ImageId = table.Column<int>(nullable: false)
+                    ImageId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -89,7 +90,7 @@ namespace EveryDayBlog.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: false),
-                    PageHeaderId = table.Column<int>(nullable: false)
+                    PageHeaderId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -119,7 +120,7 @@ namespace EveryDayBlog.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(nullable: true),
-                    PostId = table.Column<int>(nullable: true)
+                    PostId = table.Column<int>(nullable: true),
                 },
                 constraints: table =>
                 {
@@ -144,7 +145,7 @@ namespace EveryDayBlog.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     MainText = table.Column<string>(nullable: false),
                     ImageId = table.Column<int>(nullable: false),
-                    SectionId = table.Column<int>(nullable: true)
+                    SectionId = table.Column<int>(nullable: true),
                 },
                 constraints: table =>
                 {

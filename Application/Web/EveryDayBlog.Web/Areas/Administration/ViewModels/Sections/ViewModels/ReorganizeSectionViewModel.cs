@@ -1,12 +1,13 @@
-﻿using EveryDayBlog.Data.Models;
-using EveryDayBlog.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels
+﻿namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Sections.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
+
     public class ReorganizeSectionViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

@@ -1,11 +1,12 @@
-﻿using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
-using EveryDayBlog.Web.ViewModels.Sections.InputModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections.Generic;
-
-namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels
+﻿namespace EveryDayBlog.Web.Areas.Administration.ViewModels.Posts.InputModels
 {
+    using System.Collections.Generic;
+
+    using EveryDayBlog.Web.ViewModels.PageHeaders.InputModels;
+    using EveryDayBlog.Web.ViewModels.Sections.InputModels;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+
     public class EditPostInputModel
     {
         [BindNever]

@@ -16,6 +16,7 @@
 
         [Required]
         public string ContentType { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }

@@ -1,22 +1,38 @@
 ﻿@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
 @model PageHeaderViewModel
 
-@{ 
+@using EveryDayBlog.Services.Data;
+@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+@using EveryDayBlog.Web.ViewModels.Images.ViewModels;
+
+@inject IPageHeaderService pageHeaderService
+@{
     string img = null;
 
     if (Model?.Image?.CloudUrl != null)
     {
         img = Model.Image?.CloudUrl;
     }
- }
+    var pageHeader = Model;
+    if (Model?.Image == null)
+    {
+       var collection = Task.Run(async () => await pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(Model?.Title));
+       pageHeader = collection.GetAwaiter().GetResult().FirstOrDefault();
+       img = pageHeader?.Image?.CloudUrl;
+    }
+
+    
+}
+
+
 <header class="masthead" style="background-image: url(@img)">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>@Model?.Title</h1>
-                    <span class="subheading">@Model?.SubTitle</span>
+                    <h1>@pageHeader?.Title</h1>
+                    <span class="subheading">@pageHeader?.SubTitle</span>
                 </div>
             </div>
         </div>

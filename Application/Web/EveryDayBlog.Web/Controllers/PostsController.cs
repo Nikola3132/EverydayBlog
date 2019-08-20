@@ -1,5 +1,7 @@
 ﻿namespace EveryDayBlog.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using EveryDayBlog.Services;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.InputModels;
@@ -7,7 +9,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using System.Threading.Tasks;
 
     [Authorize]
     public class PostsController : BaseController

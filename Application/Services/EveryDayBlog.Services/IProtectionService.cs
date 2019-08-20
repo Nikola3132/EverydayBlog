@@ -8,6 +8,6 @@
 
     public interface IProtectionService
     {
-        Task<bool> IsAuthorized<TResource>(ClaimsPrincipal User, TResource resource, string policy);
+        Task<bool> IsAuthorized<TResource>(ClaimsPrincipal user, TResource resource, string policy);
     }
 }

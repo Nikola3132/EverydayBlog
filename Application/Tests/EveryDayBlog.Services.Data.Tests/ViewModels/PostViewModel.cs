@@ -1,11 +1,8 @@
-﻿using EveryDayBlog.Data.Models;
-using EveryDayBlog.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EveryDayBlog.Services.Data.Tests.ViewModels
+﻿namespace EveryDayBlog.Services.Data.Tests.ViewModels
 {
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
+
     public class PostViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

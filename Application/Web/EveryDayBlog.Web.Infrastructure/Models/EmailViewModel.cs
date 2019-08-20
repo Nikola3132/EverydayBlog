@@ -1,7 +1,8 @@
 ﻿namespace EveryDayBlog.Web.Infrastructure.Models
 {
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
 
     public class EmailViewModel
     {

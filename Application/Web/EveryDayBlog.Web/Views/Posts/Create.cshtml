@@ -13,8 +13,11 @@
 @{
     this.ViewData["Title"] = "Create Post";
 }
-@*TODO MODEL*@
-<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml"/>
+
+@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+
+@{ var pageHeader = new PageHeaderViewModel { Title = GlobalConstants.PostCreate };}
+<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="pageHeader" />
 
 <style>
     #file {

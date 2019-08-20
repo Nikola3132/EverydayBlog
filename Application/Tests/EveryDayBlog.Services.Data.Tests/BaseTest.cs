@@ -1,10 +1,7 @@
-﻿using EveryDayBlog.Services.Data.Tests.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EveryDayBlog.Services.Data.Tests
+﻿namespace EveryDayBlog.Services.Data.Tests
 {
+    using EveryDayBlog.Services.Data.Tests.Config;
+
     public class BaseTest
     {
         public BaseTest()
@@ -14,7 +11,7 @@ namespace EveryDayBlog.Services.Data.Tests
             if (!initialized)
             {
                InitilizeAutoMapper.InitializeMapper();
-                initialized = true;
+               initialized = true;
             }
         }
     }

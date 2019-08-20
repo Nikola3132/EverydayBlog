@@ -1,14 +1,10 @@
-﻿using EveryDayBlog.Data.Models;
-using EveryDayBlog.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EveryDayBlog.Services.Data.Tests.ViewModels
+﻿namespace EveryDayBlog.Services.Data.Tests.ViewModels
 {
+    using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Mapping;
+
     public class PageHeaderViewModel : IMapFrom<PageHeader>
     {
-
         public int Id { get; set; }
 
         public string Title { get; set; }

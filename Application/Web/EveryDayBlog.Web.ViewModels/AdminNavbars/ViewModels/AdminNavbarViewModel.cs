@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EveryDayBlog.Web.ViewModels.AdminNavbars.ViewModels
+﻿namespace EveryDayBlog.Web.ViewModels.AdminNavbars.ViewModels
 {
     public class AdminNavbarViewModel
     {

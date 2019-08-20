@@ -1,8 +1,13 @@
 ﻿@{
     this.ViewData["Title"] = "About";
 }
+@using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
+
+
 @*TODO: MODEL*@
-<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml"/>
+
+@{ var pageHeader = new PageHeaderViewModel { Title = GlobalConstants.About };}
+<partial name="~/Views/Shared/Partials/_HeaderDescPartial.cshtml" model="pageHeader"/>
 
 <!-- Main Content -->
 <div class="container">

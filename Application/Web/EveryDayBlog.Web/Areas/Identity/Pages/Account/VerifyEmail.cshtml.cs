@@ -1,5 +1,9 @@
 namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.Infrastructure.Extensions;
@@ -11,9 +15,6 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     [AllowAnonymous]
     public class VerifyEmailModel : PageModel
@@ -21,8 +22,6 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailService emailService;
         private readonly ILogger<VerifyEmailModel> logger;
-
-        //private readonly SendGridEmailSender sendGridEmailSender;
 
         public VerifyEmailModel(
             UserManager<ApplicationUser> userManager,

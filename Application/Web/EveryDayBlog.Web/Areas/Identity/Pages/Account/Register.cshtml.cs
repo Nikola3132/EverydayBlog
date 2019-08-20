@@ -40,23 +40,22 @@
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailService emailService;
         private readonly IUsersService usersService;
-
+        private readonly IPageHeaderService pageHeaderService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailService emailService,
-            IUsersService usersService
-           
-            /*SendGridEmailSender sendGridEmailSender*/)
+            IUsersService usersService,
+            IPageHeaderService pageHeaderService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailService = emailService;
             this.usersService = usersService;
-            //this.sendGridEmailSender = sendGridEmailSender;
+            this.pageHeaderService = pageHeaderService;
         }
 
         [BindProperty]
@@ -73,6 +72,8 @@
 
         public async Task OnGet(/*string returnUrl = null*/)
         {
+            this.PageHeader = await this.GetPageHeaderAsync();
+
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
                 this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
@@ -88,13 +89,11 @@
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
         }
 
         public async Task<IActionResult> OnPostAsync(List<IFormFile> files/*, string returnUrl = null*/)
         {
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (!this.ModelState.IsValid)
             {
                 // If we got this far, something failed, redisplay form
@@ -148,6 +147,13 @@
             return this.Page();
         }
 
+        private async Task<PageHeaderViewModel> GetPageHeaderAsync()
+        {
+            var pageHeaders = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(GlobalConstants.Registration);
+            var pageHeader = pageHeaders.FirstOrDefault();
+
+            return pageHeader;
+        }
         public class InputModel : IMapTo<ApplicationUser>
         {
             private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {1} symbols";

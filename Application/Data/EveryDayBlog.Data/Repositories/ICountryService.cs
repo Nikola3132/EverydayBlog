@@ -2,7 +2,8 @@
 {
     using System.Collections.Generic;
 
-    using Web.ViewModels.Contries.ViewModels;
+    using EveryDayBlog.Web.ViewModels.Contries.ViewModels;
+
     public interface ICountryService
     {
         List<CountryRegisterViewModel> GetAllConties();

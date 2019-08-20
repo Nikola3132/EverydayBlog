@@ -8,6 +8,7 @@
     using EveryDayBlog.Data;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Home.ViewModels;
+    using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
     using EveryDayBlog.Web.ViewModels.UsersRequests.InputModels;
     using EveryDayBlog.Web.ViewModels.UsersRequests.ViewModels;
@@ -26,25 +27,26 @@
         private readonly IPostService postService;
         private readonly IUserRequestService userRequestService;
         private readonly IUsersService usersService;
-
-
+        private readonly IPageHeaderService pageHeaderService;
 
         public HomeController(
             IPostService postService,
             IUserRequestService userRequestService,
-            IUsersService usersService)
+            IUsersService usersService,
+            IPageHeaderService pageHeaderService)
         {
             this.postService = postService;
             this.userRequestService = userRequestService;
             this.usersService = usersService;
-
-
+            this.pageHeaderService = pageHeaderService;
         }
 
         public async Task<IActionResult> Index(IndexViewModel model)
         {
             var posts = this.postService.GetPostsFilter<IndexPostViewModel>(model.SearchString);
 
+            var pageHeaders = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(GlobalConstants.Home);
+            var pageHeader = pageHeaders.FirstOrDefault();
             var sort = model.SortBy.ToString();
             if (sort == "Yours")
             {
@@ -61,7 +63,7 @@
             var pageProductsViewModel = posts.ToPagedList(pageNumber, pageSize);
 
             model.PostsViewModel = pageProductsViewModel;
-
+            model.PageHeader = pageHeader;
             return this.View(model);
         }
 
@@ -95,10 +97,15 @@
         [HttpGet]
         public async Task<IActionResult> Contact()
         {
+            var pageHeaders = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(GlobalConstants.Contact);
+            var pageHeader = pageHeaders.FirstOrDefault();
+
+            var userForContact = new UserRequestInputModel();
+            userForContact.PageHeader = pageHeader;
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var currentUserFullName = await this.usersService.GetUserFullName(this.User.Identity.Name);
-                var userForContact = new UserRequestInputModel();
 
                 userForContact.Email = this.User.Identity.Name;
 
@@ -106,11 +113,9 @@
                 {
                     userForContact.Name = currentUserFullName;
                 }
-
-                return this.View(userForContact);
             }
 
-            return this.View();
+            return this.View(userForContact);
         }
 
         [HttpPost]

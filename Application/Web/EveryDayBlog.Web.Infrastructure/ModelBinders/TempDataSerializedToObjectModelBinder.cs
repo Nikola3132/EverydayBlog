@@ -1,15 +1,14 @@
-﻿using EveryDayBlog.Web.Infrastructure.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using EveryDayBlog.Web.Infrastructure.Extensions;
-
-namespace EveryDayBlog.Web.Infrastructure.ModelBinders
+﻿namespace EveryDayBlog.Web.Infrastructure.ModelBinders
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using EveryDayBlog.Web.Infrastructure.Extensions;
+    using EveryDayBlog.Web.Infrastructure.Models;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class TempDataSerializedToObjectModelBinder<TViewModel> : IModelBinder
     {
         public async Task BindModelAsync(ModelBindingContext bindingContext)

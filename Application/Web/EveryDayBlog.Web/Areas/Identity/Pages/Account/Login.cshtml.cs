@@ -4,8 +4,9 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
+    using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.PageHeaders.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -19,12 +20,18 @@
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
+        private readonly IPageHeaderService pageHeaderService;
+
         public PageHeaderViewModel PageHeader { get; set; }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            IPageHeaderService pageHeaderService
+            )
         {
             this.signInManager = signInManager;
             this.logger = logger;
+            this.pageHeaderService = pageHeaderService;
         }
 
         [BindProperty]
@@ -55,6 +62,8 @@
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            this.PageHeader = await this.GetPageHeaderAsync();
+
             if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
                 this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
@@ -110,6 +119,14 @@
 
             // If we got this far, something failed, redisplay form
             return this.Page();
+        }
+
+        private async Task<PageHeaderViewModel> GetPageHeaderAsync()
+        {
+            var pageHeaders = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(GlobalConstants.Login);
+            var pageHeader = pageHeaders.FirstOrDefault();
+
+            return pageHeader;
         }
     }
 }

@@ -102,13 +102,6 @@
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
-            // Authorization handlers.
-            //services.AddScoped<IAuthorizationHandler,
-            //                      PostIsOwnerAuthorizationHandler>();
-
-            //services.AddSingleton<IAuthorizationHandler,
-            //                      PostAdministratorsAuthorizationHandler>();
-
             // Application services
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
@@ -172,7 +165,6 @@
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly, typeof(Startup).GetTypeInfo().Assembly);
 
-
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
@@ -189,6 +181,7 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 app.UseDatabaseErrorPage();
             }
             else
@@ -196,6 +189,7 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

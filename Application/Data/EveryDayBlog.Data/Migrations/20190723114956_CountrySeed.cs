@@ -16,7 +16,7 @@ namespace EveryDayBlog.Data.Migrations
                 columns: table => new
                 {
                     Code = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -270,7 +270,7 @@ namespace EveryDayBlog.Data.Migrations
                     { "GU", "Guam" },
                     { "GT", "Guatemala" },
                     { "DM", "Dominica" },
-                    { "ZW", "Zimbabwe" }
+                    { "ZW", "Zimbabwe" },
                 });
 
             migrationBuilder.CreateIndex(
