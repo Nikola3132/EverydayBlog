@@ -8,7 +8,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class DeletedSectionViewModel : IMapFrom<Post>
+    public class DeletedSectionViewModel : IMapFrom<Section>
     {
         public int Id { get; set; }
 

@@ -8,7 +8,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class EditSectionViewModel : IMapFrom<Post>
+    public class EditSectionViewModel : IMapFrom<Section>
     {
         public int Id { get; set; }
 
