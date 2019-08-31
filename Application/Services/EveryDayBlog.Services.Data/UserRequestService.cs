@@ -23,6 +23,12 @@
         public async Task<bool> SoftDeleteAsync(int userRequestId)
         {
             var userRequest = await this.usersRequests.All().SingleOrDefaultAsync(ur => ur.Id == userRequestId);
+
+            if (userRequest == null)
+            {
+                return false;
+            }
+
             this.usersRequests.Delete(userRequest);
 
             return await this.usersRequests.SaveChangesAsync() > 0;
@@ -31,6 +37,11 @@
         public async Task<bool> MarkAsReadedAsync(int userRequestId)
         {
             var userRequest = await this.usersRequests.All().SingleOrDefaultAsync(ur => ur.Id == userRequestId);
+
+            if (userRequest == null)
+            {
+                return false;
+            }
 
             userRequest.IsReaded = true;
 

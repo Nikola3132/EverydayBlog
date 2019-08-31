@@ -14,6 +14,7 @@
     public class PostsController : AdministrationController
     {
         private const string SomethingWrongMsg = "Something went wrong!";
+        private const string NotExistingPostErrorMsg = "There is no post with that Id...";
         private readonly IPostService postService;
         private readonly IPageHeaderService pageHeaderService;
 
@@ -29,6 +30,13 @@
         public async Task<IActionResult> Edit(int postId)
         {
             var editPostViewModel = await this.postService.GetPostByIdAsync<EditPostViewModel>(postId);
+
+            if (editPostViewModel == null)
+            {
+                this.TempData["alert"] = NotExistingPostErrorMsg;
+                return this.RedirectToAction("Index", "Home");
+            }
+
             var img = editPostViewModel?.PageHeader?.Image;
             var editPostInputModel = new EditPostInputModel
             {
@@ -46,7 +54,6 @@
                     Id = s.SectionId,
                     SectionContent = s.SectionContent,
                     SectionTitle = s.SectionTitle,
-
                 }).ToList(),
                 Id = postId,
             };

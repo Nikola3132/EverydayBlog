@@ -53,12 +53,18 @@
         public async Task MarkAsReadedAsyncShouldSetIsReadedToTrue()
         {
             // Arrange
+            var nonExistingId = 999;
+
             // Act
             await this.userRequestService.MarkAsReadedAsync(1);
+            var actualRes = await this.userRequestService.MarkAsReadedAsync(nonExistingId);
+
             var currentUr = this.usersRequestsRepository.AllWithDeleted().SingleOrDefault(ur => ur.IsReaded && ur.Id == 1);
 
             // Assert
             Assert.True(currentUr?.IsReaded);
+            Assert.False(actualRes);
+
         }
 
         [Fact]

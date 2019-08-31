@@ -12,6 +12,7 @@
     public class UsersRequestsController : AdminBaseController
     {
         private const string Url = @"mailto:viewModel.Email?subject=Re: viewModel.Name&body=%0D%0A%0D%0ARe: viewModel.Message""";
+        private const string NonExistingMsgIdErrorMsg = "There is no message with that Id.";
         private readonly IUserRequestService userRequestService;
         private readonly IPageHeaderService pageHeaderService;
 
@@ -42,14 +43,24 @@
         [HttpGet]
         public async Task<ActionResult> Readed(int id)
         {
-            await this.userRequestService.MarkAsReadedAsync(id);
+            var isReadedSucceded = await this.userRequestService.MarkAsReadedAsync(id);
+            if (isReadedSucceded == false)
+            {
+                this.TempData["alert"] = NonExistingMsgIdErrorMsg;
+            }
+
             return this.RedirectToAction("Messages");
         }
 
         [HttpGet]
         public async Task<ActionResult> SoftDelete(int id)
         {
-            await this.userRequestService.SoftDeleteAsync(id);
+            var isDeletedSuccedded = await this.userRequestService.SoftDeleteAsync(id);
+
+            if (isDeletedSuccedded == false)
+            {
+                this.TempData["alert"] = NonExistingMsgIdErrorMsg;
+            }
 
             return this.RedirectToAction("Messages");
         }
@@ -58,6 +69,11 @@
         public async Task<ActionResult> Answer(int id)
         {
             var viewModel = await this.userRequestService.TakeUserRequestById<UserRequestDetailsViewModel>(id);
+            if (viewModel == null)
+            {
+                this.TempData["alert"] = NonExistingMsgIdErrorMsg;
+                return this.RedirectToAction("Messages");
+            }
 
             return this.Redirect(Url);
         }

@@ -139,6 +139,11 @@
         public async Task<bool> HidePostByIdAsync(int postId)
         {
             var currentPost = this.posts.All().FirstOrDefault(p => p.Id == postId);
+            if (currentPost == null)
+            {
+                return false;
+            }
+
             this.posts.Delete(currentPost);
 
             return await this.posts.SaveChangesAsync() > 0;
@@ -166,6 +171,11 @@
         public async Task<bool> MakeVisibleAsync(int postId)
         {
             var deletedCurrentPost = await this.posts.AllWithDeleted().SingleOrDefaultAsync(p => p.Id == postId && p.IsDeleted);
+
+            if (deletedCurrentPost == null)
+            {
+                return false;
+            }
 
             deletedCurrentPost.IsDeleted = false;
 

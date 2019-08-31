@@ -316,11 +316,16 @@
             int postId = 2;
             var currentPost = this.postsRepository.AllWithDeleted().FirstOrDefault(p => p.Id == postId);
 
+            int unExistingPostId = 999;
             // Act
             await this.postService.HidePostByIdAsync(postId);
+            var actualBool = await this.postService.HidePostByIdAsync(unExistingPostId);
+
 
             // Assert
             Assert.True(currentPost.IsDeleted == true);
+            Assert.False(actualBool);
+
         }
 
         [Fact]
@@ -404,12 +409,16 @@
         {
             // Arrange
             var testPost = this.postsRepository.AllWithDeleted().FirstOrDefault(p => p.IsDeleted);
-
+            int notExistingId = 999;
             // Act
             await this.postService.MakeVisibleAsync(testPost.Id);
+            var actualRes = await this.postService.MakeVisibleAsync(notExistingId);
+
 
             // Assert
             Assert.False(testPost.IsDeleted);
+            Assert.False(actualRes);
+
         }
 
         private Mock<IDeletableEntityRepository<Post>> GetPostsRepository(List<Post> testPostList)

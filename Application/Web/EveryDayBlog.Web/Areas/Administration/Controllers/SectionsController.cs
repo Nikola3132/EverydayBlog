@@ -18,6 +18,7 @@
         private const string Controller = "Posts";
         private const string EmailTemplateTitle = "One of your sections was deleted by the admin!";
         private const string ErrorMsg = "There was an error!";
+        private const string NonExistingSectionErrorMsg = "There is no section with that id!";
         private readonly ISectionService sectionService;
         private readonly IPostService postService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -112,9 +113,14 @@
         public async Task<ActionResult> Reorganize(int id)
         {
             var sections = await this.sectionService.AllDeletedSections<ReorganizeSectionViewModel>();
+            var currentSection = sections.SingleOrDefault(section => section.Id == id);
+            if (currentSection == null)
+            {
+                this.TempData["alert"] = NonExistingSectionErrorMsg;
+                return this.RedirectToAction("Deleted", "Sections");
+            }
 
-
-            return this.View(sections.SingleOrDefault(section => section.Id == id));
+            return this.View();
         }
 
         [HttpPost]
