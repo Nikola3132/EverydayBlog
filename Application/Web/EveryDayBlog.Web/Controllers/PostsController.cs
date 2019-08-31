@@ -13,6 +13,8 @@
     [Authorize]
     public class PostsController : BaseController
     {
+        private const string CreatingPostErrorMsg = "Something went wrong! We'll look at the problem and soon if all is well, your post will be uploaded!";
+        private const string CreatingPostErrorLogMsg = "Post cannot be saved in the database.";
         private readonly IPostService postService;
         private readonly ILogger<PostsController> logger;
         private readonly IProtectionService protectionService;
@@ -42,10 +44,8 @@
 
             if (!isPostCreated)
             {
-                this.TempData["alert"] = "Something went wrong! We'll look at the problem and soon if all is well, your post will be uploaded!";
-                this.logger.LogError("Post cannot be saved in the database.");
-
-                // TODO: Manually upload the post from admin!
+                this.TempData["alert"] = CreatingPostErrorMsg;
+                this.logger.LogError(CreatingPostErrorLogMsg);
             }
 
             return this.Redirect("/");

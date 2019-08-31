@@ -9,6 +9,10 @@
 
     public class EmailService : IEmailService
     {
+        private const string PathFirst = "Templates";
+        private const string PathSecond = "EmailTemplate";
+        private const string PathThird = "Confirm_EmailTemplate.html";
+
         private readonly IHostingEnvironment env;
         private readonly IEmailSender sendGridEmailSender;
 
@@ -24,12 +28,11 @@
 
             var pathToFile = this.env.WebRootPath
                         + Path.DirectorySeparatorChar.ToString()
-                        + "Templates"
+                        + PathFirst
                         + Path.DirectorySeparatorChar.ToString()
-                        + "EmailTemplate"
+                        + PathSecond
                         + Path.DirectorySeparatorChar.ToString()
-                        + "Confirm_EmailTemplate.html";
-
+                        + PathThird;
 
             using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
             {

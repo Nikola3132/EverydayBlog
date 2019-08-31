@@ -12,7 +12,7 @@
     public class PostIsOwnerAuthorizationHandler
                 : AuthorizationHandler<OperationAuthorizationRequirement, Post>
     {
-        readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
 
         public PostIsOwnerAuthorizationHandler(UserManager<IdentityUser>
             userManager)
@@ -31,8 +31,6 @@
                 return Task.CompletedTask;
             }
 
-            // If we're not asking for CRUD permission, return.
-
             if (requirement.Name != GlobalConstants.CreateOperationName &&
                 requirement.Name != GlobalConstants.ReadOperationName &&
                 requirement.Name != GlobalConstants.UpdateOperationName &&
@@ -41,7 +39,7 @@
                 return Task.CompletedTask;
             }
 
-            if (resource.UserId == userManager.GetUserId(context.User))
+            if (resource.UserId == this.userManager.GetUserId(context.User))
             {
                 context.Succeed(requirement);
             }

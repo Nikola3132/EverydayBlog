@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Common;
     using EveryDayBlog.Data;
     using EveryDayBlog.Services.Data;
@@ -21,9 +22,8 @@
         private const int DefaultPageNumber = 1;
         private const int DefaultPageSize = 5;
         private const string NoResultsFound = "No results found!";
-
-
-
+        private const string YoursSort = "Yours";
+        private const string SuccessfullyCreatedQuestionMsg = "Your question was sent successfully! We'll answer you soon on the email you gave us!";
         private readonly IPostService postService;
         private readonly IUserRequestService userRequestService;
         private readonly IUsersService usersService;
@@ -48,7 +48,7 @@
             var pageHeaders = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(GlobalConstants.Home);
             var pageHeader = pageHeaders.FirstOrDefault();
             var sort = model.SortBy.ToString();
-            if (sort == "Yours")
+            if (sort == YoursSort)
             {
                 posts = await this.postService.OrderByAsync(posts, model.SortBy, this.User.Identity.Name);
             }
@@ -85,7 +85,7 @@
                 Url = string.Format(GlobalConstants.UrlTemplateAutoComplete, x.Id),
             });
 
-            return Json(result);
+            return this.Json(result);
         }
 
         [HttpGet]
@@ -135,7 +135,7 @@
 
             if (isQuestionSendedCreated)
             {
-                this.TempData["info"] = "Your question was sent successfully! We'll answer you soon on the email you gave us!";
+                this.TempData["info"] = SuccessfullyCreatedQuestionMsg;
             }
 
             return this.Redirect("/");

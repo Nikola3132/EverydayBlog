@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace EveryDayBlog.Data.Models
+﻿namespace EveryDayBlog.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -55,7 +54,5 @@ namespace EveryDayBlog.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
-
-        
     }
 }

@@ -3,7 +3,7 @@
     public static class GlobalConstants
     {
         public const string AdministratorRoleName = "Administrator";
-        //Separated by ','
+        // Separated by ','
         public const string AllowedImageExtensions = "jpg,jpeg,png,pdf";
 
         public const string UsersFolderName = "Users";
@@ -28,8 +28,6 @@
         public static readonly string Registration = "Registration";
         public static readonly string Login = "Login";
 
-
-
         public const string UrlTemplateAutoComplete = "https://localhost:44319/Posts/Details/{0}";
 
         public const string ImgAdminCloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1565522820/PageHeaders/16679_aejjiz.jpg";
@@ -40,5 +38,7 @@
         public const string ImgPostCreateCloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1566287529/PageHeaders/create_ducxw2.jpg";
         public const string ImgRegistrationCloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1566288409/PageHeaders/registration_mrulzr.jpg";
         public const string ImgLoginCloudUrl = "https://res.cloudinary.com/dy78wnfy2/image/upload/v1566289070/PageHeaders/login_uarzpi.jpg";
+
+        public const string CountriesJsonPath = @"C:\Users\nikolaviktor3132\Desktop\EveryDayBlog NEWEST\EverydayBlog\Application\Data\EveryDayBlog.Data\JSON\countries.json";
     }
 }

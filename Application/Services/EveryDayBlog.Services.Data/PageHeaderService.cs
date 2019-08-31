@@ -88,7 +88,6 @@
         {
             var pageHeader = await this.pageHeaders.All().SingleOrDefaultAsync(ph => ph.Id == pageHeaderId);
 
-
             var pageHeaderImg = pageHeaderInputModel.Image;
 
             pageHeader.ModifiedOn = DateTime.UtcNow;

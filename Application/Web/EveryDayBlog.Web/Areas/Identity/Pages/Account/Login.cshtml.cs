@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
@@ -18,16 +19,19 @@
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private const string UserLogedInLogMsg = "User logged in.";
+        private const string UserLockedOutLogMsg = "User account locked out.";
+        private const string InvalidEmailOrPassErrorMsg = "Invalid email or password ";
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
         private readonly IPageHeaderService pageHeaderService;
 
         public PageHeaderViewModel PageHeader { get; set; }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            IPageHeaderService pageHeaderService
-            )
+            IPageHeaderService pageHeaderService)
         {
             this.signInManager = signInManager;
             this.logger = logger;
@@ -95,7 +99,7 @@
                 var result = await this.signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    this.logger.LogInformation("User logged in.");
+                    this.logger.LogInformation(UserLogedInLogMsg);
                     return this.LocalRedirect(returnUrl);
                 }
 
@@ -106,12 +110,12 @@
 
                 if (result.IsLockedOut)
                 {
-                    this.logger.LogWarning("User account locked out.");
+                    this.logger.LogWarning(UserLockedOutLogMsg);
                     return this.RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "Invalid email or password ");
+                    this.ModelState.AddModelError(string.Empty, InvalidEmailOrPassErrorMsg);
                     this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     return this.Page();
                 }

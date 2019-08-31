@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
+
     using AutoMapper;
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
@@ -35,6 +36,7 @@
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
+        private const string SuccessfullyCreatedUserLog = "User created a new account with password.";
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
@@ -84,14 +86,13 @@
                 this.Response.Redirect("/Home/Error");
             }
 
-
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(List<IFormFile> files/*, string returnUrl = null*/)
+        public async Task<IActionResult> OnPostAsync(List<IFormFile> files)
         {
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (!this.ModelState.IsValid)
@@ -129,12 +130,11 @@
 
             if (result.Succeeded)
             {
-                this.logger.LogInformation("User created a new account with password.");
+                this.logger.LogInformation(SuccessfullyCreatedUserLog);
 
                 this.TempData.Clear();
 
                 TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
-
 
                 return this.RedirectToPage("VerifyEmail");
             }
@@ -154,6 +154,7 @@
 
             return pageHeader;
         }
+
         public class InputModel : IMapTo<ApplicationUser>
         {
             private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {1} symbols";
@@ -165,7 +166,7 @@
             private const string NameRegexErrorMsg = "You cannot have more than one capital letter, not any other symbols except Latin alphabets";
 
             private const string CountryCodeRequredErrorMsg = "You are obligated to select your country";
-
+            private const string ConfirmPasswordErrorMsg = "The password and confirmation password do not match.";
 
             [Required]
             [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = NameErrorMsg)]
@@ -205,12 +206,11 @@
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = ConfirmPasswordErrorMsg)]
             public string ConfirmPassword { get; set; }
 
             [Required(ErrorMessage = CountryCodeRequredErrorMsg)]
             public string CountryCode { get; set; }
-
         }
     }
 }

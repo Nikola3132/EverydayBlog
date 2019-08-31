@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace EveryDayBlog.Data.Models
+﻿namespace EveryDayBlog.Data.Models
 {
     using System;
 

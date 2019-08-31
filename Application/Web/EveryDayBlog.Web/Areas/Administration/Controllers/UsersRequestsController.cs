@@ -11,6 +11,7 @@
 
     public class UsersRequestsController : AdminBaseController
     {
+        private const string Url = @"mailto:viewModel.Email?subject=Re: viewModel.Name&body=%0D%0A%0D%0ARe: viewModel.Message""";
         private readonly IUserRequestService userRequestService;
         private readonly IPageHeaderService pageHeaderService;
 
@@ -49,7 +50,7 @@
         public async Task<ActionResult> SoftDelete(int id)
         {
             await this.userRequestService.SoftDeleteAsync(id);
-            // TODO: Exception handler for unfound id!
+
             return this.RedirectToAction("Messages");
         }
 
@@ -58,7 +59,7 @@
         {
             var viewModel = await this.userRequestService.TakeUserRequestById<UserRequestDetailsViewModel>(id);
 
-            return this.Redirect(@"mailto:viewModel.Email?subject=Re: viewModel.Name&body=%0D%0A%0D%0ARe: viewModel.Message""");
+            return this.Redirect(Url);
         }
 
         [HttpGet]
@@ -82,7 +83,6 @@
                     deletedMessagesViewModel.DeletedMessages = deletedMessages;
                 }
             }
-
 
             return this.View(deletedMessagesViewModel);
         }

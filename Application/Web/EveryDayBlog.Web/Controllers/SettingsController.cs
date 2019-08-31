@@ -21,7 +21,8 @@
         private readonly ICloudinaryService cloudinaryService;
         private readonly IUsersService userService;
 
-        public SettingsController(IDeletableEntityRepository<Setting> repository,
+        public SettingsController(
+            IDeletableEntityRepository<Setting> repository,
             UserManager<ApplicationUser> userManager,
             ICloudinaryService cloudinaryService,
             IUsersService userService)
@@ -39,6 +40,7 @@
             var model = new SettingsListViewModel { Settings = settings };
             return this.View(model);
         }
+
         public async Task<IActionResult> DeleteImg()
         {
            //var userImageUrl = this.userService.GetUserProfileImageIfExists(this.User.Identity.Name);

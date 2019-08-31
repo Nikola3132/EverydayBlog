@@ -14,6 +14,8 @@
     public class ChangePasswordModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string PasswordChangedSuccessfullyLogMsg = "User changed their password successfully.";
+        private const string PasswordChangedMsg = "Your password has been changed.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<ChangePasswordModel> logger;
@@ -41,7 +43,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var hasPassword = await this.userManager.HasPasswordAsync(user);
@@ -63,7 +65,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var changePasswordResult = await this.userManager.ChangePasswordAsync(user, this.Input.OldPassword, this.Input.NewPassword);
@@ -78,28 +80,31 @@
             }
 
             await this.signInManager.RefreshSignInAsync(user);
-            this.logger.LogInformation("User changed their password successfully.");
-            this.StatusMessage = "Your password has been changed.";
+            this.logger.LogInformation(PasswordChangedSuccessfullyLogMsg);
+            this.StatusMessage = PasswordChangedMsg;
 
             return this.RedirectToPage();
         }
 
         public class InputModel
         {
+            private const string NewPassLenghtErrorMsg = "The {0} must be at least {2} and at max {1} characters long.";
+            private const string ConfirmPassCompareErrorMsg = "The new password and confirmation password do not match.";
+
             [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Current password")]
             public string OldPassword { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = NewPassLenghtErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Compare("NewPassword", ErrorMessage = ConfirmPassCompareErrorMsg)]
             public string ConfirmPassword { get; set; }
         }
     }

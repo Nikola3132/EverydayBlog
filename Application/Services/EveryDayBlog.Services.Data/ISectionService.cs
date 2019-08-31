@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Web.ViewModels.Sections.InputModels;
 
@@ -24,8 +25,5 @@
         Task<bool> HardDelete(int sectionId);
 
         Task<bool> ReorganizeAsync(int sectionId);
-
-
-
     }
 }

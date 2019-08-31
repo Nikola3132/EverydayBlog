@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
@@ -21,6 +22,11 @@
 
     public class IndexModel : PageModel
     {
+        private const string Key = "EmailOptions";
+        private const string UpdateEmailErrorMsg = "Your email won't be updated until you have confirm it in your mail!";
+        private const string ProfileUpdateMsg = "Your profile has been updated";
+        private const string EmailTemplateTitle = "Confirm your email";
+        private const string InfoMsgEmailSended = "Verification email sent. Please check your email.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IEmailSender emailSender;
@@ -64,7 +70,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             string cloudinaryUrl = await this.usersService.GetUserImageIfExistsAsync(this.User.Identity.Name);
@@ -73,7 +79,6 @@
             var email = await this.userManager.GetEmailAsync(user);
 
             this.Username = userName;
-
 
             this.Input = new InputModel
             {
@@ -103,7 +108,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var email = await this.userManager.GetEmailAsync(user);
@@ -118,13 +123,13 @@
                 await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
 
                 this.TempData.Clear();
-                TempDataExtensions.Put<EmailViewModel>(this.TempData, "EmailOptions", new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
+                TempDataExtensions.Put<EmailViewModel>(this.TempData, Key, new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
 
                 string distributedCacheKey = email;
 
                 await this.distributedCache.SetStringAsync(user.Email, this.Input.Email);
 
-                this.TempData["alert"] = "Your email won't be updated until you have confirm it in your mail!";
+                this.TempData["alert"] = UpdateEmailErrorMsg;
             }
 
             user.CountryCode = this.Input.Country;
@@ -140,6 +145,7 @@
                 {
                     await this.usersService.DeleteUserImgAsync(user.UserName);
                 }
+
                 await this.usersService.AddUserImageAsync(this.Input.Image, user.UserName);
             }
 
@@ -147,7 +153,7 @@
             await this.efRepository.SaveChangesAsync();
 
             await this.signInManager.RefreshSignInAsync(user);
-            this.StatusMessage = "Your profile has been updated";
+            this.StatusMessage = ProfileUpdateMsg;
             return this.RedirectToPage();
         }
 
@@ -161,7 +167,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var userId = await this.userManager.GetUserIdAsync(user);
@@ -174,16 +180,15 @@
                 protocol: this.Request.Scheme);
             await this.emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
+                EmailTemplateTitle,
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            this.StatusMessage = "Verification email sent. Please check your email.";
+            this.StatusMessage = InfoMsgEmailSended;
             return this.RedirectToPage();
         }
 
         public class InputModel /*: IMapFrom<ApplicationUser>, IHaveCustomMappings*/
         {
-
             private const string DescriptionErrorMsg = "Your {0} cannot be with lower than {1} symbols";
 
             private const string NameErrorMsg = "Your {0} cannot be with more than {1} and lower than {2} symbols";
@@ -230,7 +235,6 @@
             public string ImageCloudUrl { get; set; }
 
             public string Profession { get; set; }
-
         }
     }
 }

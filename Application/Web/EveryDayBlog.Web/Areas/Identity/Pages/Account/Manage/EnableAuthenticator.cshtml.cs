@@ -18,7 +18,10 @@
 #pragma warning restore SA1649 // File name should match first type name
     {
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-
+        private const string InputModelErrorKeyMsg = "Input.Code";
+        private const string VerifycationCodeInvalidMsg = "Verification code is invalid.";
+        private const string Enabled2FaLogMsg = "User with ID '{0}' has enabled 2FA with an authenticator app.";
+        private const string VerifiedAuthMsg = "Your authenticator app has been verified.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<EnableAuthenticatorModel> logger;
         private readonly UrlEncoder urlEncoder;
@@ -53,7 +56,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             await this.LoadSharedKeyAndQrCodeUriAsync(user);
@@ -66,7 +69,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             if (!this.ModelState.IsValid)
@@ -83,16 +86,16 @@
 
             if (!is2faTokenValid)
             {
-                this.ModelState.AddModelError("Input.Code", "Verification code is invalid.");
+                this.ModelState.AddModelError(InputModelErrorKeyMsg, VerifycationCodeInvalidMsg);
                 await this.LoadSharedKeyAndQrCodeUriAsync(user);
                 return this.Page();
             }
 
             await this.userManager.SetTwoFactorEnabledAsync(user, true);
             var userId = await this.userManager.GetUserIdAsync(user);
-            this.logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
+            this.logger.LogInformation(Enabled2FaLogMsg, userId);
 
-            this.StatusMessage = "Your authenticator app has been verified.";
+            this.StatusMessage = VerifiedAuthMsg;
 
             if (await this.userManager.CountRecoveryCodesAsync(user) == 0)
             {
@@ -151,10 +154,13 @@
 
         public class InputModel
         {
+            private const string CodeLenghtErrorMsg = "The {0} must be at least {2} and at max {1} characters long.";
+            private const string CodeDisplay = "Verification Code";
+
             [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(7, ErrorMessage = CodeLenghtErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Verification Code")]
+            [Display(Name = CodeDisplay)]
             public string Code { get; set; }
         }
     }

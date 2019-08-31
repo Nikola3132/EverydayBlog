@@ -14,6 +14,10 @@
 
     public class SectionsController : AdministrationController
     {
+        private const string Action = "Details";
+        private const string Controller = "Posts";
+        private const string EmailTemplateTitle = "One of your sections was deleted by the admin!";
+        private const string ErrorMsg = "There was an error!";
         private readonly ISectionService sectionService;
         private readonly IPostService postService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -78,21 +82,21 @@
 
                 var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = this.Url.Action(
-                      "Details",
-                      "Posts",
+                      Action,
+                      Controller,
                       new { id = postId },
                       protocol: this.Request.Scheme);
 
                 await this.emailSender.SendEmailAsync(
                     user.Email,
-                    "One of your sections was deleted by the admin!",
+                    EmailTemplateTitle,
                     $"Please click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>here</a> and see in which of your posts was it. If you want clarification you can send email in the contact form with this number written like (sectionId => {id})");
 
                 return this.RedirectToAction("Edit", "Posts", new { postId });
             }
             catch
             {
-                this.TempData["alert"] = "There was an error!";
+                this.TempData["alert"] = ErrorMsg;
                 return this.RedirectToAction("Edit", "Posts", new { postId });
             }
         }

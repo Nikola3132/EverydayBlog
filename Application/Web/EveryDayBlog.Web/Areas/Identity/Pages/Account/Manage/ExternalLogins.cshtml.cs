@@ -16,6 +16,8 @@
     public class ExternalLoginsModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string ExternalLoginRemovedMsg = "The external login was removed.";
+        private const string ExternalLoginAddded = "The external login was added.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
@@ -43,7 +45,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             this.CurrentLogins = await this.userManager.GetLoginsAsync(user);
@@ -59,18 +61,18 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var result = await this.userManager.RemoveLoginAsync(user, loginProvider, providerKey);
             if (!result.Succeeded)
             {
                 var userId = await this.userManager.GetUserIdAsync(user);
-                throw new InvalidOperationException($"Unexpected error occurred removing external login for user with ID '{userId}'.");
+                throw new InvalidOperationException(message: $"Unexpected error occurred removing external login for user with ID '{userId}'.");
             }
 
             await this.signInManager.RefreshSignInAsync(user);
-            this.StatusMessage = "The external login was removed.";
+            this.StatusMessage = ExternalLoginRemovedMsg;
             return this.RedirectToPage();
         }
 
@@ -90,25 +92,25 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var info = await this.signInManager.GetExternalLoginInfoAsync(await this.userManager.GetUserIdAsync(user));
             if (info == null)
             {
-                throw new InvalidOperationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
+                throw new InvalidOperationException(message: $"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
             }
 
             var result = await this.userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred adding external login for user with ID '{user.Id}'.");
+                throw new InvalidOperationException(message: $"Unexpected error occurred adding external login for user with ID '{user.Id}'.");
             }
 
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            this.StatusMessage = "The external login was added.";
+            this.StatusMessage = ExternalLoginAddded;
             return this.RedirectToPage();
         }
     }

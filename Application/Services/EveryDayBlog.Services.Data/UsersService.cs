@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Common;
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
@@ -68,7 +69,6 @@
             };
             currentUser.Image = imgForDb;
 
-
             int addedImgs = await this.users.SaveChangesAsync();
             return addedImgs == 1;
         }
@@ -92,7 +92,6 @@
             }
 
             return false;
-
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string id)
@@ -112,6 +111,7 @@
             {
                 fullName = string.Empty;
             }
+
             return fullName;
         }
     }

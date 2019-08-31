@@ -15,6 +15,8 @@
     public class DeletePersonalDataModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string PassNotCorrectMsg = "Password not correct.";
+        private const string UserDeletedLogMsg = "User with ID '{0}' deleted themselves.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<DeletePersonalDataModel> logger;
@@ -41,7 +43,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             this.RequirePassword = await this.userManager.HasPasswordAsync(user);
@@ -53,7 +55,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             this.RequirePassword = await this.userManager.HasPasswordAsync(user);
@@ -61,7 +63,7 @@
             {
                 if (!await this.userManager.CheckPasswordAsync(user, this.Input.Password))
                 {
-                    this.ModelState.AddModelError(string.Empty, "Password not correct.");
+                    this.ModelState.AddModelError(string.Empty, PassNotCorrectMsg);
                     return this.Page();
                 }
             }
@@ -70,12 +72,12 @@
             var userId = await this.userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
+                throw new InvalidOperationException(message: $"Unexpected error occurred deleting user with ID '{userId}'.");
             }
 
             await this.signInManager.SignOutAsync();
 
-            this.logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+            this.logger.LogInformation(UserDeletedLogMsg, userId);
 
             return this.Redirect("~/");
         }

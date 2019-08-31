@@ -13,6 +13,7 @@
     public class SetPasswordModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string PasswordSetMsg = "Your password has been set.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
@@ -37,7 +38,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var hasPassword = await this.userManager.HasPasswordAsync(user);
@@ -60,7 +61,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             var addPasswordResult = await this.userManager.AddPasswordAsync(user, this.Input.NewPassword);
@@ -75,22 +76,25 @@
             }
 
             await this.signInManager.RefreshSignInAsync(user);
-            this.StatusMessage = "Your password has been set.";
+            this.StatusMessage = PasswordSetMsg;
 
             return this.RedirectToPage();
         }
 
         public class InputModel
         {
+            private const string ConfrimPasswordErrorMsg = "The new password and confirmation password do not match.";
+            private const string PasswordLenghtErrorMsg = "The {0} must be at least {2} and at max {1} characters long.";
+
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = PasswordLenghtErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Compare("NewPassword", ErrorMessage = ConfrimPasswordErrorMsg)]
             public string ConfirmPassword { get; set; }
         }
     }

@@ -11,11 +11,13 @@
 
     public class ImageSeeder : ISeeder
     {
+        private const string ImgTitleForAdmin = "AdminBackground";
+
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (!dbContext.Images.Any(i => i.CloudUrl == GlobalConstants.ImgAdminCloudUrl))
             {
-                await dbContext.Images.AddAsync(new Image { CloudUrl = GlobalConstants.ImgAdminCloudUrl, CreatedOn = DateTime.UtcNow, ContentType = string.Empty, ImagePath = string.Empty, ImageTitle = "AdminBackground" });
+                await dbContext.Images.AddAsync(new Image { CloudUrl = GlobalConstants.ImgAdminCloudUrl, CreatedOn = DateTime.UtcNow, ContentType = string.Empty, ImagePath = string.Empty, ImageTitle = ImgTitleForAdmin });
             }
 
             if (!dbContext.Images.Any(i => i.CloudUrl == GlobalConstants.ImgAboutCloudUrl))

@@ -19,6 +19,7 @@
     public class DownloadPersonalDataModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string PersonalDataAskedLogMsg = "User with ID '{0}' asked for their personal data.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<DownloadPersonalDataModel> logger;
 
@@ -35,10 +36,10 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            this.logger.LogInformation("User with ID '{UserId}' asked for their personal data.", this.userManager.GetUserId(this.User));
+            this.logger.LogInformation(PersonalDataAskedLogMsg, this.userManager.GetUserId(this.User));
 
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();

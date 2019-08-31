@@ -15,8 +15,10 @@
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
+        private const string EmailTemplTitle = "Reset Password";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailSender emailSender;
+
         public PageHeaderViewModel PageHeader { get; set; }
 
         public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
@@ -50,7 +52,7 @@
 
                 await this.emailSender.SendEmailAsync(
                     this.Input.Email,
-                    "Reset Password",
+                    EmailTemplTitle,
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 return this.RedirectToPage("./ForgotPasswordConfirmation");

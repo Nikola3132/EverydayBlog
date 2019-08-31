@@ -19,16 +19,15 @@
         private const string RegistrationSubTitle = "Create your own account and be one of us.";
         private const string LoginSubTitle = "Let us know that you are real.";
 
+        private const string ImgTitleForAdmin = "AdminBackground";
 
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
             if (!dbContext.PagesHeaders.Any(ph => ph.PageIndicator == GlobalConstants.AdministratorRoleName))
             {
-                var background = dbContext.Images.FirstOrDefault(i => i.ImageTitle == "AdminBackground");
+                var background = dbContext.Images.FirstOrDefault(i => i.ImageTitle == ImgTitleForAdmin);
                 await dbContext.PagesHeaders.AddAsync(new PageHeader { CreatedOn = DateTime.UtcNow, SubTitle = AdminSubTitle, Image = background, PageIndicator = GlobalConstants.AdministratorRoleName, Title = GlobalConstants.AdministratorRoleName });
-
             }
-
 
             if (!dbContext.PagesHeaders.Any(ph => ph.PageIndicator == GlobalConstants.About))
             {

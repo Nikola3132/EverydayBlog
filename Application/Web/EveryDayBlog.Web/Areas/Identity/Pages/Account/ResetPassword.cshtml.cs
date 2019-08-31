@@ -15,6 +15,7 @@
     public class ResetPasswordModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string Error = "A code must be supplied for password reset.";
         private readonly UserManager<ApplicationUser> userManager;
 
         public ResetPasswordModel(UserManager<ApplicationUser> userManager)
@@ -31,7 +32,7 @@
         {
             if (code == null)
             {
-                return this.BadRequest("A code must be supplied for password reset.");
+                return this.BadRequest(Error);
             }
             else
             {
@@ -73,18 +74,22 @@
 
         public class InputModel
         {
+            private const string PasswordErrorMsg = "The {0} must be at least {2} and at max {1} characters long.";
+            private const string DisplayPasswordName = "Confirm password";
+            private const string PasswordConfirmErrorMsg = "The password and confirmation password do not match.";
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = PasswordErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = DisplayPasswordName)]
+            [Compare("Password", ErrorMessage = PasswordConfirmErrorMsg)]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }

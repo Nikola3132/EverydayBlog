@@ -14,7 +14,7 @@
 #pragma warning restore SA1649 // File name should match first type name
     {
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}";
-
+        private const string BrowserStatusMsg = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> logger;
@@ -48,7 +48,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             this.HasAuthenticator = await this.userManager.GetAuthenticatorKeyAsync(user) != null;
@@ -64,11 +64,11 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             await this.signInManager.ForgetTwoFactorClientAsync();
-            this.StatusMessage = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
+            this.StatusMessage = BrowserStatusMsg;
             return this.RedirectToPage();
         }
     }

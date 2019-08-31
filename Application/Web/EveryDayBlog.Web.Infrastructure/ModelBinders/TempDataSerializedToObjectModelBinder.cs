@@ -11,6 +11,8 @@
 
     public class TempDataSerializedToObjectModelBinder<TViewModel> : IModelBinder
     {
+        private const string Key = "EmailOptions";
+
         public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)
@@ -21,7 +23,7 @@
             var tempDataDictionaryFactory = bindingContext.HttpContext.RequestServices.GetRequiredService<ITempDataDictionaryFactory>();
             var tempDataDictionary = tempDataDictionaryFactory.GetTempData(bindingContext.HttpContext);
 
-            var emailViewModel = tempDataDictionary.Get<EmailViewModel>("EmailOptions");
+            var emailViewModel = tempDataDictionary.Get<EmailViewModel>(Key);
 
             bindingContext.Result = ModelBindingResult.Success(emailViewModel);
         }

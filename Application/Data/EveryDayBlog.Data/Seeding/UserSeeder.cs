@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using EveryDayBlog.Common;
     using EveryDayBlog.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@
 
             foreach (var user in users)
             {
-                if (await userManager.IsInRoleAsync(user, "Administrator"))
+                if (await userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName))
                 {
                     exists = true;
                     break;
@@ -40,7 +41,7 @@
                 await userManager.CreateAsync(user, "123456");
                 await dbContext.SaveChangesAsync();
 
-                await userManager.AddToRoleAsync(user, "Administrator");
+                await userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
             }
         }
     }

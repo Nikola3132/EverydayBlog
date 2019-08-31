@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Data.Common.Repositories;
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
@@ -26,7 +27,6 @@
 
         public async Task<int> CreateSectionAsync(SectionInputModel sectionInputModel, int postId)
         {
-
             var sectionForDb = new Section
             {
                 CreatedOn = DateTime.UtcNow,
@@ -36,10 +36,8 @@
 
             await this.sections.AddAsync(sectionForDb);
 
-
             sectionForDb.SectionPosts.Add(new SectionPost { PostId = postId });
 
-            //this.sections.Update(sectionForDb);
             await this.sections.SaveChangesAsync();
 
             return sectionForDb.Id;
@@ -57,7 +55,6 @@
             await this.sections.AddAsync(sectionForDb);
 
             await this.sections.SaveChangesAsync();
-
 
             return sectionForDb;
         }
@@ -89,7 +86,8 @@
             section.IsDeleted = false;
 
             this.sections.Update(section);
-           return await this.sections.SaveChangesAsync() > 0;
+
+            return await this.sections.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> SoftDelete(int sectionId)
@@ -102,7 +100,6 @@
 
            this.sections.Delete(currentSection);
            return await this.sections.SaveChangesAsync() > 0;
-
         }
 
         public async Task<bool> UpdateSectionByIdAsync(int sectionId, EditSectionInputModel modifiedSection)
@@ -118,4 +115,3 @@
         }
     }
 }
-

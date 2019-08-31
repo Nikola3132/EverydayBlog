@@ -8,6 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using EveryDayBlog.Common;
     using EveryDayBlog.Data.Common.Models;
     using EveryDayBlog.Data.Models;
 
@@ -135,10 +136,9 @@
             builder.Entity<Country>().HasMany(c => c.Users).WithOne(u => u.Country)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            var jsonText = File.ReadAllText(@"C:\Users\nikolaviktor3132\Desktop\EveryDayBlog NEWEST\EverydayBlog\Application\Data\EveryDayBlog.Data\JSON\countries.json");
+            var jsonText = File.ReadAllText(GlobalConstants.CountriesJsonPath);
 
             builder.Entity<Country>().HasData(JsonConvert.DeserializeObject<List<Country>>(jsonText));
-
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

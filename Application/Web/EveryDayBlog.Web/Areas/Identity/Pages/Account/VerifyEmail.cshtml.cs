@@ -19,6 +19,7 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class VerifyEmailModel : PageModel
     {
+        private const string ConfirmEmailMsg = "You've already confirmed your email.";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailService emailService;
         private readonly ILogger<VerifyEmailModel> logger;
@@ -50,7 +51,7 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                this.TempData["alert"] = "You've already confirmed your email.";
+                this.TempData["alert"] = ConfirmEmailMsg;
                 return this.Redirect("~/Home/Index");
             }
 
@@ -72,7 +73,7 @@ namespace EveryDayBlog.Web.Areas.Identity.Pages.Account
 
             if (this.User.Identity.IsAuthenticated)
             {
-                this.TempData["alert"] = "You've already confirmed your email.";
+                this.TempData["alert"] = ConfirmEmailMsg;
                 return this.Redirect("~/Home/Index");
             }
 

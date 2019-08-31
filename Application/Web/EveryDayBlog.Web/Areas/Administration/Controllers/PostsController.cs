@@ -13,6 +13,7 @@
 
     public class PostsController : AdministrationController
     {
+        private const string SomethingWrongMsg = "Something went wrong!";
         private readonly IPostService postService;
         private readonly IPageHeaderService pageHeaderService;
 
@@ -61,6 +62,7 @@
             {
                 postId = editPostInputModel.Id;
             }
+
             var editPostViewModel = await this.postService.GetPostByIdAsync<EditPostViewModel>(postId);
             if (!this.ModelState.IsValid)
             {
@@ -79,30 +81,22 @@
                 Image = img,
                 MainTitle = editPostInputModel.PageHeader.MainTitle,
                 SubTitle = editPostInputModel.PageHeader.SubTitle,
-            }
-            );
-            //UPDATE POST
-            //var isPostCreated = await this.postService.CreatePostAsync(, this.User.Identity.Name);
+            });
 
-            //if (!isPostCreated)
-            //{
-            //    this.TempData["alert"] = "Something went wrong!";
-            //}
-
-            return this.RedirectToAction("Edit", "Posts", new { postId});
+            return this.RedirectToAction("Edit", "Posts", new { postId });
         }
 
         [HttpGet]
         public async Task<IActionResult> Hide(int id)
         {
-           bool isHide = await this.postService.HidePostByIdAsync(id);
+            bool isHide = await this.postService.HidePostByIdAsync(id);
 
-           if (isHide == false)
+            if (isHide == false)
             {
-                this.TempData["alert"] = "Something went wrong!";
+                this.TempData["alert"] = SomethingWrongMsg;
             }
 
-           return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -117,7 +111,7 @@
             var isReorganized = await this.postService.MakeVisibleAsync(id);
             if (isReorganized == false)
             {
-                this.TempData["alert"] = "Something went wrong!";
+                this.TempData["alert"] = SomethingWrongMsg;
             }
 
             return this.RedirectToAction("Hidden");

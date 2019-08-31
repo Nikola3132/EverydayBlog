@@ -17,6 +17,10 @@
     public class LoginWith2faModel : PageModel
 #pragma warning restore SA1649 // File name should match first type name
     {
+        private const string TwoFactorLogMsg = "User with ID '{0}' logged in with 2fa.";
+        private const string LockedOutLogErrorMsg = "User with ID '{0}' account locked out.";
+        private const string InvalidAuthenticationLogMsg = "Invalid authenticator code entered for user with ID '{0}'.";
+        private const string InvalidAuthCode = "Invalid authenticator code.";
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginWith2faModel> logger;
 
@@ -42,7 +46,7 @@
 
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException(message: $"Unable to load two-factor authentication user.");
             }
 
             this.ReturnUrl = returnUrl;
@@ -63,7 +67,7 @@
             var user = await this.signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException(message: $"Unable to load two-factor authentication user.");
             }
 
             var authenticatorCode = this.Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -72,31 +76,35 @@
 
             if (result.Succeeded)
             {
-                this.logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
+                this.logger.LogInformation(TwoFactorLogMsg, user.Id);
                 return this.LocalRedirect(returnUrl);
             }
             else if (result.IsLockedOut)
             {
-                this.logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
+                this.logger.LogWarning(LockedOutLogErrorMsg, user.Id);
                 return this.RedirectToPage("./Lockout");
             }
             else
             {
-                this.logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                this.ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                this.logger.LogWarning(InvalidAuthenticationLogMsg, user.Id);
+                this.ModelState.AddModelError(string.Empty, InvalidAuthCode);
                 return this.Page();
             }
         }
 
         public class InputModel
         {
+            private const string TwoFactorCodeLenghtErrorMsg = "The {0} must be at least {2} and at max {1} characters long.";
+            private const string AuthDisplay = "Authenticator code";
+            private const string RememberMeDisplay = "Remember this machine";
+
             [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(7, ErrorMessage = TwoFactorCodeLenghtErrorMsg, MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Authenticator code")]
+            [Display(Name = AuthDisplay)]
             public string TwoFactorCode { get; set; }
 
-            [Display(Name = "Remember this machine")]
+            [Display(Name = RememberMeDisplay)]
             public bool RememberMachine { get; set; }
         }
     }

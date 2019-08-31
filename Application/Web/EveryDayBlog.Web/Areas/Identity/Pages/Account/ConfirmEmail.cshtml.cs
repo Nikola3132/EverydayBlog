@@ -14,6 +14,7 @@
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
+        private const string ConfirmingEmailMsg = "Thanks you for confirming your email!";
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IDistributedCache distributedCache;
@@ -21,8 +22,7 @@
         public ConfirmEmailModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IDistributedCache distributedCache
-            )
+            IDistributedCache distributedCache)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -39,7 +39,7 @@
             var user = await this.userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{userId}'.");
+                return this.NotFound(value: $"Unable to load user with ID '{userId}'.");
             }
 
             var changeToNewEmail = await this.distributedCache.GetStringAsync(user.Email);
@@ -52,25 +52,24 @@
                 if (!setEmailResult.Succeeded)
                 {
                     var currentUserId = await this.userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{currentUserId}'.");
+                    throw new InvalidOperationException(message: $"Unexpected error occurred setting email for user with ID '{currentUserId}'.");
                 }
 
                 await this.userManager.SetUserNameAsync(user, changeToNewEmail);
                 code = await this.signInManager.UserManager.GenerateEmailConfirmationTokenAsync(user);
             }
 
-
             var result = await this.userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
+                throw new InvalidOperationException(message: $"Error confirming email for user with ID '{userId}':");
             }
 
-            this.TempData["info"] = "Thanks you for confirming your email!";
+            this.TempData["info"] = ConfirmingEmailMsg;
 
             await this.signInManager.SignInAsync(user, isPersistent: true);
 
-            return this.RedirectToAction("Index", "Home", new { Area = "" });
+            return this.RedirectToAction("Index", "Home", new { Area = string.Empty });
         }
     }
 }

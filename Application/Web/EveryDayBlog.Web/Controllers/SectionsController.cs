@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Data;
     using EveryDayBlog.Web.ViewModels.Posts.ViewModels;
@@ -17,6 +18,9 @@
     [Authorize]
     public class SectionsController : BaseController
     {
+        private const string SectionErrorMsg = "Your section wasn't added ,because of input errors!";
+        private const string SectionAddErrorMsg = "Something went wrong! We'll look at the problem and soon if all is well, your section will be added!";
+
         private readonly ISectionService sectionService;
         private readonly ILogger<SectionsController> logger;
 
@@ -35,40 +39,39 @@
 
             if (!this.ModelState.IsValid)
             {
-                this.TempData["alert"] = "Your section wasn't added ,because of input errors!";
+                this.TempData["alert"] = SectionErrorMsg;
                 return this.RedirectToAction("Details", "Posts", new { id = id });
-
             }
-
 
             var sectionId = await this.sectionService.CreateSectionAsync(sectionInputModel, id);
 
-            if (sectionId == null)
+            if (sectionId != 0)
             {
-                this.TempData["alert"] = "Something went wrong! We'll look at the problem and soon if all is well, your section will be added!";
-                this.logger.LogError($"The section cannot be saved in the database <-----> postId -> {id}.");
-
-                // TODO: Manually upload the post from admin!
+                return this.RedirectToAction("Details", "Posts", new { id = id });
             }
 
-            return this.RedirectToAction("Details", "Posts", new { id= id });
+            this.TempData["alert"] = SectionAddErrorMsg;
+            this.logger.LogError(message: $"The section cannot be saved in the database <-----> postId -> {id}.");
+
+            return this.RedirectToAction("Details", "Posts", new { id = id });
         }
+
         // GET: Sections
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         // GET: Sections/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return this.View();
         }
 
         // GET: Sections/Create
         public ActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Sections/Create
@@ -78,29 +81,17 @@
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(this.Index));
             }
             catch
             {
-                return View();
+                return this.View();
             }
         }
 
-        // GET: Sections/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: Sections/Edit/5
-       
-
-        // GET: Sections/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return this.View();
         }
 
         // POST: Sections/Delete/5
@@ -110,13 +101,11 @@
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(this.Index));
             }
             catch
             {
-                return View();
+                return this.View();
             }
         }
     }

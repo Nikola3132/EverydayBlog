@@ -1,10 +1,9 @@
 ﻿namespace EveryDayBlog.Web.Authorization.Posts
 {
     using System.Threading.Tasks;
-    using EveryDayBlog.Common;
+
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Data.Models.Enums;
-    using EveryDayBlog.Web.ViewModels.Posts.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Authorization.Infrastructure;
 

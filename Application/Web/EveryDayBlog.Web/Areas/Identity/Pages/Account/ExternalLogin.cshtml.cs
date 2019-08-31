@@ -15,6 +15,10 @@
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
+        private const string ExternalLoginLogErrorMsg = "Error loading external login information.";
+        private const string ProviderLogInLogMsg = "{0} logged in with {1} provider.";
+        private const string ErrorExternalLoadingLogMsg = "Error loading external login information during confirmation.";
+        private const string CreatingAccLogMsg = "User created an account using {0} provider.";
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<ExternalLoginModel> logger;
@@ -66,7 +70,7 @@
             var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                this.ErrorMessage = "Error loading external login information.";
+                this.ErrorMessage = ExternalLoginLogErrorMsg;
                 return this.RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -75,7 +79,7 @@
             if (result.Succeeded)
             {
                 this.logger.LogInformation(
-                    "{Name} logged in with {LoginProvider} provider.",
+                    ProviderLogInLogMsg,
                     info.Principal.Identity.Name,
                     info.LoginProvider);
                 return this.LocalRedirect(returnUrl);
@@ -110,7 +114,7 @@
             var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                this.ErrorMessage = "Error loading external login information during confirmation.";
+                this.ErrorMessage = ErrorExternalLoadingLogMsg;
                 return this.RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -125,7 +129,7 @@
                     {
                         await this.signInManager.SignInAsync(user, isPersistent: false);
                         this.logger.LogInformation(
-                            "User created an account using {Name} provider.",
+                            CreatingAccLogMsg,
                             info.LoginProvider);
                         return this.LocalRedirect(returnUrl);
                     }
