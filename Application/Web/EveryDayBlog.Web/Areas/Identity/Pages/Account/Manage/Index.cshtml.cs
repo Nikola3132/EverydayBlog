@@ -27,6 +27,8 @@
         private const string ProfileUpdateMsg = "Your profile has been updated";
         private const string EmailTemplateTitle = "Confirm your email";
         private const string InfoMsgEmailSended = "Verification email sent. Please check your email.";
+        private const string ExistsEmailErrorMsg = "This email is already taken!";
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IEmailSender emailSender;
@@ -112,24 +114,36 @@
             }
 
             var email = await this.userManager.GetEmailAsync(user);
+
             if (this.Input.Email != email)
             {
-                var callbackUrl = this.Url.Page(
+                var userExists = await this.userManager.FindByEmailAsync(this.Input.Email);
+
+                if (userExists != null)
+                {
+                    this.TempData.Clear();
+
+                    this.TempData["alert"] = ExistsEmailErrorMsg;
+                }
+                else
+                {
+                    var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
                     values: new { userId = user.Id },
                     protocol: this.Request.Scheme);
 
-                await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
+                    await this.emailService.SendEmailToUserAsync(callbackUrl, this.Input.Email);
 
-                this.TempData.Clear();
-                TempDataExtensions.Put<EmailViewModel>(this.TempData, Key, new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
+                    this.TempData.Clear();
+                    TempDataExtensions.Put<EmailViewModel>(this.TempData, Key, new EmailViewModel { Email = this.Input.Email, CallbackUrl = callbackUrl });
 
-                string distributedCacheKey = email;
+                    string distributedCacheKey = email;
 
-                await this.distributedCache.SetStringAsync(user.Email, this.Input.Email);
+                    await this.distributedCache.SetStringAsync(user.Email, this.Input.Email);
 
-                this.TempData["alert"] = UpdateEmailErrorMsg;
+                    this.TempData["alert"] = UpdateEmailErrorMsg;
+                }
             }
 
             user.CountryCode = this.Input.Country;
