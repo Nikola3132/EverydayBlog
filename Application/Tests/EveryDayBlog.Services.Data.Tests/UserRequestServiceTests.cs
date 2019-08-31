@@ -97,7 +97,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeUserRequestById<UserRequestViewModel>(expectedId);
+            var res = await this.userRequestService.TakeUserRequestById<UserRequestViewTestModel>(expectedId);
 
             // Assert
             Assert.True(res != null);
@@ -182,7 +182,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(res.Count == expectedSet.Count);
@@ -221,7 +221,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllDeletedRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllDeletedRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(res.Count == expectedSet.Count);
@@ -287,7 +287,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllNonDeletedRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllNonDeletedRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(res.Count == expectedSet.Count);
@@ -344,7 +344,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllNonReadedRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllNonReadedRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(res.Count == expectedSet.Count);
@@ -374,7 +374,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllReadedRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllReadedRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(res.Count == expectedSet.Count);
@@ -452,7 +452,7 @@
             };
 
             // Act
-            var res = await this.userRequestService.TakeAllDeletedRequests<UserRequestViewModel>();
+            var res = await this.userRequestService.TakeAllDeletedRequests<UserRequestViewTestModel>();
 
             // Assert
             Assert.True(expectedSet.Count == res.Count);

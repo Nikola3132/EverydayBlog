@@ -3,7 +3,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class SectionViewModel : IMapFrom<Section>
+    public class SectionViewTestModel : IMapFrom<Section>
     {
         public int Id { get; set; }
 

@@ -27,35 +27,35 @@
         public async Task AllDeletedSectionsShouldReturnExpectedSections()
         {
             // Arrange
-            var expectedSections = new List<SectionViewModel>()
+            var expectedSections = new List<SectionViewTestModel>()
             {
-               new SectionViewModel
+               new SectionViewTestModel
                 {
                     Id = 6,
                     Content = "sfsdfgdgdfg",
                     Title = "sdfsdfsdfd",
                     IsDeleted = true,
                 },
-               new SectionViewModel
+               new SectionViewTestModel
                 {
                     Id = 7,
                     Content = "sfsdfgdgdfg",
                     Title = "sdfsdfsdfd",
                     IsDeleted = true,
                 },
-               new SectionViewModel
+               new SectionViewTestModel
                 {
                     Id = 8,
                     Content = "sfsdfgdgdfg",
                     Title = "sdfsdfsdfd",
                     IsDeleted = true,
-                }, new SectionViewModel
+                }, new SectionViewTestModel
                 {
                    Id = 9,
                    Content = "sfsdfgdgdfg",
                    Title = "sdfsdfsdfd",
                    IsDeleted = true,
-                }, new SectionViewModel
+                }, new SectionViewTestModel
                 {
                     Id = 10,
                     Content = "sfsdfgdgdfg",
@@ -65,7 +65,7 @@
             };
 
             // Act
-            var result = await this.sectionService.AllDeletedSections<SectionViewModel>();
+            var result = await this.sectionService.AllDeletedSections<SectionViewTestModel>();
 
             // Assert
             Assert.True(expectedSections.Count == result.Count);
@@ -107,7 +107,7 @@
             };
 
             // Act
-            var result = await this.sectionService.GetSectionByIdAsync<SectionViewModel>(expectedSection.Id);
+            var result = await this.sectionService.GetSectionByIdAsync<SectionViewTestModel>(expectedSection.Id);
 
             // Assert
             Assert.True(expectedSection.Id == result.Id);

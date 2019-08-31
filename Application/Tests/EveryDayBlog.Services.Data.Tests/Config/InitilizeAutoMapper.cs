@@ -12,9 +12,9 @@
         public static void InitializeMapper()
         {
             AutoMapperConfig.RegisterMappings(
-               typeof(ErrorViewModel).GetTypeInfo().Assembly,
-               typeof(DeletedMessagesViewModel).GetTypeInfo().Assembly,
-               typeof(SectionViewModel).GetTypeInfo().Assembly);
+               typeof(SectionViewTestModel).GetTypeInfo().Assembly);
+            //typeof(ErrorViewModel).GetTypeInfo().Assembly,
+            //typeof(DeletedMessagesViewModel).GetTypeInfo().Assembly
         }
     }
 }

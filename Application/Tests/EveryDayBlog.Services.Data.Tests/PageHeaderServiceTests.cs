@@ -79,7 +79,7 @@
             };
 
             // Act
-            PageHeaderViewModel pageHeaderViewModel = await this.pageHeaderService.GetPageHeaderById<PageHeaderViewModel>(inputId);
+            PageHeaderTestViewModel pageHeaderViewModel = await this.pageHeaderService.GetPageHeaderById<PageHeaderTestViewModel>(inputId);
 
             // Assert
             Assert.True(pageHeaderViewModel != null);
@@ -174,8 +174,8 @@
             };
 
             // Act
-            List<PageHeaderViewModel> firstSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(adminIndicator);
-            List<PageHeaderViewModel> secondSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderViewModel>(randomIndicator);
+            List<PageHeaderTestViewModel> firstSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderTestViewModel>(adminIndicator);
+            List<PageHeaderTestViewModel> secondSetPageHeaderViewModel = await this.pageHeaderService.GetPageHeadersByPageIndicatorAsync<PageHeaderTestViewModel>(randomIndicator);
 
             // Assert
             Assert.True(firstSetPageHeaderViewModel.Count == expectedFirstSetPageHeader.Count && secondSetPageHeaderViewModel.Count == expectedSecondSetPageHeader.Count);

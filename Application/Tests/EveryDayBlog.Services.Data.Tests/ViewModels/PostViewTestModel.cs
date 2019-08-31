@@ -3,10 +3,10 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class PostViewModel : IMapFrom<Post>
+    public class PostViewTestModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 
-        public PageHeaderViewModel PageHeader { get; set; }
+        public PageHeaderTestViewModel PageHeader { get; set; }
     }
 }

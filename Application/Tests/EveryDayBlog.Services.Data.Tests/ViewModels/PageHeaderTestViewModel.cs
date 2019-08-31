@@ -3,7 +3,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class PageHeaderViewModel : IMapFrom<PageHeader>
+    public class PageHeaderTestViewModel : IMapFrom<PageHeader>
     {
         public int Id { get; set; }
 

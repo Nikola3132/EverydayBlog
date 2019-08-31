@@ -3,7 +3,7 @@
     using EveryDayBlog.Data.Models;
     using EveryDayBlog.Services.Mapping;
 
-    public class UserRequestViewModel : IMapFrom<UserRequest>
+    public class UserRequestViewTestModel : IMapFrom<UserRequest>
     {
         public int Id { get; set; }
 

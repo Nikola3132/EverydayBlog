@@ -132,7 +132,7 @@
             };
 
             // Act
-            var result = await this.postService.GetPostByIdAsync<PostViewModel>(expectedPost.Id);
+            var result = await this.postService.GetPostByIdAsync<PostViewTestModel>(expectedPost.Id);
 
             // Assert
             Assert.True(expectedPost.Id == result.Id && expectedPost?.PageHeader?.Title == result?.PageHeader?.Title);
@@ -181,7 +181,7 @@
              };
 
             // Act
-            var result = this.postService.GetVisiblePosts<PostViewModel>().ToList();
+            var result = this.postService.GetVisiblePosts<PostViewTestModel>().ToList();
 
             // Assert
             for (int i = 0; i < expectedSet.Count; i++)
@@ -355,37 +355,37 @@
         public async Task AllHidenPostsShouldReturnAllHiden()
         {
             // Arrange
-            var expectedList = new List<PostViewModel>
+            var expectedList = new List<PostViewTestModel>
             {
-                new PostViewModel
+                new PostViewTestModel
                 {
                      Id = 6,
-                     PageHeader = new PageHeaderViewModel { Title = "Test6" },
+                     PageHeader = new PageHeaderTestViewModel { Title = "Test6" },
                 },
-                new PostViewModel
+                new PostViewTestModel
                 {
                      Id = 7,
-                     PageHeader = new PageHeaderViewModel { Title = "dgsdfsdfsg" },
+                     PageHeader = new PageHeaderTestViewModel { Title = "dgsdfsdfsg" },
                 },
-                new PostViewModel
+                new PostViewTestModel
                 {
                      Id = 8,
-                     PageHeader = new PageHeaderViewModel { Title = "sdfds" },
+                     PageHeader = new PageHeaderTestViewModel { Title = "sdfds" },
                 },
-                new PostViewModel
+                new PostViewTestModel
                 {
                      Id = 9,
-                     PageHeader = new PageHeaderViewModel { Title = "Test9" },
+                     PageHeader = new PageHeaderTestViewModel { Title = "Test9" },
                 },
-                new PostViewModel
+                new PostViewTestModel
                 {
                      Id = 10,
-                     PageHeader = new PageHeaderViewModel { },
+                     PageHeader = new PageHeaderTestViewModel { },
                 },
             };
 
             // Act
-            var actualSet = await this.postService.AllHidenPosts<PostViewModel>();
+            var actualSet = await this.postService.AllHidenPosts<PostViewTestModel>();
 
             // Assert
             if (actualSet.Count != expectedList.Count)
